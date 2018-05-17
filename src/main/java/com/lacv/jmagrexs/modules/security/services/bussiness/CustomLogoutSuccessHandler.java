@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lacv.jmagrexs.modules.security.services;
+package com.lacv.jmagrexs.modules.security.services.bussiness;
 
 import com.lacv.jmagrexs.dto.ConnectionResponse;
 import com.lacv.jmagrexs.dto.RESTServiceDto;

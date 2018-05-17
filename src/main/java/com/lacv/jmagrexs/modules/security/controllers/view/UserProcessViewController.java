@@ -13,7 +13,7 @@ import com.lacv.jmagrexs.enums.PageType;
 import com.lacv.jmagrexs.modules.common.dtos.LogProcessDto;
 import com.lacv.jmagrexs.modules.common.dtos.BasicResultDto;
 import com.lacv.jmagrexs.modules.security.dtos.process.CreatePasswordDto;
-import com.lacv.jmagrexs.modules.security.services.SecurityService;
+import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;

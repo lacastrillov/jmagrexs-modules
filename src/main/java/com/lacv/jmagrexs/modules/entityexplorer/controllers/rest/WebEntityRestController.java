@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import com.lacv.jmagrexs.modules.entityexplorer.services.WebEntityService;
-import com.lacv.jmagrexs.modules.security.services.SecurityService;
+import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 
 /**
  *

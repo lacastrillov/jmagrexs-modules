@@ -1,4 +1,4 @@
-package com.lacv.jmagrexs.modules.security.services;
+package com.lacv.jmagrexs.modules.security.services.bussiness;
 
 import com.lacv.jmagrexs.components.ServerDomain;
 import com.lacv.jmagrexs.dto.RESTServiceDto;

@@ -16,7 +16,7 @@ import com.lacv.jmagrexs.modules.common.entities.LogProcess;
 import com.lacv.jmagrexs.modules.security.entities.User;
 import com.lacv.jmagrexs.modules.common.services.LogProcessService;
 import com.lacv.jmagrexs.modules.security.services.UserService;
-import com.lacv.jmagrexs.modules.security.services.SecurityService;
+import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import com.lacv.jmagrexs.modules.common.constants.SystemConstants;
 import com.lacv.jmagrexs.modules.common.services.PropertyService;
 import com.lacv.jmagrexs.modules.security.services.RoleService;

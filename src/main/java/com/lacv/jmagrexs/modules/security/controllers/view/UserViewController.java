@@ -15,7 +15,7 @@ import com.lacv.jmagrexs.dto.MenuItem;
 import com.lacv.jmagrexs.dto.ProcessButton;
 import com.lacv.jmagrexs.dto.config.EntityConfig;
 import com.lacv.jmagrexs.modules.security.dtos.process.CreatePasswordDto;
-import com.lacv.jmagrexs.modules.security.services.SecurityService;
+import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -12,7 +12,7 @@ import com.lacv.jmagrexs.modules.security.services.UserRoleService;
 import com.lacv.jmagrexs.controller.rest.RestSessionController;
 import com.lacv.jmagrexs.domain.BaseEntity;
 import com.lacv.jmagrexs.modules.security.entities.UserRole;
-import com.lacv.jmagrexs.modules.security.services.SecurityService;
+import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import javax.annotation.PostConstruct;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

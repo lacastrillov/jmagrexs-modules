@@ -1,4 +1,4 @@
-package com.lacv.jmagrexs.modules.security.services;
+package com.lacv.jmagrexs.modules.security.services.bussiness;
 
 import com.lacv.jmagrexs.dto.MenuItem;
 import com.lacv.jmagrexs.modules.security.dtos.security.UserDetailsDto;

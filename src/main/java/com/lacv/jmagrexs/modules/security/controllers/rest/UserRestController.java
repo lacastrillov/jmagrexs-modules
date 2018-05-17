@@ -14,7 +14,7 @@ import com.lacv.jmagrexs.modules.security.mappers.UserMapper;
 import com.lacv.jmagrexs.modules.security.services.UserService;
 import com.lacv.jmagrexs.modules.fileexplorer.entities.WebFile;
 import com.lacv.jmagrexs.modules.fileexplorer.services.WebFileService;
-import com.lacv.jmagrexs.modules.security.services.SecurityService;
+import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import java.io.InputStream;
 import javax.annotation.PostConstruct;
 import org.json.JSONObject;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.lacv.jmagrexs.modules.security.services;
+package com.lacv.jmagrexs.modules.security.services.bussiness;
 
 import com.lacv.jmagrexs.dto.MenuItem;
 import com.lacv.jmagrexs.dto.UserByToken;
@@ -18,6 +18,12 @@ import com.lacv.jmagrexs.modules.security.entities.UserRole;
 import com.lacv.jmagrexs.modules.security.entities.WebResource;
 import com.lacv.jmagrexs.modules.security.entities.WebresourceAuthorization;
 import com.lacv.jmagrexs.modules.security.entities.WebresourceRole;
+import com.lacv.jmagrexs.modules.security.services.RoleAuthorizationService;
+import com.lacv.jmagrexs.modules.security.services.UserRoleService;
+import com.lacv.jmagrexs.modules.security.services.UserService;
+import com.lacv.jmagrexs.modules.security.services.WebResourceService;
+import com.lacv.jmagrexs.modules.security.services.WebresourceAuthorizationService;
+import com.lacv.jmagrexs.modules.security.services.WebresourceRoleService;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;

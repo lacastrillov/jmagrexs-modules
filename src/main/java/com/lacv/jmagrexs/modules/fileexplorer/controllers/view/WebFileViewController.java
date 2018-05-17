@@ -14,7 +14,7 @@ import com.lacv.jmagrexs.dto.GridTemplate;
 import com.lacv.jmagrexs.dto.MenuItem;
 import com.lacv.jmagrexs.dto.config.FileExplorerConfig;
 import com.lacv.jmagrexs.enums.PageType;
-import com.lacv.jmagrexs.modules.security.services.SecurityService;
+import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;

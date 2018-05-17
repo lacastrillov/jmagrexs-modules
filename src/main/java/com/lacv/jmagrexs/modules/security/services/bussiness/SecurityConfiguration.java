@@ -1,4 +1,4 @@
-package com.lacv.jmagrexs.modules.security.services;
+package com.lacv.jmagrexs.modules.security.services.bussiness;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
