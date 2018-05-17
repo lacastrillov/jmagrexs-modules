@@ -217,7 +217,7 @@ public class WebEntity implements BaseEntity, WebEntityInterface {
         if(!this.entityRef.equals("folder")){
             ApplicationContext ctx = ContextLoader.getCurrentWebApplicationContext();
             ServerDomain serverDomain= (ServerDomain) ctx.getBean("serverDomain");
-            String location= serverDomain.getAdminContext() + serverDomain.getAdminPath() + "/" +
+            String location= serverDomain.getApplicationContext() + serverDomain.getAdminContext() + serverDomain.getAdminPath() + "/" +
                     this.entityRef + "/entity.htm?onlyForm=1&webEntityId="+this.id+"#?tab=1";
             location+=(this.entityId!=null)?"&id="+this.entityId:"";
             return location;

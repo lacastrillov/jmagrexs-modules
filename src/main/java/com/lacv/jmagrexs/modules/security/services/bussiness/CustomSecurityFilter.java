@@ -55,18 +55,18 @@ public class CustomSecurityFilter extends GenericFilterBean {
     @PostConstruct
     public void init(){
         accessControlModifiers= new String[]{
-            serverDomain.getRestContext()+"/rest/webResource/create.htm",
-            serverDomain.getRestContext()+"/rest/webResource/update.htm",
-            serverDomain.getRestContext()+"/rest/webResource/delete.htm",
-            serverDomain.getRestContext()+"/rest/webResource/delete/byfilter.htm",
-            serverDomain.getRestContext()+"/rest/webresourceRole/create.htm",
-            serverDomain.getRestContext()+"/rest/webresourceRole/update.htm",
-            serverDomain.getRestContext()+"/rest/webresourceRole/delete.htm",
-            serverDomain.getRestContext()+"/rest/webresourceRole/delete/byfilter.htm",
-            serverDomain.getRestContext()+"/rest/webresourceAuthorization/create.htm",
-            serverDomain.getRestContext()+"/rest/webresourceAuthorization/update.htm",
-            serverDomain.getRestContext()+"/rest/webresourceAuthorization/delete.htm",
-            serverDomain.getRestContext()+"/rest/webresourceAuthorization/delete/byfilter.htm"
+            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/create.htm",
+            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/update.htm",
+            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/delete.htm",
+            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/delete/byfilter.htm",
+            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceRole/create.htm",
+            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceRole/update.htm",
+            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceRole/delete.htm",
+            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceRole/delete/byfilter.htm",
+            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceAuthorization/create.htm",
+            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceAuthorization/update.htm",
+            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceAuthorization/delete.htm",
+            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceAuthorization/delete/byfilter.htm"
         };
         accessControlModifiersList= Arrays.asList(accessControlModifiers);
     }
@@ -121,7 +121,7 @@ public class CustomSecurityFilter extends GenericFilterBean {
     private void replicateAccessControl(){
         String emptyRoot= serverDomain.getContextPath().replace(serverDomain.getApplicationContext(), "");
         if(!emptyRoot.equals("") && !serverDomain.getModules().contains("")){
-            serverDomain.getModules().add("");
+            serverDomain.getModules().add(serverDomain.getPortalContext());
         }
         for(String module: serverDomain.getModules()){
             if(!module.equals(serverDomain.getContextPath())){
@@ -147,14 +147,14 @@ public class CustomSecurityFilter extends GenericFilterBean {
         if ("XMLHttpRequest".equals(ajaxHeader)) {
             resp.sendError(403, "Acceso denegado");
         } else if(userDetails!=null) {
-            resp.sendRedirect(serverDomain.getApplicationContext()+"/account/denied");
+            resp.sendRedirect(serverDomain.getApplicationContext()+serverDomain.getPortalContext()+"/account/denied");
         } else {
             String queryString= "";
             if(req.getQueryString()!=null){
                 queryString= "?" + URLDecoder.decode(req.getQueryString(), "UTF-8");
             }
             String redirectUrl= req.getRequestURI() + queryString;
-            resp.sendRedirect(serverDomain.getApplicationContext()+"/account/home?redirect="+Base64.encodeBase64String(redirectUrl.getBytes("UTF-8")));
+            resp.sendRedirect(serverDomain.getApplicationContext()+serverDomain.getPortalContext()+"/account/home?redirect="+Base64.encodeBase64String(redirectUrl.getBytes("UTF-8")));
         }
         
         return false;
