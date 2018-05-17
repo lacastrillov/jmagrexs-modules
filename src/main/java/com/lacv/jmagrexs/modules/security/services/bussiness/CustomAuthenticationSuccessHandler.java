@@ -7,11 +7,10 @@ package com.lacv.jmagrexs.modules.security.services.bussiness;
 
 import com.lacv.jmagrexs.dto.ConnectionResponse;
 import com.lacv.jmagrexs.dto.RESTServiceDto;
+import com.lacv.jmagrexs.modules.security.constants.SecurityConstants;
 import com.lacv.jmagrexs.util.AESEncrypt;
 import com.lacv.jmagrexs.util.RESTServiceConnection;
-import com.lacv.jmagrexs.modules.common.constants.SystemConstants;
 import com.lacv.jmagrexs.modules.security.entities.User;
-import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,13 +35,13 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Autowired
     SecurityService securityService;
     
-    AESEncrypt myInstance= AESEncrypt.getDefault(SystemConstants.SECURITY_SALT);
+    AESEncrypt myInstance= AESEncrypt.getDefault(SecurityConstants.SECURITY_SALT);
  
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         User user = securityService.getCurrentUser();
         String username= user.getUsername();
-        String password= myInstance.decrypt(user.getPassword(), SystemConstants.SECURITY_SEED_PASSW);
+        String password= myInstance.decrypt(user.getPassword(), SecurityConstants.SECURITY_SEED_PASSW);
         
         System.out.println("onAuthenticationSuccess "+username);
         for(String contextApp: CONTEXT_APPS){

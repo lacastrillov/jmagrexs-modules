@@ -17,11 +17,11 @@ import com.lacv.jmagrexs.modules.security.entities.User;
 import com.lacv.jmagrexs.modules.common.services.LogProcessService;
 import com.lacv.jmagrexs.modules.security.services.UserService;
 import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
-import com.lacv.jmagrexs.modules.common.constants.SystemConstants;
 import com.lacv.jmagrexs.modules.common.services.PropertyService;
 import com.lacv.jmagrexs.modules.security.services.RoleService;
 import com.lacv.jmagrexs.modules.security.services.UserRoleService;
 import com.lacv.jmagrexs.modules.mail.services.MailingService;
+import com.lacv.jmagrexs.modules.security.constants.SecurityConstants;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -56,7 +56,7 @@ public class UserProcessRestController extends RestProcessController {
     @Autowired
     PropertyService propertyService;
     
-    AESEncrypt myInstance= AESEncrypt.getDefault(SystemConstants.SECURITY_SALT);
+    AESEncrypt myInstance= AESEncrypt.getDefault(SecurityConstants.SECURITY_SALT);
     
     @PostConstruct
     public void init(){
@@ -79,7 +79,7 @@ public class UserProcessRestController extends RestProcessController {
         result.setSuccess(false);
         if(user!=null){
             if(createPassword.getPassword().equals(createPassword.getConfirmPassword())){
-                user.setPassword(myInstance.encrypt(createPassword.getPassword(), SystemConstants.SECURITY_SEED_PASSW));
+                user.setPassword(myInstance.encrypt(createPassword.getPassword(), SecurityConstants.SECURITY_SEED_PASSW));
                 userService.update(user);
                 result.setMessage("La contraseña se ha creado correctamente");
                 result.setSuccess(true);

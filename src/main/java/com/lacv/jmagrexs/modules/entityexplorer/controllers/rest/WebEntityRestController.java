@@ -11,7 +11,6 @@ import com.lacv.jmagrexs.controller.rest.RestEntityController;
 import com.lacv.jmagrexs.dao.Parameters;
 import com.lacv.jmagrexs.util.Util;
 import com.google.gson.Gson;
-import com.lacv.jmagrexs.modules.common.constants.SystemConstants;
 import com.lacv.jmagrexs.modules.entityexplorer.dtos.WebEntityDto;
 import com.lacv.jmagrexs.modules.security.entities.User;
 import java.util.LinkedHashMap;
@@ -44,9 +43,6 @@ public class WebEntityRestController extends RestEntityController {
     
     @Autowired
     SecurityService securityService;
-    
-    @Autowired
-    SystemConstants systemConstants;
     
 
     @PostConstruct

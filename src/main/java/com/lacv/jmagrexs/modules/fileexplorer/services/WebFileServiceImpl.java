@@ -16,7 +16,7 @@ import com.lacv.jmagrexs.service.EntityServiceImpl;
 import com.lacv.jmagrexs.util.FileService;
 import com.lacv.jmagrexs.util.Formats;
 import com.google.api.services.storage.model.StorageObject;
-import com.lacv.jmagrexs.modules.common.constants.SystemConstants;
+import com.lacv.jmagrexs.modules.fileexplorer.constants.ExplorerConstants;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -41,7 +41,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
     public WebFileMapper webFileMapper;
     
     @Autowired
-    SystemConstants systemConstants;
+    ExplorerConstants explorerConstants;
     
     
     @Override
@@ -78,7 +78,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
         WebFile webFile= new WebFile();
         webFile.setWebFile(parentWebFile);
         String path= webFile.getPath();
-        String location= systemConstants.LOCAL_DIR + SystemConstants.ROOT_FOLDER + path;
+        String location= explorerConstants.LOCAL_DIR + ExplorerConstants.ROOT_FOLDER + path;
 
         if(slice==0){
             webFile.setName(fileName);
@@ -130,7 +130,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
             super.createForce(webFile);
 
             String path= webFile.getPath();
-            String location= systemConstants.LOCAL_DIR + SystemConstants.ROOT_FOLDER + path;
+            String location= explorerConstants.LOCAL_DIR + ExplorerConstants.ROOT_FOLDER + path;
             FileService.createFolder(location + webFile.getName());
             return webFile;
         }
@@ -153,7 +153,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
             super.create(webFile);
 
             String path= webFile.getPath();
-            String location= systemConstants.LOCAL_DIR + SystemConstants.ROOT_FOLDER + path;
+            String location= explorerConstants.LOCAL_DIR + ExplorerConstants.ROOT_FOLDER + path;
             FileService.createFile(location + webFile.getName());
 
             return webFile;

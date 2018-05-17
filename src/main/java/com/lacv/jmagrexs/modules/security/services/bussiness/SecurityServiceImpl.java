@@ -7,9 +7,9 @@ package com.lacv.jmagrexs.modules.security.services.bussiness;
 
 import com.lacv.jmagrexs.dto.MenuItem;
 import com.lacv.jmagrexs.dto.UserByToken;
+import com.lacv.jmagrexs.modules.security.constants.SecurityConstants;
 import com.lacv.jmagrexs.util.AESEncrypt;
 import com.lacv.jmagrexs.util.JwtUtil;
-import com.lacv.jmagrexs.modules.common.constants.SystemConstants;
 import com.lacv.jmagrexs.modules.security.dtos.security.UserDetailsDto;
 import com.lacv.jmagrexs.modules.security.dtos.security.WebResourceAuthorities;
 import com.lacv.jmagrexs.modules.security.entities.RoleAuthorization;
@@ -60,7 +60,7 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
     
     protected static final Logger LOGGER = Logger.getLogger(SecurityServiceImpl.class);
     
-    AESEncrypt myInstance= AESEncrypt.getDefault(SystemConstants.SECURITY_SALT);
+    AESEncrypt myInstance= AESEncrypt.getDefault(SecurityConstants.SECURITY_SALT);
 
     @Autowired
     UserService userService;
@@ -89,7 +89,7 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
     public Authentication authenticate(Authentication a) throws AuthenticationException {
         User user = getUser(a.getName());
         if (user != null){
-            String contrasena= myInstance.decrypt(user.getPassword(), SystemConstants.SECURITY_SEED_PASSW);
+            String contrasena= myInstance.decrypt(user.getPassword(), SecurityConstants.SECURITY_SEED_PASSW);
             if (contrasena!=null && contrasena.equals(a.getCredentials())) {
                 UserDetailsDto userDetails = entityToUserDetail(user);
                 if (userDetails.isEnabled() == false) {
@@ -126,7 +126,7 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
     public String connect(String username, String password) throws AuthenticationException {
         User user= getUser(username);
         if (user != null){
-            String contrasena= myInstance.decrypt(user.getPassword(), SystemConstants.SECURITY_SEED_PASSW);
+            String contrasena= myInstance.decrypt(user.getPassword(), SecurityConstants.SECURITY_SEED_PASSW);
             if (contrasena!=null && contrasena.equals(password)) {
                 return connect(user);
             }
@@ -152,7 +152,7 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
         if(token!=null){
             JwtUtil jwt= new JwtUtil();
             long currentTime= new Date().getTime();
-            UserByToken userByToken= jwt.parseToken(token, SystemConstants.SECURITY_SEED_PASSW);
+            UserByToken userByToken= jwt.parseToken(token, SecurityConstants.SECURITY_SEED_PASSW);
             if(userByToken!=null && currentTime < userByToken.getExpiration()){
                 return connect(userByToken.getUsername(), userByToken.getPassword());
             }
@@ -203,7 +203,7 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
     public String getBasicAuthorization(){
         User user= getCurrentUser();
         if(user!=null){
-            String contrasena= myInstance.decrypt(user.getPassword(), SystemConstants.SECURITY_SEED_PASSW);
+            String contrasena= myInstance.decrypt(user.getPassword(), SecurityConstants.SECURITY_SEED_PASSW);
             String credentials= user.getUsername()+":"+contrasena;
             String authorization= new String(Base64.encodeBase64(credentials.getBytes()), Charset.forName("UTF-8"));
             return "Basic "+authorization;
@@ -224,11 +224,11 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
         
         UserByToken userByToken= new UserByToken();
         userByToken.setUsername(user.getUsername());
-        userByToken.setPassword(myInstance.decrypt(user.getPassword(), SystemConstants.SECURITY_SEED_PASSW));
+        userByToken.setPassword(myInstance.decrypt(user.getPassword(), SecurityConstants.SECURITY_SEED_PASSW));
         userByToken.setCreation(cal1.getTimeInMillis());
         userByToken.setExpiration(cal2.getTimeInMillis());
         
-        return jwt.generateToken(userByToken, SystemConstants.SECURITY_SEED_PASSW);
+        return jwt.generateToken(userByToken, SecurityConstants.SECURITY_SEED_PASSW);
     }
     
     private UserDetailsDto entityToUserDetail(User user) {

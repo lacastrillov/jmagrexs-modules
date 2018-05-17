@@ -14,7 +14,7 @@ import com.lacv.jmagrexs.enums.WebFileType;
 import com.lacv.jmagrexs.util.FileService;
 import com.lacv.jmagrexs.util.Util;
 import com.google.gson.Gson;
-import com.lacv.jmagrexs.modules.common.constants.SystemConstants;
+import com.lacv.jmagrexs.modules.fileexplorer.constants.ExplorerConstants;
 import com.lacv.jmagrexs.modules.fileexplorer.dtos.WebFileDto;
 import java.io.File;
 import java.io.InputStream;
@@ -47,7 +47,7 @@ public class WebFileRestController extends RestEntityController {
     WebFileMapper webFileMapper;
     
     @Autowired
-    SystemConstants systemConstants;
+    ExplorerConstants explorerConstants;
     
 
     @PostConstruct
@@ -92,7 +92,7 @@ public class WebFileRestController extends RestEntityController {
         if (jsonObject.has("id") && jsonObject.has("name")) {
             WebFile webFile = webFileService.loadById(jsonObject.getLong("id"));
             if (!webFile.getName().equals(jsonObject.getString("name"))) {
-                String location = systemConstants.LOCAL_DIR + SystemConstants.ROOT_FOLDER + webFile.getPath();
+                String location = explorerConstants.LOCAL_DIR + ExplorerConstants.ROOT_FOLDER + webFile.getPath();
                 FileService.renameFile(location + webFile.getName(), location + jsonObject.getString("name"));
             }
         }
@@ -109,12 +109,12 @@ public class WebFileRestController extends RestEntityController {
         try{
             Long destWebFileId= jsonObject.getJSONObject("uv").getLong("webFile");
             WebFile destWebFile= webFileService.loadById(destWebFileId);
-            String destLocation= systemConstants.LOCAL_DIR + SystemConstants.ROOT_FOLDER + ((destWebFile!=null)?destWebFile.getPath():"");
+            String destLocation= explorerConstants.LOCAL_DIR + ExplorerConstants.ROOT_FOLDER + ((destWebFile!=null)?destWebFile.getPath():"");
             
             JSONArray fileIdToMove= jsonObject.getJSONObject("in").getJSONArray("id");
             for(int i=0; i<fileIdToMove.length(); i++){
                 WebFile sourceWebFile= webFileService.loadById(fileIdToMove.getLong(i));
-                String sourceLocation= systemConstants.LOCAL_DIR + SystemConstants.ROOT_FOLDER + sourceWebFile.getPath();
+                String sourceLocation= explorerConstants.LOCAL_DIR + ExplorerConstants.ROOT_FOLDER + sourceWebFile.getPath();
                 File sourceFile= new File(sourceLocation + sourceWebFile.getName());
                 File destFile= new File(destLocation + ((destWebFile!=null)?destWebFile.getName():""));
                 
@@ -140,7 +140,7 @@ public class WebFileRestController extends RestEntityController {
                 JSONObject webFile = webFiles.getJSONObject(i);
                 String path = (webFile.has("path")) ? webFile.getString("path") : "";
                 LOGGER.info("path: " + path);
-                String location = systemConstants.LOCAL_DIR + SystemConstants.ROOT_FOLDER + path;
+                String location = explorerConstants.LOCAL_DIR + ExplorerConstants.ROOT_FOLDER + path;
 
                 FileService.deleteFile(location + webFile.getString("name"));
             }

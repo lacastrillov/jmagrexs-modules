@@ -12,7 +12,6 @@ import com.lacv.jmagrexs.dao.Parameters;
 import com.lacv.jmagrexs.reflection.EntityReflection;
 import com.lacv.jmagrexs.service.EntityService;
 import com.lacv.jmagrexs.service.EntityServiceImpl;
-import com.lacv.jmagrexs.modules.common.constants.SystemConstants;
 import com.lacv.jmagrexs.modules.entityexplorer.entities.WebEntity;
 import com.lacv.jmagrexs.modules.entityexplorer.mappers.WebEntityMapper;
 import com.lacv.jmagrexs.modules.entityexplorer.daos.WebEntityJpa;
@@ -47,9 +46,6 @@ public class WebEntityServiceImpl extends EntityServiceImpl<WebEntity> implement
     
     @Autowired
     WebEntityMapper webEntityMapper;
-    
-    @Autowired
-    SystemConstants systemConstants;
     
     @Autowired
     UserService userService;
