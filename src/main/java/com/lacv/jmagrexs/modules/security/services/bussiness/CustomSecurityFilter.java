@@ -55,18 +55,18 @@ public class CustomSecurityFilter extends GenericFilterBean {
     @PostConstruct
     public void init(){
         accessControlModifiers= new String[]{
-            serverDomain.getApplicationContext()+"/rest/webResource/create.htm",
-            serverDomain.getApplicationContext()+"/rest/webResource/update.htm",
-            serverDomain.getApplicationContext()+"/rest/webResource/delete.htm",
-            serverDomain.getApplicationContext()+"/rest/webResource/delete/byfilter.htm",
-            serverDomain.getApplicationContext()+"/rest/webresourceRole/create.htm",
-            serverDomain.getApplicationContext()+"/rest/webresourceRole/update.htm",
-            serverDomain.getApplicationContext()+"/rest/webresourceRole/delete.htm",
-            serverDomain.getApplicationContext()+"/rest/webresourceRole/delete/byfilter.htm",
-            serverDomain.getApplicationContext()+"/rest/webresourceAuthorization/create.htm",
-            serverDomain.getApplicationContext()+"/rest/webresourceAuthorization/update.htm",
-            serverDomain.getApplicationContext()+"/rest/webresourceAuthorization/delete.htm",
-            serverDomain.getApplicationContext()+"/rest/webresourceAuthorization/delete/byfilter.htm"
+            serverDomain.getRestContext()+"/rest/webResource/create.htm",
+            serverDomain.getRestContext()+"/rest/webResource/update.htm",
+            serverDomain.getRestContext()+"/rest/webResource/delete.htm",
+            serverDomain.getRestContext()+"/rest/webResource/delete/byfilter.htm",
+            serverDomain.getRestContext()+"/rest/webresourceRole/create.htm",
+            serverDomain.getRestContext()+"/rest/webresourceRole/update.htm",
+            serverDomain.getRestContext()+"/rest/webresourceRole/delete.htm",
+            serverDomain.getRestContext()+"/rest/webresourceRole/delete/byfilter.htm",
+            serverDomain.getRestContext()+"/rest/webresourceAuthorization/create.htm",
+            serverDomain.getRestContext()+"/rest/webresourceAuthorization/update.htm",
+            serverDomain.getRestContext()+"/rest/webresourceAuthorization/delete.htm",
+            serverDomain.getRestContext()+"/rest/webresourceAuthorization/delete/byfilter.htm"
         };
         accessControlModifiersList= Arrays.asList(accessControlModifiers);
     }
