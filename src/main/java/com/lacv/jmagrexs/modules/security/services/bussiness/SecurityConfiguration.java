@@ -52,6 +52,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.exceptionHandling().accessDeniedPage("/account/denied");
         
+        http.headers().frameOptions().sameOrigin();
+        
         http.csrf().disable();
         
         http.addFilterAfter(customSecurityFilter, UsernamePasswordAuthenticationFilter.class);
