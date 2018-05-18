@@ -46,7 +46,7 @@ public class AuthorizationViewController extends ExtEntityController {
         
         MenuItem menuParent= new MenuItem("Sistema");
         MenuItem menuParent1= new MenuItem("Seguridad");
-        MenuItem menuItem= new MenuItem("authorization", "Gestionar Autorizaciones");
+        MenuItem menuItem= new MenuItem("authorization", "Gestionar Autorizaciones", 1);
         menuParent1.addSubMenu(menuItem);
         menuParent.addSubMenu(menuParent1);
         menuComponent.addItemMenu(menuParent);

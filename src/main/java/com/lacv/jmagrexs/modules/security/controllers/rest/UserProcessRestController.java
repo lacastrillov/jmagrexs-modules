@@ -20,7 +20,6 @@ import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import com.lacv.jmagrexs.modules.common.services.PropertyService;
 import com.lacv.jmagrexs.modules.security.services.RoleService;
 import com.lacv.jmagrexs.modules.security.services.UserRoleService;
-import com.lacv.jmagrexs.modules.mail.services.MailingService;
 import com.lacv.jmagrexs.modules.security.constants.SecurityConstants;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,9 +48,6 @@ public class UserProcessRestController extends RestProcessController {
     
     @Autowired
     SecurityService securityService;
-    
-    @Autowired
-    MailingService mailingService;
     
     @Autowired
     PropertyService propertyService;

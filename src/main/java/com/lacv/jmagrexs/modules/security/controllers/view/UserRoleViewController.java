@@ -47,7 +47,7 @@ public class UserRoleViewController extends ExtEntityController {
         
         MenuItem menuParent= new MenuItem("Sistema");
         MenuItem menuParent1= new MenuItem("Seguridad");
-        MenuItem menuItem= new MenuItem("userRole", "Gestionar Roles de Usuario");
+        MenuItem menuItem= new MenuItem("userRole", "Gestionar Roles de Usuario", 4);
         menuParent1.addSubMenu(menuItem);
         menuParent.addSubMenu(menuParent1);
         menuComponent.addItemMenu(menuParent);

@@ -49,7 +49,7 @@ public class RoleViewController extends ExtEntityController {
         
         MenuItem menuParent= new MenuItem("Sistema");
         MenuItem menuParent1= new MenuItem("Seguridad", 1);
-        MenuItem menuItem= new MenuItem("role", "Gestionar Roles", 1);
+        MenuItem menuItem= new MenuItem("role", "Gestionar Roles", 2);
         menuParent1.addSubMenu(menuItem);
         menuParent.addSubMenu(menuParent1);
         menuComponent.addItemMenu(menuParent);

@@ -40,10 +40,12 @@ public class UserProcessViewController extends ExtProcessController {
         
         super.addControlMapping(process);
         
-        MenuItem menuParent= new MenuItem("Procesos de Negocio");
-        MenuItem menuItem= new MenuItem("processUser", "Gestionar Procesos de Usuario");
+        MenuItem menuParent= new MenuItem("Sistema", 1);
+        MenuItem menuParent1= new MenuItem("Seguridad");
+        MenuItem menuItem= new MenuItem("processUser", "Gestionar Procesos de Usuario", 6);
         menuItem.setPageType(PageType.PROCESS);
-        menuParent.addSubMenu(menuItem);
+        menuParent1.addSubMenu(menuItem);
+        menuParent.addSubMenu(menuParent1);
         menuComponent.addItemMenu(menuParent);
     }
     
