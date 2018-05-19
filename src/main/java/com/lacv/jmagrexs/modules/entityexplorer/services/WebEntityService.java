@@ -10,6 +10,7 @@ import com.lacv.jmagrexs.dao.Parameters;
 import com.lacv.jmagrexs.modules.entityexplorer.entities.WebEntity;
 import com.lacv.jmagrexs.service.EntityService;
 import java.util.List;
+import java.util.Map;
 
 
 
@@ -38,5 +39,7 @@ public interface WebEntityService extends EntityService<WebEntity> {
     WebEntity createDirectoriesIfMissing(String path);
     
     boolean deleteIfExist(WebEntity parentWebEntity, String fileName);
+    
+    Map<String, String> getEntityTypes();
     
 }

@@ -44,12 +44,8 @@ public class WebEntityViewController extends ExtEntityExplorerController {
         EntityExplorerConfig view= new EntityExplorerConfig("webEntity", webEntityService, WebEntityDto.class);
         view.setSingularEntityTitle("Entidad Web");
         view.setPluralEntityTitle("Entidades Web");
-        view.addEntityRef("category", "Categoria");
-        view.addEntityRef("commerce", "Comercio");
-        view.addEntityRef("product", "Producto");
-        view.addEntityRef("supplier", "Proveedor");
-        view.addEntityRef("user", "Usuario");
-        view.setDefaultOrder("entityRef", "ASC");
+        view.setEntityTypes(webEntityService.getEntityTypes());
+        view.setDefaultOrder("webEntityType", "ASC");
         
         GridTemplate gridTemplate= new GridTemplate("webEntity.vm");
         gridTemplate.setNumColumns(6);
@@ -59,7 +55,7 @@ public class WebEntityViewController extends ExtEntityExplorerController {
         super.addControlMapping(view);
         
         MenuItem menuParent= new MenuItem("Gestor de Contenidos", 3);
-        MenuItem menuItem= new MenuItem("webEntity", "Explorador de Entidades");
+        MenuItem menuItem= new MenuItem("webEntity", "Explorador de Entidades",2);
         menuItem.setPageType(PageType.ENTITY_EXPLORER);
         menuParent.addSubMenu(menuItem);
         menuComponent.addItemMenu(menuParent);

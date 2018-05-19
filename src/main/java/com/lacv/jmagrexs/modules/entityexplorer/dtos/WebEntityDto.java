@@ -37,70 +37,54 @@ public class WebEntityDto implements BaseEntity {
     private String name;
     
     @Order(3)
-    @ReadOnly
-    @Size(max = 255)
-    @TextField("Ref Entidad")
-    @HideField({HideView.FILTER, HideView.FORM})
-    private String entityRef;
-    
-    @Order(4)
-    @ReadOnly
-    @Size(max = 100)
-    @TextField("Nombre Entidad")
-    @TypeFormField(value = FieldType.LIST, data = {"Categoria", "Comercio", "Producto", "Proveedor", "Usuario"})
-    private String entityName;
-    
-    @Order(5)
     @Size(max = 100)
     @TextField("Id Entidad")
     private String entityId;
     
-    @Order(6)
+    @Order(4)
     @TextField("Orden Entidad")
     private Integer entityOrder;
     
-    @Order(7)
-    @TextField("Path")
+    @Order(5)
     @ReadOnly
+    @TextField("Path")
     @HideField({HideView.FILTER})
     private String path;
     
-    @Order(8)
-    @TextField("Ubicaci&oacute;n")
+    @Order(6)
     @ReadOnly
+    @TextField("Ubicaci&oacute;n")
     @HideField({HideView.FILTER})
     private String location;
     
-    @Order(9)
+    @Order(7)
     @ReadOnly
     @TextField("Fecha creaci&oacute;n")
     private Date creationDate;
     
-    @Order(10)
-    @TextField("Fecha modificaci&oacute;n")
+    @Order(8)
     @ReadOnly
+    @TextField("Fecha modificaci&oacute;n")
     private Date modificationDate;
     
-    @Order(11)
-    @ReadOnly
-    @Size(max = 255)
-    @TextField("Icono")
-    @HideField({HideView.FILTER})
-    private String icon;
-    
-    @Order(12)
+    @Order(9)
     @Size(max = 45)
     @TextField("Estado")
     @TypeFormField(value = FieldType.MULTI_SELECT, data = {"Active", "Inactive", "Locked", "Deleted"})
     private String status;
     
-    @Order(13)
+    @Order(10)
     @Size(max = 255)
     @TextField("Autor")
     private String author;
     
-    @TextField("Archivo padre")
+    @Order(11)
     @ReadOnly
+    @TextField("Tipo Entidad")
+    private WebEntityTypeDto webEntityType;
+    
+    @ReadOnly
+    @TextField("Archivo padre")
     @HideField({HideView.FILTER, HideView.GRID, HideView.FORM})
     private WebEntityDto webEntity;
 
@@ -130,22 +114,6 @@ public class WebEntityDto implements BaseEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getEntityRef() {
-        return entityRef;
-    }
-
-    public void setEntityRef(String entityRef) {
-        this.entityRef = entityRef;
-    }
-
-    public String getEntityName() {
-        return entityName;
-    }
-
-    public void setEntityName(String entityName) {
-        this.entityName = entityName;
     }
 
     public String getEntityId() {
@@ -196,14 +164,6 @@ public class WebEntityDto implements BaseEntity {
         this.modificationDate = modificationDate;
     }
 
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
     public String getStatus() {
         return status;
     }
@@ -218,6 +178,14 @@ public class WebEntityDto implements BaseEntity {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+    
+    public WebEntityTypeDto getWebEntityType() {
+        return webEntityType;
+    }
+
+    public void setWebEntityType(WebEntityTypeDto webEntityType) {
+        this.webEntityType = webEntityType;
     }
 
     public List<WebEntityDto> getWebEntityList() {

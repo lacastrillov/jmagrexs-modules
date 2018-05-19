@@ -94,7 +94,7 @@ public class WebEntityRestController extends RestEntityController {
             Map childs= new LinkedHashMap();
             Parameters p= new Parameters();
             p.whereIsNull("webEntity");
-            p.whereEqual("entityRef", "folder");
+            p.whereEqual("webEntityType.entityRef", "folder");
             p.orderBy("name", "ASC");
             List<WebEntity> webEntitys= webEntityService.findByParameters(p);
             for(WebEntity webEntity: webEntitys){
@@ -113,7 +113,7 @@ public class WebEntityRestController extends RestEntityController {
         Map child= new LinkedHashMap();
         Parameters p= new Parameters();
         p.whereEqual("webEntity", webEntity);
-        p.whereEqual("entityRef", "folder");
+        p.whereEqual("webEntityType.entityRef", "folder");
         p.orderBy("name", "ASC");
         List<WebEntity> webEntitys= webEntityService.findByParameters(p);
         for(WebEntity childWebEntity: webEntitys){

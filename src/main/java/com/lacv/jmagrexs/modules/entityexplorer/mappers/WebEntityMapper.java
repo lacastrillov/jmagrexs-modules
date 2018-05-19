@@ -10,6 +10,7 @@ import com.lacv.jmagrexs.modules.entityexplorer.dtos.WebEntityDto;
 import com.lacv.jmagrexs.modules.entityexplorer.entities.WebEntity;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Component;
 @Component("webEntityMapper")
 public class WebEntityMapper extends EntityMapperImpl<WebEntity, WebEntityDto> implements EntityMapper<WebEntity, WebEntityDto> {
 
+    @Autowired
+    WebEntityTypeMapper webEntityTypeMapper;
     
     @Override
     public WebEntityDto entityToDto(WebEntity entity) {
@@ -27,15 +30,13 @@ public class WebEntityMapper extends EntityMapperImpl<WebEntity, WebEntityDto> i
             dto.setId(entity.getId());
             dto.setAuthor(entity.getAuthor());
             dto.setCreationDate(entity.getCreationDate());
-            dto.setIcon(entity.getIcon());
             dto.setPath(entity.getPath());
             dto.setLocation(entity.getLocation());
             dto.setModificationDate(entity.getModificationDate());
             dto.setName(entity.getName());
             dto.setEntityId(entity.getEntityId());
             dto.setEntityOrder(entity.getEntityOrder());
-            dto.setEntityRef(entity.getEntityRef());
-            dto.setEntityName(entity.getEntityName());
+            dto.setWebEntityType(webEntityTypeMapper.entityToDto(entity.getWebEntityType()));
             dto.setStatus(entity.getStatus());
             dto.setWebEntity((WebEntityDto) entityToDto(entity.getWebEntity()));
         }

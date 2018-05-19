@@ -54,17 +54,8 @@ public class WebEntity implements BaseEntity, WebEntityInterface {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modificationDate;
     @Size(max = 255)
-    @Column(name = "icon")
-    private String icon;
-    @Size(max = 255)
     @Column(name = "name")
     private String name;
-    @Size(max = 255)
-    @Column(name = "entity_ref")
-    private String entityRef;
-    @Size(max = 100)
-    @Column(name = "entity_name")
-    private String entityName;
     @Size(max = 100)
     @Column(name = "entity_id")
     private String entityId;
@@ -73,6 +64,9 @@ public class WebEntity implements BaseEntity, WebEntityInterface {
     @Size(max = 45)
     @Column(name = "status")
     private String status;
+    @JoinColumn(name = "web_entity_type_id", referencedColumnName = "id")
+    @ManyToOne
+    private WebEntityType webEntityType;
     @OneToMany(mappedBy = "webEntity")
     private List<WebEntity> webEntityList;
     @JoinColumn(name = "parent_id", referencedColumnName = "id")
@@ -127,16 +121,6 @@ public class WebEntity implements BaseEntity, WebEntityInterface {
     }
 
     @Override
-    public String getIcon() {
-        return icon;
-    }
-
-    @Override
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
-    @Override
     public String getName() {
         return name;
     }
@@ -144,26 +128,6 @@ public class WebEntity implements BaseEntity, WebEntityInterface {
     @Override
     public void setName(String name) {
         this.name = name;
-    }
-
-    @Override
-    public String getEntityRef() {
-        return entityRef;
-    }
-
-    @Override
-    public void setEntityRef(String entityRef) {
-        this.entityRef = entityRef;
-    }
-
-    @Override
-    public String getEntityName() {
-        return entityName;
-    }
-
-    @Override
-    public void setEntityName(String entityName) {
-        this.entityName = entityName;
     }
 
     @Override
@@ -196,6 +160,14 @@ public class WebEntity implements BaseEntity, WebEntityInterface {
         this.status = status;
     }
 
+    public WebEntityType getWebEntityType() {
+        return webEntityType;
+    }
+
+    public void setWebEntityType(WebEntityType webEntityType) {
+        this.webEntityType = webEntityType;
+    }
+
     public List<WebEntity> getWebEntityList() {
         return webEntityList;
     }
@@ -214,11 +186,11 @@ public class WebEntity implements BaseEntity, WebEntityInterface {
     
     @Override
     public String getLocation() {
-        if(!this.entityRef.equals("folder")){
+        if(!this.webEntityType.getEntityRef().equals("folder")){
             ApplicationContext ctx = ContextLoader.getCurrentWebApplicationContext();
             ServerDomain serverDomain= (ServerDomain) ctx.getBean("serverDomain");
             String location= serverDomain.getApplicationContext() + serverDomain.getAdminContext() + serverDomain.getAdminPath() + "/" +
-                    this.entityRef + "/entity.htm?onlyForm=1&webEntityId="+this.id+"#?tab=1";
+                    this.webEntityType.getEntityRef() + "/entity.htm?onlyForm=1&webEntityId="+this.id+"#?tab=1";
             location+=(this.entityId!=null)?"&id="+this.entityId:"";
             return location;
         }else{

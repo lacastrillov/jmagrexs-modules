@@ -15,6 +15,7 @@ import com.lacv.jmagrexs.service.EntityServiceImpl;
 import com.lacv.jmagrexs.modules.entityexplorer.entities.WebEntity;
 import com.lacv.jmagrexs.modules.entityexplorer.mappers.WebEntityMapper;
 import com.lacv.jmagrexs.modules.entityexplorer.daos.WebEntityJpa;
+import com.lacv.jmagrexs.modules.entityexplorer.entities.WebEntityType;
 import com.lacv.jmagrexs.modules.security.services.UserService;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.apache.log4j.Logger;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.ContextLoader;
 
 /**
  *
@@ -37,9 +41,11 @@ public class WebEntityServiceImpl extends EntityServiceImpl<WebEntity> implement
     
     static final Logger LOGGER = Logger.getLogger(WebEntityServiceImpl.class);
     
-    Map<Class, String> refEntities= new HashMap<>();
+    private final Map<Class, WebEntityType> webEntityTypesMap= new HashMap<>();
     
-    Map<Class, EntityService> services= new HashMap<>();
+    private final Map<String, EntityService> services= new HashMap<>();
+    
+    private final Map<String, String> entityTypes= new HashMap<>();
     
     @Autowired
     WebEntityJpa webEntityJpa;
@@ -50,25 +56,38 @@ public class WebEntityServiceImpl extends EntityServiceImpl<WebEntity> implement
     @Autowired
     UserService userService;
     
+    @Autowired
+    WebEntityTypeService webEntityTypeService;
+    
     
     @Override
     public GenericDao getGenericDao(){
         return webEntityJpa;
     }
     
-    private void addEntityService(String entityRef, EntityService entityService){
-        refEntities.put(entityService.getClass(), entityRef);
-        services.put(entityService.getClass(), entityService);
-    }
     
     @PostConstruct
     public void init(){
-        addEntityService("user", userService);
+        Parameters p= new Parameters();
+        p.whereEqual("status", "Active");
+        p.whereDifferentThan("entityRef", "folder");
+        p.orderBy("entityOrder", "ASC");
+        List<WebEntityType> webEntityTypes= webEntityTypeService.findByParameters(p);
+        
+        for(WebEntityType webEntityType: webEntityTypes){
+            try {
+                Class entityClass = Class.forName(webEntityType.getClassName());
+                webEntityTypesMap.put(entityClass, webEntityType);
+                entityTypes.put(webEntityType.getEntityRef(), webEntityType.getEntityName());
+            } catch (ClassNotFoundException ex) {
+                LOGGER.error(ex);
+            }
+        }
     }
     
     @Override
     public List<Object> findEntities(String path, Class type){
-        String entityRef= refEntities.get(type);
+        String entityRef= webEntityTypesMap.get(type).getEntityRef();
         WebEntity parentWebEntity= findByPath(path);
         
         Parameters p= new Parameters();
@@ -81,7 +100,7 @@ public class WebEntityServiceImpl extends EntityServiceImpl<WebEntity> implement
     
     @Override
     public List<Object> findEntities(String path, String status, Class type){
-        String entityRef= refEntities.get(type);
+        String entityRef= webEntityTypesMap.get(type).getEntityRef();
         WebEntity parentWebEntity= findByPath(path);
         
         Parameters p= new Parameters();
@@ -116,9 +135,10 @@ public class WebEntityServiceImpl extends EntityServiceImpl<WebEntity> implement
     @Override
     @Transactional(readOnly= true)
     public Object loadEntity(WebEntity webEntity, Class type) {
-        String entityRef= refEntities.get(type);
-        EntityService entityService= services.get(type);
-        if(webEntity.getEntityRef().equals(entityRef) && webEntity.getEntityId()!=null && !webEntity.getEntityId().equals("")){
+        String entityRef= webEntityTypesMap.get(type).getEntityRef();
+        EntityService entityService= getEntityService(webEntityTypesMap.get(type).getServiceName());
+        if(entityService!=null && webEntity!=null && webEntity.getWebEntityType().getEntityRef().equals(entityRef)
+                && webEntity.getEntityId()!=null && !webEntity.getEntityId().equals("")){
             try {
                 Object entityId = EntityReflection.getParsedFieldValue(type, "id", webEntity.getEntityId());
                 Object entity= entityService.loadById(entityId);
@@ -156,12 +176,12 @@ public class WebEntityServiceImpl extends EntityServiceImpl<WebEntity> implement
     @Transactional(value = TRANSACTION_MANAGER, propagation = Propagation.REQUIRED)
     public WebEntity createFolder(WebEntity parentWebEntity, String folderName) {
         if(!folderName.equals("")){
+            WebEntityType webEntityType= webEntityTypeService.loadByParameter("entityRef", "folder");
+            
             WebEntity webEntity= new WebEntity();
             webEntity.setName(folderName);
             webEntity.setCreationDate(new Date());
-            webEntity.setEntityRef("folder");
-            webEntity.setIcon("folder");
-            webEntity.setEntityName("folder");
+            webEntity.setWebEntityType(webEntityType);
             webEntity.setModificationDate(new Date());
             webEntity.setWebEntity(parentWebEntity);
             super.createForce(webEntity);
@@ -175,15 +195,15 @@ public class WebEntityServiceImpl extends EntityServiceImpl<WebEntity> implement
     @Transactional(value = TRANSACTION_MANAGER, propagation = Propagation.REQUIRED)
     public WebEntity create(WebEntity parentWebEntity, String name, String entityRef, String entityName) {
         if(!name.equals("")){
+            WebEntityType webEntityType= webEntityTypeService.loadByParameter("entityRef", entityRef);
+            
             WebEntity webEntity= new WebEntity();
             webEntity.setName(name);
             webEntity.setCreationDate(new Date());
-            webEntity.setEntityRef(entityRef);
-            webEntity.setIcon(entityRef);
             webEntity.setModificationDate(new Date());
             webEntity.setWebEntity(parentWebEntity);
             webEntity.setEntityOrder(0);
-            webEntity.setEntityName(entityName);
+            webEntity.setWebEntityType(webEntityType);
             webEntity.setStatus("Active");
             super.create(webEntity);
 
@@ -231,6 +251,28 @@ public class WebEntityServiceImpl extends EntityServiceImpl<WebEntity> implement
             return true;
         }
         return false;
+    }
+    
+    private EntityService getEntityService(String serviceName){
+        if(!services.containsKey(serviceName)){
+            try{
+                ApplicationContext ctx = ContextLoader.getCurrentWebApplicationContext();
+                EntityService entityService = (EntityService) ctx.getBean(serviceName);
+                services.put(serviceName, entityService);
+            }catch(BeansException e){
+                LOGGER.error(e);
+                return null;
+            }
+        }
+        return services.get(serviceName);
+    }
+
+    /**
+     * @return the entityTypes
+     */
+    @Override
+    public Map<String, String> getEntityTypes() {
+        return entityTypes;
     }
     
     
