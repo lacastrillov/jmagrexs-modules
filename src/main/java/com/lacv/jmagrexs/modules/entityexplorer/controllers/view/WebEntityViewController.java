@@ -54,7 +54,7 @@ public class WebEntityViewController extends ExtEntityExplorerController {
         
         super.addControlMapping(view);
         
-        MenuItem menuParent= new MenuItem("Gestor de Contenidos", 3);
+        MenuItem menuParent= new MenuItem("Gestor de Contenidos", 2);
         MenuItem menuItem= new MenuItem("webEntity", "Explorador de Entidades",2);
         menuItem.setPageType(PageType.ENTITY_EXPLORER);
         menuParent.addSubMenu(menuItem);
