@@ -52,7 +52,7 @@ public class WebEntityRestController extends RestEntityController {
     
     public String getClientId(){
         User user= securityService.getCurrentUser();
-        return user.getUsername();
+        return (user!=null)?user.getUsername():"";
     }
 
     @RequestMapping(value = "/create.htm")

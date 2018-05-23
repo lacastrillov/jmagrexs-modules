@@ -50,6 +50,7 @@ public class WebFileViewController extends ExtFileExplorerController {
         GridTemplate gridTemplate= new GridTemplate("webFile.vm");
         gridTemplate.setNumColumns(6);
         view.setGridTemplate(gridTemplate);
+        view.setActiveGridTemplate(true);
         view.setActiveGridTemplateAsParent(true);
         
         super.addControlMapping(view);

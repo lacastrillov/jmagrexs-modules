@@ -50,6 +50,7 @@ public class WebEntityViewController extends ExtEntityExplorerController {
         GridTemplate gridTemplate= new GridTemplate("webEntity.vm");
         gridTemplate.setNumColumns(6);
         view.setGridTemplate(gridTemplate);
+        view.setActiveGridTemplate(true);
         view.setActiveGridTemplateAsParent(true);
         
         super.addControlMapping(view);
