@@ -6,6 +6,7 @@
 package com.lacv.jmagrexs.modules.security.dtos.process;
 
 import com.lacv.jmagrexs.annotation.HideField;
+import com.lacv.jmagrexs.annotation.NotNull;
 import com.lacv.jmagrexs.annotation.Order;
 import com.lacv.jmagrexs.annotation.ReadOnly;
 import com.lacv.jmagrexs.annotation.Size;
@@ -20,18 +21,20 @@ import com.lacv.jmagrexs.enums.HideView;
  */
 public class CreatePasswordDto {
     
-    @Size(max=100)
     @Order(1)
+    @Size(max=100)
     @ReadOnly
     private String username;
     
+    @Order(2)
+    @NotNull
     @Size(max=60)
     @TypeFormField(FieldType.PASSWORD)
     @HideField(HideView.LOG)
-    @Order(2)
     private String password;
     
     @Order(3)
+    @NotNull
     @Size(max=60)
     @TypeFormField(FieldType.PASSWORD)
     @HideField(HideView.LOG)
