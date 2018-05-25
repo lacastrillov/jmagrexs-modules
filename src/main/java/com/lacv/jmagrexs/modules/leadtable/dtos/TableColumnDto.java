@@ -57,8 +57,9 @@ public class TableColumnDto implements BaseEntity {
     @Size(max=45)
     @ColumnWidth(170)
     @TypeFormField(value = FieldType.LIST, data = {
-        "EMAIL", "PASSWORD", "DATETIME", "TEXT_AREA", "LIST", "MULTI_SELECT", "URL", "HTML_EDITOR", "FILE_UPLOAD", "IMAGE_FILE_UPLOAD",
-        "VIDEO_YOUTUBE", "VIDEO_FILE_UPLOAD", "AUDIO_FILE_UPLOAD", "GOOGLE_MAP", "MULTI_FILE_TYPE"
+        "EMAIL", "PASSWORD", "DURATION", "PRICE", "DATETIME", "TEXT_AREA", "LIST", "MULTI_SELECT", "URL", "HTML_EDITOR",
+        "FILE_UPLOAD", "FILE_SIZE", "IMAGE_FILE_UPLOAD", "VIDEO_YOUTUBE", "VIDEO_FILE_UPLOAD", "AUDIO_FILE_UPLOAD",
+        "GOOGLE_MAP", "MULTI_FILE_TYPE"
     })
     @TextField("Tipo Campo")
     private String fieldType;

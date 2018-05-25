@@ -28,8 +28,8 @@ public class WebFileDto implements BaseEntity {
     private static final long serialVersionUID = 1L;
     
     @Order(1)
-    @ColumnWidth(100)
     @ReadOnly
+    @ColumnWidth(100)
     private Long id;
     
     @Order(2)
@@ -37,39 +37,40 @@ public class WebFileDto implements BaseEntity {
     private String name;
     
     @Order(3)
-    @TextField("Tipo")
     @ReadOnly
+    @TextField("Tipo")
     private String type;
     
     @Order(4)
+    @ReadOnly
     @TypeFormField(FieldType.MULTI_FILE_TYPE)
     @TextField("Ubicaci&oacute;n")
-    @ReadOnly
     private String location;
     
     @Order(5)
-    @TextField("Path")
     @ReadOnly
+    @TextField("Path")
     private String path;
     
     @Order(6)
-    @TextField("Tama&ntilde;o")
     @ReadOnly
+    @TypeFormField(FieldType.FILE_SIZE)
+    @TextField("Tama&ntilde;o")
     private Integer size;
     
     @Order(7)
-    @TextField("Icono")
     @ReadOnly
+    @TextField("Icono")
     private String icon;
     
     @Order(8)
-    @TextField("Fecha creaci&oacute;n")
     @ReadOnly
+    @TextField("Fecha creaci&oacute;n")
     private Date creationDate;
     
     @Order(9)
-    @TextField("Fecha modificaci&oacute;n")
     @ReadOnly
+    @TextField("Fecha modificaci&oacute;n")
     private Date modificationDate;
     
     @Order(10)
@@ -80,8 +81,8 @@ public class WebFileDto implements BaseEntity {
     @TextField("Autor")
     private String author;
     
-    @TextField("Archivo padre")
     @ReadOnly
+    @TextField("Archivo padre")
     @HideField({HideView.FILTER, HideView.GRID, HideView.FORM})
     private WebFileDto webFile;
     
