@@ -8,10 +8,10 @@ package com.lacv.jmagrexs.modules.security.services;
 
 
 import com.lacv.jmagrexs.modules.security.daos.UserRoleJpa;
-import com.lacv.jmagrexs.modules.security.entities.UserRole;
-import com.lacv.jmagrexs.modules.security.mappers.UserRoleMapper;
-import com.lacv.jmagrexs.modules.security.services.UserRoleService;
+import com.lacv.jmagrexs.modules.security.model.mappers.UserRoleMapper;
 import com.lacv.jmagrexs.dao.GenericDao;
+import com.lacv.jmagrexs.mapper.EntityMapper;
+import com.lacv.jmagrexs.modules.security.model.entities.UserRole;
 import com.lacv.jmagrexs.service.EntityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +32,11 @@ public class UserRoleServiceImpl extends EntityServiceImpl<UserRole> implements 
     @Override
     public GenericDao getGenericDao(){
         return userRoleJpa;
+    }
+
+    @Override
+    public EntityMapper getEntityMapper() {
+        return userRoleMapper;
     }
     
 }

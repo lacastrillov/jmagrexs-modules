@@ -5,7 +5,7 @@
  */
 package com.lacv.jmagrexs.modules.security.daos;
 
-import com.lacv.jmagrexs.modules.security.entities.UserRole;
+import com.lacv.jmagrexs.modules.security.model.entities.UserRole;
 import com.lacv.jmagrexs.dao.GenericDao;
 
 /**

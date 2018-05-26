@@ -6,7 +6,7 @@
 
 package com.lacv.jmagrexs.modules.leadtable.services;
 
-import com.lacv.jmagrexs.modules.leadtable.entities.TableColumn;
+import com.lacv.jmagrexs.modules.leadtable.model.entities.TableColumn;
 import com.lacv.jmagrexs.service.EntityService;
 
 

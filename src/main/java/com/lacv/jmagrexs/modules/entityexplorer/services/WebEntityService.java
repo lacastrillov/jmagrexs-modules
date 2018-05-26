@@ -7,7 +7,7 @@
 package com.lacv.jmagrexs.modules.entityexplorer.services;
 
 import com.lacv.jmagrexs.dao.Parameters;
-import com.lacv.jmagrexs.modules.entityexplorer.entities.WebEntity;
+import com.lacv.jmagrexs.modules.entityexplorer.model.entities.WebEntity;
 import com.lacv.jmagrexs.service.EntityService;
 import java.util.List;
 import java.util.Map;
@@ -32,13 +32,13 @@ public interface WebEntityService extends EntityService<WebEntity> {
     
     WebEntity findByPath(String path);
     
-    WebEntity createFolder(WebEntity parentWebEntity, String folderName);
+    WebEntity createFolder(WebEntity parentWebEntityDto, String folderName);
     
-    WebEntity create(WebEntity parentWebEntity, String name, String entityRef, String entityName);
+    WebEntity create(WebEntity parentWebEntityDto, String name, String entityRef, String entityName);
     
     WebEntity createDirectoriesIfMissing(String path);
     
-    boolean deleteIfExist(WebEntity parentWebEntity, String fileName);
+    boolean deleteIfExist(WebEntity parentWebEntityDto, String fileName);
     
     Map<String, String> getEntityTypes();
     

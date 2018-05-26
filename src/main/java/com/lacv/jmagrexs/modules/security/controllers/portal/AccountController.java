@@ -1,14 +1,14 @@
 package com.lacv.jmagrexs.modules.security.controllers.portal;
 
 import com.lacv.jmagrexs.dao.Parameters;
-import com.lacv.jmagrexs.modules.security.dtos.RoleDto;
-import com.lacv.jmagrexs.modules.security.dtos.UserDto;
-import com.lacv.jmagrexs.modules.security.dtos.UserRoleDto;
-import com.lacv.jmagrexs.modules.security.dtos.security.UserAndRolesDto;
-import com.lacv.jmagrexs.modules.security.entities.User;
-import com.lacv.jmagrexs.modules.security.entities.UserRole;
-import com.lacv.jmagrexs.modules.security.mappers.UserMapper;
-import com.lacv.jmagrexs.modules.security.mappers.UserRoleMapper;
+import com.lacv.jmagrexs.modules.security.model.dtos.RoleDto;
+import com.lacv.jmagrexs.modules.security.model.dtos.UserDto;
+import com.lacv.jmagrexs.modules.security.model.dtos.UserRoleDto;
+import com.lacv.jmagrexs.modules.security.model.dtos.security.UserAndRolesDto;
+import com.lacv.jmagrexs.modules.security.model.entities.User;
+import com.lacv.jmagrexs.modules.security.model.entities.UserRole;
+import com.lacv.jmagrexs.modules.security.model.mappers.UserMapper;
+import com.lacv.jmagrexs.modules.security.model.mappers.UserRoleMapper;
 import com.lacv.jmagrexs.modules.security.services.UserRoleService;
 import com.lacv.jmagrexs.util.JSONService;
 import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;

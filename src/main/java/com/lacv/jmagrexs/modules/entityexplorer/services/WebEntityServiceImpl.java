@@ -9,13 +9,14 @@ package com.lacv.jmagrexs.modules.entityexplorer.services;
 
 import com.lacv.jmagrexs.dao.GenericDao;
 import com.lacv.jmagrexs.dao.Parameters;
+import com.lacv.jmagrexs.mapper.EntityMapper;
 import com.lacv.jmagrexs.reflection.EntityReflection;
 import com.lacv.jmagrexs.service.EntityService;
 import com.lacv.jmagrexs.service.EntityServiceImpl;
-import com.lacv.jmagrexs.modules.entityexplorer.entities.WebEntity;
-import com.lacv.jmagrexs.modules.entityexplorer.mappers.WebEntityMapper;
+import com.lacv.jmagrexs.modules.entityexplorer.model.mappers.WebEntityMapper;
 import com.lacv.jmagrexs.modules.entityexplorer.daos.WebEntityJpa;
-import com.lacv.jmagrexs.modules.entityexplorer.entities.WebEntityType;
+import com.lacv.jmagrexs.modules.entityexplorer.model.entities.WebEntity;
+import com.lacv.jmagrexs.modules.entityexplorer.model.entities.WebEntityType;
 import com.lacv.jmagrexs.modules.security.services.UserService;
 import java.util.Date;
 import java.util.List;
@@ -63,6 +64,11 @@ public class WebEntityServiceImpl extends EntityServiceImpl<WebEntity> implement
     @Override
     public GenericDao getGenericDao(){
         return webEntityJpa;
+    }
+    
+    @Override
+    public EntityMapper getEntityMapper() {
+        return webEntityMapper;
     }
     
     

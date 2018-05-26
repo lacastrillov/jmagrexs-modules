@@ -3,7 +3,6 @@ package com.lacv.jmagrexs.modules.security.services.bussiness;
 import com.lacv.jmagrexs.components.ServerDomain;
 import com.lacv.jmagrexs.dto.RESTServiceDto;
 import com.lacv.jmagrexs.util.RESTServiceConnection;
-import com.lacv.jmagrexs.modules.security.dtos.security.UserDetailsDto;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Arrays;
@@ -22,6 +21,7 @@ import org.springframework.http.HttpMethod;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.security.web.util.ThrowableCauseExtractor;
 import org.springframework.stereotype.Component;
@@ -148,7 +148,7 @@ public class CustomSecurityFilter extends GenericFilterBean {
     }
 
     private boolean accessDenied(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        UserDetailsDto userDetails= securityService.getUserDetails();
+        UserDetails userDetails= securityService.getUserDetails();
         String ajaxHeader = req.getHeader("X-Requested-With");
 
         if ("XMLHttpRequest".equals(ajaxHeader)) {

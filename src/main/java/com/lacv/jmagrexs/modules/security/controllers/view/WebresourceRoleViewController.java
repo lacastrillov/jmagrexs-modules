@@ -6,8 +6,8 @@
 
 package com.lacv.jmagrexs.modules.security.controllers.view;
 
-import com.lacv.jmagrexs.modules.security.dtos.WebresourceRoleDto;
-import com.lacv.jmagrexs.modules.security.mappers.WebresourceRoleMapper;
+import com.lacv.jmagrexs.modules.security.model.dtos.WebresourceRoleDto;
+import com.lacv.jmagrexs.modules.security.model.mappers.WebresourceRoleMapper;
 import com.lacv.jmagrexs.modules.security.services.WebresourceRoleService;
 import com.lacv.jmagrexs.controller.view.ExtEntityController;
 import com.lacv.jmagrexs.dto.config.EntityConfig;

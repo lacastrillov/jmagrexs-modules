@@ -7,7 +7,7 @@
 package com.lacv.jmagrexs.modules.common.controllers.rest;
 
 
-import com.lacv.jmagrexs.modules.common.mappers.LogProcessMapper;
+import com.lacv.jmagrexs.modules.common.model.mappers.LogProcessMapper;
 import com.lacv.jmagrexs.modules.common.services.LogProcessService;
 import com.lacv.jmagrexs.controller.rest.RestEntityController;
 import javax.annotation.PostConstruct;

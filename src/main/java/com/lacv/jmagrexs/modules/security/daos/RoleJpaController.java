@@ -5,7 +5,7 @@
 package com.lacv.jmagrexs.modules.security.daos;
 
 
-import com.lacv.jmagrexs.modules.security.entities.Role;
+import com.lacv.jmagrexs.modules.security.model.entities.Role;
 import com.lacv.jmagrexs.dao.JPAGenericDao;
 import org.springframework.stereotype.Repository;
 

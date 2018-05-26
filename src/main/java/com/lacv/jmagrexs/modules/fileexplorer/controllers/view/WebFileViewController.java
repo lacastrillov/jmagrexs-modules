@@ -6,8 +6,8 @@
 
 package com.lacv.jmagrexs.modules.fileexplorer.controllers.view;
 
-import com.lacv.jmagrexs.modules.fileexplorer.dtos.WebFileDto;
-import com.lacv.jmagrexs.modules.fileexplorer.mappers.WebFileMapper;
+import com.lacv.jmagrexs.modules.fileexplorer.model.dtos.WebFileDto;
+import com.lacv.jmagrexs.modules.fileexplorer.model.mappers.WebFileMapper;
 import com.lacv.jmagrexs.modules.fileexplorer.services.WebFileService;
 import com.lacv.jmagrexs.controller.view.ExtFileExplorerController;
 import com.lacv.jmagrexs.dto.GridTemplate;

@@ -5,14 +5,13 @@
  */
 package com.lacv.jmagrexs.modules.entityexplorer.controllers.rest;
 
-import com.lacv.jmagrexs.modules.entityexplorer.entities.WebEntity;
-import com.lacv.jmagrexs.modules.entityexplorer.mappers.WebEntityMapper;
+import com.lacv.jmagrexs.modules.entityexplorer.model.mappers.WebEntityMapper;
 import com.lacv.jmagrexs.controller.rest.RestEntityController;
 import com.lacv.jmagrexs.dao.Parameters;
 import com.lacv.jmagrexs.util.Util;
 import com.google.gson.Gson;
-import com.lacv.jmagrexs.modules.entityexplorer.dtos.WebEntityDto;
-import com.lacv.jmagrexs.modules.security.entities.User;
+import com.lacv.jmagrexs.modules.entityexplorer.model.entities.WebEntity;
+import com.lacv.jmagrexs.modules.security.model.entities.User;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +74,7 @@ public class WebEntityRestController extends RestEntityController {
                 webEntity = webEntityService.create(parentWebEntity, jsonObject.getString("name"), jsonObject.getString("entityRef"), jsonObject.getString("entityName"));
             }
 
-            WebEntityDto dto = (WebEntityDto) mapper.entityToDto(webEntity);
+            WebEntity dto = (WebEntity) mapper.entityToDto(webEntity);
             resultData = Util.getOperationCallback(dto, "Creaci&oacute;n de " + entityRef + " realizada...", true);
         } catch (Exception e) {
             LOGGER.error("create " + entityRef, e);

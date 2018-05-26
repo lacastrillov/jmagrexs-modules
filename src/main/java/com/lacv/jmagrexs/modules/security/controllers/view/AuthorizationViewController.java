@@ -6,8 +6,8 @@
 
 package com.lacv.jmagrexs.modules.security.controllers.view;
 
-import com.lacv.jmagrexs.modules.security.dtos.AuthorizationDto;
-import com.lacv.jmagrexs.modules.security.mappers.AuthorizationMapper;
+import com.lacv.jmagrexs.modules.security.model.dtos.AuthorizationDto;
+import com.lacv.jmagrexs.modules.security.model.mappers.AuthorizationMapper;
 import com.lacv.jmagrexs.modules.security.services.AuthorizationService;
 import com.lacv.jmagrexs.controller.view.ExtEntityController;
 import com.lacv.jmagrexs.dto.MenuItem;

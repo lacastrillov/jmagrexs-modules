@@ -8,10 +8,10 @@ package com.lacv.jmagrexs.modules.common.services;
 
 
 import com.lacv.jmagrexs.modules.common.daos.PropertyJpa;
-import com.lacv.jmagrexs.modules.common.entities.Property;
-import com.lacv.jmagrexs.modules.common.mappers.PropertyMapper;
-import com.lacv.jmagrexs.modules.common.services.PropertyService;
+import com.lacv.jmagrexs.modules.common.model.mappers.PropertyMapper;
 import com.lacv.jmagrexs.dao.GenericDao;
+import com.lacv.jmagrexs.mapper.EntityMapper;
+import com.lacv.jmagrexs.modules.common.model.entities.Property;
 import com.lacv.jmagrexs.service.EntityServiceImpl;
 import com.lacv.jmagrexs.util.Formats;
 import java.math.BigInteger;
@@ -36,6 +36,11 @@ public class PropertyServiceImpl extends EntityServiceImpl<Property> implements 
     @Override
     public GenericDao getGenericDao(){
         return propertyJpa;
+    }
+    
+    @Override
+    public EntityMapper getEntityMapper(){
+        return propertyMapper;
     }
     
     @Override

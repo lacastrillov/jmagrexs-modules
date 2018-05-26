@@ -5,7 +5,7 @@
 package com.lacv.jmagrexs.modules.entityexplorer.daos;
 
 
-import com.lacv.jmagrexs.modules.entityexplorer.entities.WebEntity;
+import com.lacv.jmagrexs.modules.entityexplorer.model.entities.WebEntity;
 import com.lacv.jmagrexs.dao.JPAGenericDao;
 import org.springframework.stereotype.Repository;
 

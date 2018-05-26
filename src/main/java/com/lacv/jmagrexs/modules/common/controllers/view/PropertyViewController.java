@@ -6,8 +6,8 @@
 
 package com.lacv.jmagrexs.modules.common.controllers.view;
 
-import com.lacv.jmagrexs.modules.common.dtos.PropertyDto;
-import com.lacv.jmagrexs.modules.common.mappers.PropertyMapper;
+import com.lacv.jmagrexs.modules.common.model.dtos.PropertyDto;
+import com.lacv.jmagrexs.modules.common.model.mappers.PropertyMapper;
 import com.lacv.jmagrexs.modules.common.services.PropertyService;
 import com.lacv.jmagrexs.controller.view.ExtEntityController;
 import com.lacv.jmagrexs.dto.MenuItem;

@@ -5,7 +5,7 @@
 package com.lacv.jmagrexs.modules.common.daos;
 
 
-import com.lacv.jmagrexs.modules.common.entities.JsonObject;
+import com.lacv.jmagrexs.modules.common.model.entities.JsonObject;
 import com.lacv.jmagrexs.dao.JPAGenericDao;
 import org.springframework.stereotype.Repository;
 

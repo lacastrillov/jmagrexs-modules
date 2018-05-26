@@ -6,7 +6,7 @@
 
 package com.lacv.jmagrexs.modules.security.services;
 
-import com.lacv.jmagrexs.modules.security.entities.Role;
+import com.lacv.jmagrexs.modules.security.model.entities.Role;
 import com.lacv.jmagrexs.service.EntityService;
 
 

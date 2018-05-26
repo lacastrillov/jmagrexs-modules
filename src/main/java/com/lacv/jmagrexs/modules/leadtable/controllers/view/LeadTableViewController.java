@@ -6,13 +6,13 @@
 
 package com.lacv.jmagrexs.modules.leadtable.controllers.view;
 
-import com.lacv.jmagrexs.modules.leadtable.dtos.LeadTableDto;
-import com.lacv.jmagrexs.modules.leadtable.mappers.LeadTableMapper;
+import com.lacv.jmagrexs.modules.leadtable.model.dtos.LeadTableDto;
+import com.lacv.jmagrexs.modules.leadtable.model.mappers.LeadTableMapper;
 import com.lacv.jmagrexs.modules.leadtable.services.LeadTableService;
 import com.lacv.jmagrexs.controller.view.ExtEntityController;
 import com.lacv.jmagrexs.dto.MenuItem;
 import com.lacv.jmagrexs.dto.config.EntityConfig;
-import com.lacv.jmagrexs.modules.leadtable.entities.TableColumn;
+import com.lacv.jmagrexs.modules.leadtable.model.entities.TableColumn;
 import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import java.util.List;
 import javax.annotation.PostConstruct;

@@ -5,8 +5,8 @@
  */
 package com.lacv.jmagrexs.modules.fileexplorer.controllers.rest;
 
-import com.lacv.jmagrexs.modules.fileexplorer.entities.WebFile;
-import com.lacv.jmagrexs.modules.fileexplorer.mappers.WebFileMapper;
+import com.lacv.jmagrexs.modules.fileexplorer.model.entities.WebFile;
+import com.lacv.jmagrexs.modules.fileexplorer.model.mappers.WebFileMapper;
 import com.lacv.jmagrexs.modules.fileexplorer.services.WebFileService;
 import com.lacv.jmagrexs.controller.rest.RestEntityController;
 import com.lacv.jmagrexs.dao.Parameters;
@@ -15,7 +15,7 @@ import com.lacv.jmagrexs.util.FileService;
 import com.lacv.jmagrexs.util.Util;
 import com.google.gson.Gson;
 import com.lacv.jmagrexs.modules.fileexplorer.constants.ExplorerConstants;
-import com.lacv.jmagrexs.modules.fileexplorer.dtos.WebFileDto;
+import com.lacv.jmagrexs.modules.fileexplorer.model.dtos.WebFileDto;
 import java.io.File;
 import java.io.InputStream;
 import java.util.LinkedHashMap;

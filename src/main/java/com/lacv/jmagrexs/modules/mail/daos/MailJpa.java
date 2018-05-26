@@ -5,7 +5,7 @@
  */
 package com.lacv.jmagrexs.modules.mail.daos;
 
-import com.lacv.jmagrexs.modules.mail.entities.Mail;
+import com.lacv.jmagrexs.modules.mail.model.entities.Mail;
 import com.lacv.jmagrexs.dao.GenericDao;
 
 /**

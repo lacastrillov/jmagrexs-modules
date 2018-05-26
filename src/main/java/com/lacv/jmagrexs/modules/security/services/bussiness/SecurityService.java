@@ -1,11 +1,11 @@
 package com.lacv.jmagrexs.modules.security.services.bussiness;
 
 import com.lacv.jmagrexs.dto.MenuItem;
-import com.lacv.jmagrexs.modules.security.dtos.security.UserDetailsDto;
-import com.lacv.jmagrexs.modules.security.entities.User;
+import com.lacv.jmagrexs.modules.security.model.entities.User;
 import java.util.List;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 
 
 /**
@@ -27,7 +27,7 @@ public interface SecurityService {
     
     String connectByToken(String token) throws AuthenticationException;
     
-    UserDetailsDto getUserDetails();
+    UserDetails getUserDetails();
     
     User getCurrentUser();
     

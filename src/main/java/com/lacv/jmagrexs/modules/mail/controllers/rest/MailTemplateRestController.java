@@ -7,7 +7,7 @@
 package com.lacv.jmagrexs.modules.mail.controllers.rest;
 
 
-import com.lacv.jmagrexs.modules.mail.mappers.MailTemplateMapper;
+import com.lacv.jmagrexs.modules.mail.model.mappers.MailTemplateMapper;
 import com.lacv.jmagrexs.modules.mail.services.MailTemplateService;
 import com.lacv.jmagrexs.controller.rest.RestEntityController;
 import javax.annotation.PostConstruct;

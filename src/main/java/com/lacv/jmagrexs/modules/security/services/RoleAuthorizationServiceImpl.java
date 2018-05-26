@@ -8,9 +8,10 @@ package com.lacv.jmagrexs.modules.security.services;
 
 
 import com.lacv.jmagrexs.modules.security.daos.RoleAuthorizationJpa;
-import com.lacv.jmagrexs.modules.security.entities.RoleAuthorization;
-import com.lacv.jmagrexs.modules.security.mappers.RoleAuthorizationMapper;
+import com.lacv.jmagrexs.modules.security.model.mappers.RoleAuthorizationMapper;
 import com.lacv.jmagrexs.dao.GenericDao;
+import com.lacv.jmagrexs.mapper.EntityMapper;
+import com.lacv.jmagrexs.modules.security.model.entities.RoleAuthorization;
 import com.lacv.jmagrexs.service.EntityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,11 @@ public class RoleAuthorizationServiceImpl extends EntityServiceImpl<RoleAuthoriz
     @Override
     public GenericDao getGenericDao(){
         return roleAuthorizationJpa;
+    }
+
+    @Override
+    public EntityMapper getEntityMapper() {
+        return roleAuthorizationMapper;
     }
     
 }

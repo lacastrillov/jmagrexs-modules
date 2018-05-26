@@ -6,8 +6,8 @@
 
 package com.lacv.jmagrexs.modules.security.controllers.view;
 
-import com.lacv.jmagrexs.modules.security.dtos.UserRoleDto;
-import com.lacv.jmagrexs.modules.security.mappers.UserRoleMapper;
+import com.lacv.jmagrexs.modules.security.model.dtos.UserRoleDto;
+import com.lacv.jmagrexs.modules.security.model.mappers.UserRoleMapper;
 import com.lacv.jmagrexs.modules.security.services.UserRoleService;
 import com.lacv.jmagrexs.controller.view.ExtEntityController;
 import com.lacv.jmagrexs.dto.MenuItem;

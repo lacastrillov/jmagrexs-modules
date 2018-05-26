@@ -7,7 +7,7 @@
 package com.lacv.jmagrexs.modules.security.controllers.rest;
 
 
-import com.lacv.jmagrexs.modules.security.mappers.WebresourceAuthorizationMapper;
+import com.lacv.jmagrexs.modules.security.model.mappers.WebresourceAuthorizationMapper;
 import com.lacv.jmagrexs.modules.security.services.WebresourceAuthorizationService;
 import com.lacv.jmagrexs.controller.rest.RestEntityController;
 import javax.annotation.PostConstruct;

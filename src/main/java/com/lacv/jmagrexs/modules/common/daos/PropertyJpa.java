@@ -5,7 +5,7 @@
  */
 package com.lacv.jmagrexs.modules.common.daos;
 
-import com.lacv.jmagrexs.modules.common.entities.Property;
+import com.lacv.jmagrexs.modules.common.model.entities.Property;
 import com.lacv.jmagrexs.dao.GenericDao;
 
 /**

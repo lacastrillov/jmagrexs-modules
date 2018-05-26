@@ -6,8 +6,8 @@
 
 package com.lacv.jmagrexs.modules.leadtable.controllers.view;
 
-import com.lacv.jmagrexs.modules.leadtable.dtos.TableColumnDto;
-import com.lacv.jmagrexs.modules.leadtable.mappers.TableColumnMapper;
+import com.lacv.jmagrexs.modules.leadtable.model.dtos.TableColumnDto;
+import com.lacv.jmagrexs.modules.leadtable.model.mappers.TableColumnMapper;
 import com.lacv.jmagrexs.modules.leadtable.services.TableColumnService;
 import com.lacv.jmagrexs.controller.view.ExtEntityController;
 import com.lacv.jmagrexs.dto.MenuItem;

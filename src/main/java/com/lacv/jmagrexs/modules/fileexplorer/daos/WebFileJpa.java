@@ -5,7 +5,7 @@
  */
 package com.lacv.jmagrexs.modules.fileexplorer.daos;
 
-import com.lacv.jmagrexs.modules.fileexplorer.entities.WebFile;
+import com.lacv.jmagrexs.modules.fileexplorer.model.entities.WebFile;
 import com.lacv.jmagrexs.dao.GenericDao;
 
 /**

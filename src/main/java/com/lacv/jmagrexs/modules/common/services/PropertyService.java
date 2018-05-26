@@ -6,7 +6,7 @@
 
 package com.lacv.jmagrexs.modules.common.services;
 
-import com.lacv.jmagrexs.modules.common.entities.Property;
+import com.lacv.jmagrexs.modules.common.model.entities.Property;
 import com.lacv.jmagrexs.service.EntityService;
 import java.math.BigInteger;
 import java.sql.Time;

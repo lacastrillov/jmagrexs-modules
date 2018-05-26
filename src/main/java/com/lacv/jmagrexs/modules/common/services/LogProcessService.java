@@ -6,7 +6,7 @@
 
 package com.lacv.jmagrexs.modules.common.services;
 
-import com.lacv.jmagrexs.modules.common.entities.LogProcess;
+import com.lacv.jmagrexs.modules.common.model.entities.LogProcess;
 import com.lacv.jmagrexs.service.EntityService;
 
 

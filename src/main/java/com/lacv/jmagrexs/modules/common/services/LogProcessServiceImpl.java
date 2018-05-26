@@ -8,10 +8,10 @@ package com.lacv.jmagrexs.modules.common.services;
 
 
 import com.lacv.jmagrexs.modules.common.daos.LogProcessJpa;
-import com.lacv.jmagrexs.modules.common.entities.LogProcess;
-import com.lacv.jmagrexs.modules.common.mappers.LogProcessMapper;
-import com.lacv.jmagrexs.modules.common.services.LogProcessService;
+import com.lacv.jmagrexs.modules.common.model.mappers.LogProcessMapper;
 import com.lacv.jmagrexs.dao.GenericDao;
+import com.lacv.jmagrexs.mapper.EntityMapper;
+import com.lacv.jmagrexs.modules.common.model.entities.LogProcess;
 import com.lacv.jmagrexs.service.EntityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +32,11 @@ public class LogProcessServiceImpl extends EntityServiceImpl<LogProcess> impleme
     @Override
     public GenericDao getGenericDao(){
         return logProcessJpa;
+    }
+    
+    @Override
+    public EntityMapper getEntityMapper(){
+        return logProcessMapper;
     }
     
 }

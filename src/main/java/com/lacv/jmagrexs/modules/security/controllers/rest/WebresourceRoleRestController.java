@@ -7,7 +7,7 @@
 package com.lacv.jmagrexs.modules.security.controllers.rest;
 
 
-import com.lacv.jmagrexs.modules.security.mappers.WebresourceRoleMapper;
+import com.lacv.jmagrexs.modules.security.model.mappers.WebresourceRoleMapper;
 import com.lacv.jmagrexs.modules.security.services.WebresourceRoleService;
 import com.lacv.jmagrexs.controller.rest.RestEntityController;
 import javax.annotation.PostConstruct;

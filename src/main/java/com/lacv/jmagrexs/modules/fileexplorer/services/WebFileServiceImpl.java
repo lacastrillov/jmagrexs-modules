@@ -8,15 +8,16 @@ package com.lacv.jmagrexs.modules.fileexplorer.services;
 
 
 import com.lacv.jmagrexs.modules.fileexplorer.daos.WebFileJpa;
-import com.lacv.jmagrexs.modules.fileexplorer.entities.WebFile;
-import com.lacv.jmagrexs.modules.fileexplorer.mappers.WebFileMapper;
+import com.lacv.jmagrexs.modules.fileexplorer.model.mappers.WebFileMapper;
 import com.lacv.jmagrexs.dao.GenericDao;
 import com.lacv.jmagrexs.dao.Parameters;
 import com.lacv.jmagrexs.service.EntityServiceImpl;
 import com.lacv.jmagrexs.util.FileService;
 import com.lacv.jmagrexs.util.Formats;
 import com.google.api.services.storage.model.StorageObject;
+import com.lacv.jmagrexs.mapper.EntityMapper;
 import com.lacv.jmagrexs.modules.fileexplorer.constants.ExplorerConstants;
+import com.lacv.jmagrexs.modules.fileexplorer.model.entities.WebFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -47,6 +48,11 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
     @Override
     public GenericDao getGenericDao(){
         return webFileJpa;
+    }
+    
+    @Override
+    public EntityMapper getEntityMapper() {
+        return webFileMapper;
     }
     
     

@@ -5,7 +5,7 @@
  */
 package com.lacv.jmagrexs.modules.common.daos;
 
-import com.lacv.jmagrexs.modules.common.entities.LogProcess;
+import com.lacv.jmagrexs.modules.common.model.entities.LogProcess;
 import com.lacv.jmagrexs.dao.GenericDao;
 
 /**

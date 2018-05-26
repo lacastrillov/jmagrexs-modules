@@ -6,8 +6,8 @@
 
 package com.lacv.jmagrexs.modules.mail.controllers.view;
 
-import com.lacv.jmagrexs.modules.mail.dtos.MailTemplateDto;
-import com.lacv.jmagrexs.modules.mail.mappers.MailTemplateMapper;
+import com.lacv.jmagrexs.modules.mail.model.dtos.MailTemplateDto;
+import com.lacv.jmagrexs.modules.mail.model.mappers.MailTemplateMapper;
 import com.lacv.jmagrexs.modules.mail.services.MailTemplateService;
 import com.lacv.jmagrexs.controller.view.ExtEntityController;
 import com.lacv.jmagrexs.dto.MenuItem;

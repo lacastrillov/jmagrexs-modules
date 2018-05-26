@@ -6,7 +6,7 @@
 
 package com.lacv.jmagrexs.modules.fileexplorer.services;
 
-import com.lacv.jmagrexs.modules.fileexplorer.entities.WebFile;
+import com.lacv.jmagrexs.modules.fileexplorer.model.entities.WebFile;
 import com.lacv.jmagrexs.service.EntityService;
 import com.google.api.services.storage.model.StorageObject;
 import java.io.IOException;

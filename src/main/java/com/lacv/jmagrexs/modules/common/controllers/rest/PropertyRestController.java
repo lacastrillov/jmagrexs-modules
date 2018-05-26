@@ -7,7 +7,7 @@
 package com.lacv.jmagrexs.modules.common.controllers.rest;
 
 
-import com.lacv.jmagrexs.modules.common.mappers.PropertyMapper;
+import com.lacv.jmagrexs.modules.common.model.mappers.PropertyMapper;
 import com.lacv.jmagrexs.modules.common.services.PropertyService;
 import com.lacv.jmagrexs.controller.rest.RestEntityController;
 import javax.annotation.PostConstruct;

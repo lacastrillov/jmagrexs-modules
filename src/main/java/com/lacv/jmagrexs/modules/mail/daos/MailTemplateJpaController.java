@@ -5,7 +5,7 @@
 package com.lacv.jmagrexs.modules.mail.daos;
 
 
-import com.lacv.jmagrexs.modules.mail.entities.MailTemplate;
+import com.lacv.jmagrexs.modules.mail.model.entities.MailTemplate;
 import com.lacv.jmagrexs.dao.JPAGenericDao;
 import org.springframework.stereotype.Repository;
 

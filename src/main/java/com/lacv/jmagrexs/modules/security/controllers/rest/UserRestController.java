@@ -9,10 +9,10 @@ package com.lacv.jmagrexs.modules.security.controllers.rest;
 
 import com.lacv.jmagrexs.controller.rest.RestSessionController;
 import com.lacv.jmagrexs.domain.BaseEntity;
-import com.lacv.jmagrexs.modules.security.entities.User;
-import com.lacv.jmagrexs.modules.security.mappers.UserMapper;
+import com.lacv.jmagrexs.modules.fileexplorer.model.entities.WebFile;
+import com.lacv.jmagrexs.modules.security.model.entities.User;
+import com.lacv.jmagrexs.modules.security.model.mappers.UserMapper;
 import com.lacv.jmagrexs.modules.security.services.UserService;
-import com.lacv.jmagrexs.modules.fileexplorer.entities.WebFile;
 import com.lacv.jmagrexs.modules.fileexplorer.services.WebFileService;
 import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import java.io.InputStream;

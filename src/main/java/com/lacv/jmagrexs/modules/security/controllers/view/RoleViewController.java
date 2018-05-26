@@ -6,13 +6,13 @@
 
 package com.lacv.jmagrexs.modules.security.controllers.view;
 
-import com.lacv.jmagrexs.modules.security.dtos.RoleDto;
-import com.lacv.jmagrexs.modules.security.mappers.RoleMapper;
+import com.lacv.jmagrexs.modules.security.model.dtos.RoleDto;
+import com.lacv.jmagrexs.modules.security.model.mappers.RoleMapper;
 import com.lacv.jmagrexs.modules.security.services.RoleService;
 import com.lacv.jmagrexs.controller.view.ExtEntityController;
 import com.lacv.jmagrexs.dto.MenuItem;
 import com.lacv.jmagrexs.dto.config.EntityConfig;
-import com.lacv.jmagrexs.modules.security.entities.RoleAuthorization;
+import com.lacv.jmagrexs.modules.security.model.entities.RoleAuthorization;
 import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import java.util.List;
 import javax.annotation.PostConstruct;

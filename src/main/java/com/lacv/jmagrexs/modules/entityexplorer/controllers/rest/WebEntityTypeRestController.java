@@ -7,7 +7,7 @@
 package com.lacv.jmagrexs.modules.entityexplorer.controllers.rest;
 
 
-import com.lacv.jmagrexs.modules.entityexplorer.mappers.WebEntityTypeMapper;
+import com.lacv.jmagrexs.modules.entityexplorer.model.mappers.WebEntityTypeMapper;
 import com.lacv.jmagrexs.modules.entityexplorer.services.WebEntityTypeService;
 import com.lacv.jmagrexs.controller.rest.RestEntityController;
 import java.io.InputStream;

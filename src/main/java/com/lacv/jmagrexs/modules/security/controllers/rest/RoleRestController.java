@@ -7,11 +7,11 @@
 package com.lacv.jmagrexs.modules.security.controllers.rest;
 
 
-import com.lacv.jmagrexs.modules.security.mappers.RoleMapper;
 import com.lacv.jmagrexs.modules.security.services.RoleService;
 import com.lacv.jmagrexs.controller.rest.RestSessionController;
 import com.lacv.jmagrexs.domain.BaseEntity;
-import com.lacv.jmagrexs.modules.security.entities.UserRole;
+import com.lacv.jmagrexs.modules.security.model.entities.UserRole;
+import com.lacv.jmagrexs.modules.security.model.mappers.RoleMapper;
 import com.lacv.jmagrexs.modules.security.services.UserRoleService;
 import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import java.util.List;

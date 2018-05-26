@@ -8,10 +8,10 @@ package com.lacv.jmagrexs.modules.entityexplorer.services;
 
 
 import com.lacv.jmagrexs.modules.entityexplorer.daos.WebEntityTypeJpa;
-import com.lacv.jmagrexs.modules.entityexplorer.entities.WebEntityType;
-import com.lacv.jmagrexs.modules.entityexplorer.mappers.WebEntityTypeMapper;
-import com.lacv.jmagrexs.modules.entityexplorer.services.WebEntityTypeService;
+import com.lacv.jmagrexs.modules.entityexplorer.model.mappers.WebEntityTypeMapper;
 import com.lacv.jmagrexs.dao.GenericDao;
+import com.lacv.jmagrexs.mapper.EntityMapper;
+import com.lacv.jmagrexs.modules.entityexplorer.model.entities.WebEntityType;
 import com.lacv.jmagrexs.service.EntityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +32,11 @@ public class WebEntityTypeServiceImpl extends EntityServiceImpl<WebEntityType> i
     @Override
     public GenericDao getGenericDao(){
         return webEntityTypeJpa;
+    }
+    
+    @Override
+    public EntityMapper getEntityMapper() {
+        return webEntityTypeMapper;
     }
     
 }

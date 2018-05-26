@@ -6,14 +6,14 @@
 
 package com.lacv.jmagrexs.modules.security.controllers.view;
 
-import com.lacv.jmagrexs.modules.security.dtos.WebResourceDto;
-import com.lacv.jmagrexs.modules.security.mappers.WebResourceMapper;
+import com.lacv.jmagrexs.modules.security.model.dtos.WebResourceDto;
+import com.lacv.jmagrexs.modules.security.model.mappers.WebResourceMapper;
 import com.lacv.jmagrexs.modules.security.services.WebResourceService;
 import com.lacv.jmagrexs.controller.view.ExtEntityController;
 import com.lacv.jmagrexs.dto.MenuItem;
 import com.lacv.jmagrexs.dto.config.EntityConfig;
-import com.lacv.jmagrexs.modules.security.entities.WebresourceAuthorization;
-import com.lacv.jmagrexs.modules.security.entities.WebresourceRole;
+import com.lacv.jmagrexs.modules.security.model.entities.WebresourceAuthorization;
+import com.lacv.jmagrexs.modules.security.model.entities.WebresourceRole;
 import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import java.util.List;
 import javax.annotation.PostConstruct;

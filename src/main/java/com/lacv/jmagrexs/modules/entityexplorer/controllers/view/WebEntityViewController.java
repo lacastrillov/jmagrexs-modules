@@ -6,8 +6,8 @@
 
 package com.lacv.jmagrexs.modules.entityexplorer.controllers.view;
 
-import com.lacv.jmagrexs.modules.entityexplorer.dtos.WebEntityDto;
-import com.lacv.jmagrexs.modules.entityexplorer.mappers.WebEntityMapper;
+import com.lacv.jmagrexs.modules.entityexplorer.model.dtos.WebEntityDto;
+import com.lacv.jmagrexs.modules.entityexplorer.model.mappers.WebEntityMapper;
 import com.lacv.jmagrexs.controller.view.ExtEntityExplorerController;
 import com.lacv.jmagrexs.dto.GridTemplate;
 import com.lacv.jmagrexs.dto.MenuItem;

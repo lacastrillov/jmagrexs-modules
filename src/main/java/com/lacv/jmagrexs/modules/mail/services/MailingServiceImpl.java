@@ -1,10 +1,8 @@
 
 package com.lacv.jmagrexs.modules.mail.services;
 
-import com.lacv.jmagrexs.modules.mail.entities.Mail;
-import com.lacv.jmagrexs.modules.mail.entities.MailTemplate;
-import com.lacv.jmagrexs.modules.mail.services.MailService;
-import com.lacv.jmagrexs.modules.mail.services.MailTemplateService;
+import com.lacv.jmagrexs.modules.mail.model.entities.Mail;
+import com.lacv.jmagrexs.modules.mail.model.entities.MailTemplate;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.logging.Level;
@@ -26,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
-import com.lacv.jmagrexs.modules.mail.services.MailingService;
 import java.util.Map;
 import org.springframework.web.util.HtmlUtils;
 

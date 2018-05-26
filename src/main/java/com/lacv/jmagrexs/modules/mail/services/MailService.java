@@ -6,7 +6,7 @@
 
 package com.lacv.jmagrexs.modules.mail.services;
 
-import com.lacv.jmagrexs.modules.mail.entities.Mail;
+import com.lacv.jmagrexs.modules.mail.model.entities.Mail;
 import com.lacv.jmagrexs.service.EntityService;
 
 

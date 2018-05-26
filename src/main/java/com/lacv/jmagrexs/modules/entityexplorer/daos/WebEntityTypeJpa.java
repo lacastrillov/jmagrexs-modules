@@ -5,7 +5,7 @@
  */
 package com.lacv.jmagrexs.modules.entityexplorer.daos;
 
-import com.lacv.jmagrexs.modules.entityexplorer.entities.WebEntityType;
+import com.lacv.jmagrexs.modules.entityexplorer.model.entities.WebEntityType;
 import com.lacv.jmagrexs.dao.GenericDao;
 
 /**

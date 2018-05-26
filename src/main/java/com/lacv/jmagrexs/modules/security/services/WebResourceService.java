@@ -6,7 +6,7 @@
 
 package com.lacv.jmagrexs.modules.security.services;
 
-import com.lacv.jmagrexs.modules.security.entities.WebResource;
+import com.lacv.jmagrexs.modules.security.model.entities.WebResource;
 import com.lacv.jmagrexs.service.EntityService;
 
 

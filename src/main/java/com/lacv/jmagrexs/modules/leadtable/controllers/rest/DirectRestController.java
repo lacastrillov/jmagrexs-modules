@@ -8,8 +8,8 @@ package com.lacv.jmagrexs.modules.leadtable.controllers.rest;
 
 
 import com.lacv.jmagrexs.controller.rest.RestDirectController;
+import com.lacv.jmagrexs.modules.fileexplorer.model.entities.WebFile;
 import com.lacv.jmagrexs.service.JdbcDirectService;
-import com.lacv.jmagrexs.modules.fileexplorer.entities.WebFile;
 import com.lacv.jmagrexs.modules.fileexplorer.services.WebFileService;
 import java.io.InputStream;
 import java.util.Map;

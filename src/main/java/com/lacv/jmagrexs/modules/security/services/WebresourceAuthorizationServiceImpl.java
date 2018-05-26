@@ -8,10 +8,10 @@ package com.lacv.jmagrexs.modules.security.services;
 
 
 import com.lacv.jmagrexs.modules.security.daos.WebresourceAuthorizationJpa;
-import com.lacv.jmagrexs.modules.security.entities.WebresourceAuthorization;
-import com.lacv.jmagrexs.modules.security.mappers.WebresourceAuthorizationMapper;
-import com.lacv.jmagrexs.modules.security.services.WebresourceAuthorizationService;
+import com.lacv.jmagrexs.modules.security.model.mappers.WebresourceAuthorizationMapper;
 import com.lacv.jmagrexs.dao.GenericDao;
+import com.lacv.jmagrexs.mapper.EntityMapper;
+import com.lacv.jmagrexs.modules.security.model.entities.WebresourceAuthorization;
 import com.lacv.jmagrexs.service.EntityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +32,11 @@ public class WebresourceAuthorizationServiceImpl extends EntityServiceImpl<Webre
     @Override
     public GenericDao getGenericDao(){
         return webresourceAuthorizationJpa;
+    }
+
+    @Override
+    public EntityMapper getEntityMapper() {
+        return webresourceAuthorizationMapper;
     }
     
 }

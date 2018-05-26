@@ -6,14 +6,14 @@
 
 package com.lacv.jmagrexs.modules.leadtable.controllers.rest;
 
-import com.lacv.jmagrexs.modules.leadtable.mappers.LeadTableMapper;
+import com.lacv.jmagrexs.modules.leadtable.model.mappers.LeadTableMapper;
 import com.lacv.jmagrexs.modules.leadtable.services.LeadTableService;
 import com.lacv.jmagrexs.controller.rest.RestEntityController;
 import com.lacv.jmagrexs.dto.GenericTableColumn;
 import com.lacv.jmagrexs.service.JdbcDirectService;
 import com.lacv.jmagrexs.util.Formats;
-import com.lacv.jmagrexs.modules.leadtable.entities.LeadTable;
-import com.lacv.jmagrexs.modules.leadtable.entities.TableColumn;
+import com.lacv.jmagrexs.modules.leadtable.model.entities.LeadTable;
+import com.lacv.jmagrexs.modules.leadtable.model.entities.TableColumn;
 import com.lacv.jmagrexs.modules.leadtable.services.TableColumnService;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;

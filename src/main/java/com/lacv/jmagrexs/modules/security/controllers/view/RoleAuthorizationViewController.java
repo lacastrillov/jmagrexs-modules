@@ -6,8 +6,8 @@
 
 package com.lacv.jmagrexs.modules.security.controllers.view;
 
-import com.lacv.jmagrexs.modules.security.dtos.RoleAuthorizationDto;
-import com.lacv.jmagrexs.modules.security.mappers.RoleAuthorizationMapper;
+import com.lacv.jmagrexs.modules.security.model.dtos.RoleAuthorizationDto;
+import com.lacv.jmagrexs.modules.security.model.mappers.RoleAuthorizationMapper;
 import com.lacv.jmagrexs.modules.security.services.RoleAuthorizationService;
 import com.lacv.jmagrexs.controller.view.ExtEntityController;
 import com.lacv.jmagrexs.dto.config.EntityConfig;

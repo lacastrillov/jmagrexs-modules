@@ -6,7 +6,7 @@
 
 package com.lacv.jmagrexs.modules.entityexplorer.services;
 
-import com.lacv.jmagrexs.modules.entityexplorer.entities.WebEntityType;
+import com.lacv.jmagrexs.modules.entityexplorer.model.entities.WebEntityType;
 import com.lacv.jmagrexs.service.EntityService;
 
 

@@ -8,10 +8,10 @@ package com.lacv.jmagrexs.modules.mail.services;
 
 
 import com.lacv.jmagrexs.modules.mail.daos.MailTemplateJpa;
-import com.lacv.jmagrexs.modules.mail.entities.MailTemplate;
-import com.lacv.jmagrexs.modules.mail.mappers.MailTemplateMapper;
-import com.lacv.jmagrexs.modules.mail.services.MailTemplateService;
+import com.lacv.jmagrexs.modules.mail.model.mappers.MailTemplateMapper;
 import com.lacv.jmagrexs.dao.GenericDao;
+import com.lacv.jmagrexs.mapper.EntityMapper;
+import com.lacv.jmagrexs.modules.mail.model.entities.MailTemplate;
 import com.lacv.jmagrexs.service.EntityServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +32,11 @@ public class MailTemplateServiceImpl extends EntityServiceImpl<MailTemplate> imp
     @Override
     public GenericDao getGenericDao(){
         return mailTemplateJpa;
+    }
+
+    @Override
+    public EntityMapper getEntityMapper() {
+        return mailTemplateMapper;
     }
     
 }

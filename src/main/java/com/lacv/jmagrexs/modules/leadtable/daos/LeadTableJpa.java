@@ -5,7 +5,7 @@
  */
 package com.lacv.jmagrexs.modules.leadtable.daos;
 
-import com.lacv.jmagrexs.modules.leadtable.entities.LeadTable;
+import com.lacv.jmagrexs.modules.leadtable.model.entities.LeadTable;
 import com.lacv.jmagrexs.dao.GenericDao;
 
 /**

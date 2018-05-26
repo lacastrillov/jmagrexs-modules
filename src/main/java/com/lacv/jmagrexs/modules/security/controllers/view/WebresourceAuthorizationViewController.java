@@ -6,8 +6,8 @@
 
 package com.lacv.jmagrexs.modules.security.controllers.view;
 
-import com.lacv.jmagrexs.modules.security.dtos.WebresourceAuthorizationDto;
-import com.lacv.jmagrexs.modules.security.mappers.WebresourceAuthorizationMapper;
+import com.lacv.jmagrexs.modules.security.model.dtos.WebresourceAuthorizationDto;
+import com.lacv.jmagrexs.modules.security.model.mappers.WebresourceAuthorizationMapper;
 import com.lacv.jmagrexs.modules.security.services.WebresourceAuthorizationService;
 import com.lacv.jmagrexs.controller.view.ExtEntityController;
 import com.lacv.jmagrexs.dto.config.EntityConfig;
