@@ -48,7 +48,7 @@ public class MailViewController extends ExtEntityController {
         
         MenuItem menuParent= new MenuItem("Sistema");
         MenuItem menuParent1= new MenuItem("Correos");
-        MenuItem menuItem= new MenuItem("mail", "Gestionar Correos");
+        MenuItem menuItem= new MenuItem("mail", "Gestionar Correos", 1);
         menuParent1.addSubMenu(menuItem);
         menuParent.addSubMenu(menuParent1);
         menuComponent.addItemMenu(menuParent);
