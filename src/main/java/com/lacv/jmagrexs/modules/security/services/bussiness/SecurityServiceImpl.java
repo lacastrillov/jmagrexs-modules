@@ -5,6 +5,7 @@
  */
 package com.lacv.jmagrexs.modules.security.services.bussiness;
 
+import com.google.gson.Gson;
 import com.lacv.jmagrexs.dto.MenuItem;
 import com.lacv.jmagrexs.dto.UserByToken;
 import com.lacv.jmagrexs.modules.security.constants.SecurityConstants;
@@ -12,12 +13,8 @@ import com.lacv.jmagrexs.util.AESEncrypt;
 import com.lacv.jmagrexs.util.JwtUtil;
 import com.lacv.jmagrexs.modules.security.model.dtos.security.UserDetailsDto;
 import com.lacv.jmagrexs.modules.security.model.dtos.security.WebResourceAuthorities;
-import com.lacv.jmagrexs.modules.security.model.entities.RoleAuthorization;
 import com.lacv.jmagrexs.modules.security.model.entities.User;
 import com.lacv.jmagrexs.modules.security.model.entities.UserRole;
-import com.lacv.jmagrexs.modules.security.model.entities.WebResource;
-import com.lacv.jmagrexs.modules.security.model.entities.WebresourceAuthorization;
-import com.lacv.jmagrexs.modules.security.model.entities.WebresourceRole;
 import com.lacv.jmagrexs.modules.security.services.RoleAuthorizationService;
 import com.lacv.jmagrexs.modules.security.services.UserRoleService;
 import com.lacv.jmagrexs.modules.security.services.UserService;
@@ -166,12 +163,13 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
         List<UserRole> userRoles = userRoleService.findByParameter("user", user);
         for (UserRole usuerRoleList : userRoles) {
             authorities.add(new SimpleGrantedAuthority("ROLE_"+usuerRoleList.getRole().getName()));
-            List<RoleAuthorization> roleAuthorizationList= roleAuthorizationService.findByParameter("role", usuerRoleList.getRole());
-            for(RoleAuthorization roleAuthorization: roleAuthorizationList){
-                if(authorities.contains(new SimpleGrantedAuthority("OP_"+roleAuthorization.getAuthorization().getName()))==false){
-                    authorities.add(new SimpleGrantedAuthority("OP_"+roleAuthorization.getAuthorization().getName()));
-                }
-            }
+        }
+        
+        Map mapParameters= new HashMap();
+        mapParameters.put("userId", user.getId());
+        List<Map<String,Object>> authorizations= webResourceService.findByNameQuery("authorizations", mapParameters);
+        for (Map<String,Object> authorization : authorizations) {
+            authorities.add(new SimpleGrantedAuthority("OP_"+authorization.get("name")));
         }
         
         return authorities;
@@ -367,27 +365,46 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
         LOGGER.info("Reconfigure Access Control...");
         specificWebResources= new HashMap<>();
         generalWebResources= new HashMap<>();
-        List<WebResource> webResources= webResourceService.listAll();
         
-        for(WebResource webResource: webResources){
-            List<WebresourceAuthorization> webResourceAuthorizationList= webResourceAuthorizationService.findByParameter("webResource", webResource);
-            List<WebresourceRole> webResourceRoleList= webResourceRoleService.findByParameter("webResource", webResource);
+        List<Map<String,Object>> webResourceAuthorityList= webResourceService.findByNameQuery("webResourceAuthorities", new HashMap());
+        
+        for(Map<String,Object> wra: webResourceAuthorityList){
+            String path= (String) wra.get("path");
+            Integer isPublic= (Integer) wra.get("is_public");
+            String type= (String) wra.get("type");
+            String level= (String) wra.get("level");
+            String authority= (String) wra.get("authority");
             
-            WebResourceAuthorities webResourceAuthorities= new WebResourceAuthorities(webResource.getPath());
-            webResourceAuthorities.setIsPublic(webResource.getIsPublic());
-            for(WebresourceAuthorization webresourceAuthorization: webResourceAuthorizationList){
-                webResourceAuthorities.addAuthorization(webresourceAuthorization.getAuthorization().getName());
-            }
-            for(WebresourceRole webresourceRole: webResourceRoleList){
-                webResourceAuthorities.addRole(webresourceRole.getRole().getName());
-            }
-            
-            if(webResource.getType().equals("specific")){
-                specificWebResources.put(webResource.getPath(), webResourceAuthorities);
-            }else{
-                generalWebResources.put(webResource.getPath(), webResourceAuthorities);
+            if(type.equals("specific")){
+                if(specificWebResources.get(path)==null){
+                    WebResourceAuthorities webResourceAuthorities= new WebResourceAuthorities(path);
+                    webResourceAuthorities.setIsPublic(isPublic==1);
+                    specificWebResources.put(path, webResourceAuthorities);
+                }
+                if(level.equals("authorization")){
+                    specificWebResources.get(path).addAuthorization(authority);
+                }else{
+                    specificWebResources.get(path).addRole(authority);
+                }
+            }else if(type.equals("general")){
+                if(generalWebResources.get(path)==null){
+                    WebResourceAuthorities webResourceAuthorities= new WebResourceAuthorities(path);
+                    webResourceAuthorities.setIsPublic(isPublic==1);
+                    generalWebResources.put(path, webResourceAuthorities);
+                }
+                if(level.equals("authorization")){
+                    generalWebResources.get(path).addAuthorization(authority);
+                }else{
+                    generalWebResources.get(path).addRole(authority);
+                }
             }
         }
+        
+        Gson gs= new Gson();
+        LOGGER.info("########### SPECIFIC WEB RESOURCE ###########");
+        LOGGER.info(gs.toJson(specificWebResources));
+        LOGGER.info("########### GENERAL WEB RESOURCE ###########");
+        LOGGER.info(gs.toJson(generalWebResources));
     }
     
     @Override

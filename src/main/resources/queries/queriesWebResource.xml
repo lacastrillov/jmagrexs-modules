@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    
+    <bean id="queriesWebResource" class="java.util.HashMap">
+        <constructor-arg>
+            <map>
+                <entry key="authorizations">
+                    <value>
+                        select a.name from role_authorization ra
+                        join authorization a on ra.authorization_id= a.id
+                        where ra.role_id in (select idrole from user_role where iduser=:userId)
+                    </value>
+                </entry>
+                <entry key="webResourceAuthorities">
+                    <value>
+                        select wr.*, 'authorization' as 'level', a.name as authority from webresource_authorization wra
+                        join web_resource wr on wr.id= wra.webresource_id
+                        join authorization a on a.id= wra.authorization_id
+                        union
+                        select wr.*, 'role' as 'level', r.name as authority from webresource_role wrr
+                        join web_resource wr on wr.id= wrr.webresource_id
+                        join role r on r.id= wrr.role_id
+                    </value>
+                </entry>
+            </map>
+        </constructor-arg>
+    </bean>
+    
+</beans>
