@@ -5,6 +5,7 @@
  */
 package com.lacv.jmagrexs.modules.leadtable.model.entities;
 
+import com.lacv.jmagrexs.components.ServerDomain;
 import com.lacv.jmagrexs.domain.BaseEntity;
 import java.util.List;
 import javax.persistence.Basic;
@@ -20,6 +21,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.ContextLoader;
 
 /**
  *
@@ -122,7 +125,10 @@ public class LeadTable implements BaseEntity {
     }
     
     public String getLink() {
-        return "<a href='/vista/direct/"+getTableAlias()+"/table.htm'>Ver registros</a>";
+        ApplicationContext ctx = ContextLoader.getCurrentWebApplicationContext();
+        ServerDomain serverDomain= (ServerDomain) ctx.getBean("serverDomain");
+        return "<a href='"+serverDomain.getApplicationContext() + serverDomain.getAdminContext() + serverDomain.getAdminPath()
+                +"/direct/"+getTableAlias()+"/table.htm'>Ver registros</a>";
     }
 
     public List<TableColumn> getTableColumnList() {
