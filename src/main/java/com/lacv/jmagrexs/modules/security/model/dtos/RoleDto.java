@@ -35,6 +35,7 @@ public class RoleDto implements BaseDto {
     @TextField("Descripci&oacute;n")
     private String description;
     
+    @ColumnWidth(300)
     @TextField("P&aacute;gina de Inicio")
     private String homePage;
     
