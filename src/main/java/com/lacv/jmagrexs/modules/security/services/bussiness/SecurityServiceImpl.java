@@ -150,7 +150,7 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
             JwtUtil jwt= new JwtUtil();
             long currentTime= new Date().getTime();
             UserByToken userByToken= jwt.parseToken(token, SecurityConstants.SECURITY_SEED_PASSW);
-            if(userByToken!=null && currentTime < userByToken.getExpiration()){
+            if(userByToken!=null && (userByToken.getExpiration()==-1 || currentTime < userByToken.getExpiration())){
                 return connect(userByToken.getUsername(), userByToken.getPassword());
             }
         }
@@ -214,17 +214,23 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
         JwtUtil jwt= new JwtUtil();
         User user= getCurrentUser();
         Date currentTime= new Date();
-        Calendar cal1 = Calendar.getInstance();
-        cal1.setTime(currentTime);
-        Calendar cal2 = Calendar.getInstance();
-        cal2.setTime(currentTime);
-        cal2.set(Calendar.MINUTE, cal2.get(Calendar.MINUTE)+minutesDuration);
         
         UserByToken userByToken= new UserByToken();
         userByToken.setUsername(user.getUsername());
         userByToken.setPassword(myInstance.decrypt(user.getPassword(), SecurityConstants.SECURITY_SEED_PASSW));
+        
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(currentTime);
         userByToken.setCreation(cal1.getTimeInMillis());
-        userByToken.setExpiration(cal2.getTimeInMillis());
+        
+        if(minutesDuration!=-1){
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTime(currentTime);
+            cal2.set(Calendar.MINUTE, cal2.get(Calendar.MINUTE)+minutesDuration);
+            userByToken.setExpiration(cal2.getTimeInMillis());
+        }else{
+            userByToken.setExpiration(minutesDuration);
+        }
         
         return jwt.generateToken(userByToken, SecurityConstants.SECURITY_SEED_PASSW);
     }
