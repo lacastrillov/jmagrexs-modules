@@ -418,4 +418,25 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
         return true;
     }
     
+    public static void main(String[] args){
+        AESEncrypt myInstance= AESEncrypt.getDefault(SecurityConstants.SECURITY_SALT);
+        String contrasena= myInstance.decrypt("SDBxlmqlQJGkhV6lD0rN/A==", SecurityConstants.SECURITY_SEED_PASSW);
+        System.out.println(contrasena);
+        
+        JwtUtil jwt= new JwtUtil();
+        Date currentTime= new Date();
+        
+        UserByToken userByToken= new UserByToken();
+        userByToken.setUsername("magento");
+        userByToken.setPassword("M493n70");
+        
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(currentTime);
+        userByToken.setCreation(cal1.getTimeInMillis());
+        userByToken.setExpiration(-1);
+        
+        String token= jwt.generateToken(userByToken, SecurityConstants.SECURITY_SEED_PASSW);
+        System.out.println(token);
+    }
+    
 }
