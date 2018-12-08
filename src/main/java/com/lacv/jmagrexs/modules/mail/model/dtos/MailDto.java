@@ -50,6 +50,7 @@ public class MailDto implements BaseDto {
     
     @Order(6)
     @TextField("Fecha Env&iacute;o")
+    @TypeFormField(FieldType.DATETIME)
     private Date sendDate;
     
     @Order(7)
