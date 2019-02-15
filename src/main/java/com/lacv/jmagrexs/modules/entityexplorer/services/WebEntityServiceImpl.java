@@ -190,7 +190,7 @@ public class WebEntityServiceImpl extends EntityServiceImpl<WebEntity> implement
             webEntity.setWebEntityType(webEntityType);
             webEntity.setModificationDate(new Date());
             webEntity.setWebEntity(parentWebEntity);
-            super.createForce(webEntity);
+            super.createForced(webEntity);
             
             return webEntity;
         }

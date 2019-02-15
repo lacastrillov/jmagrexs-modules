@@ -133,7 +133,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
             webFile.setModificationDate(new Date());
             webFile.setSize(1);
             webFile.setWebFile(parentWebFile);
-            super.createForce(webFile);
+            super.createForced(webFile);
 
             String path= webFile.getPath();
             String location= explorerConstants.LOCAL_DIR + ExplorerConstants.ROOT_FOLDER + path;
