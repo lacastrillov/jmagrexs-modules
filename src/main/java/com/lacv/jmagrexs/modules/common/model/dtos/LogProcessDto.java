@@ -52,6 +52,7 @@ public class LogProcessDto implements BaseDto {
     
     @Order(7)
     @TextField("Registration Date")
+    @TypeFormField(value = FieldType.DATETIME)
     private Date registrationDate;
     
     @Order(8)
