@@ -77,26 +77,31 @@ public class TableColumnDto implements BaseDto {
     
     @Order(8)
     @ColumnWidth(80)
+    @TextField("Unico")
+    private Boolean unique;
+    
+    @Order(9)
+    @ColumnWidth(80)
     @DefaultValue("200")
     @TextField("Ancho")
     private Integer width;
     
-    @Order(9)
+    @Order(10)
     @ColumnWidth(80)
     @DefaultValue("1")
     @TextField("Orden")
     private Integer columnOrder;
     
-    @Order(10)
+    @Order(11)
     @ColumnWidth(150)
     @TextField("Valor por defecto")
     private String defaultValue;
     
-    @Order(11)
+    @Order(12)
     @TextField("Opciones")
     private String options;
     
-    @Order(12)
+    @Order(13)
     @NotNull
     @TextField("Tabla Lead")
     private LeadTableDto leadTable;
@@ -172,6 +177,14 @@ public class TableColumnDto implements BaseDto {
 
     public void setNotNull(Boolean notNull) {
         this.notNull = notNull;
+    }
+    
+    public Boolean getUnique() {
+        return unique;
+    }
+
+    public void setUnique(Boolean unique) {
+        this.unique = unique;
     }
 
     public Integer getWidth() {

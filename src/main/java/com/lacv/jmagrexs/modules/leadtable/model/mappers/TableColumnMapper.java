@@ -38,6 +38,7 @@ public class TableColumnMapper extends EntityMapperImpl<TableColumn, TableColumn
             dto.setLeadTable(leadTableMapper.entityToDto(entity.getLeadTable()));
             dto.setName(entity.getName());
             dto.setNotNull(entity.getNotNull());
+            dto.setUnique(entity.getUnique());
             dto.setOptions(entity.getOptions());
             dto.setWidth(entity.getWidth());
         }
@@ -74,6 +75,7 @@ public class TableColumnMapper extends EntityMapperImpl<TableColumn, TableColumn
             entity.setLeadTable(leadTableMapper.dtoToEntity(dto.getLeadTable()));
             entity.setName(dto.getName());
             entity.setNotNull(dto.getNotNull());
+            entity.setUnique(dto.getUnique());
             entity.setOptions(dto.getOptions());
             entity.setWidth(dto.getWidth());
         }
