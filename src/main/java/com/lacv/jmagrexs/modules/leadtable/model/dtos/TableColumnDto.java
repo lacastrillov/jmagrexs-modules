@@ -78,7 +78,7 @@ public class TableColumnDto implements BaseDto {
     @Order(8)
     @ColumnWidth(80)
     @TextField("Unico")
-    private Boolean unique;
+    private Boolean isUnique;
     
     @Order(9)
     @ColumnWidth(80)
@@ -179,12 +179,12 @@ public class TableColumnDto implements BaseDto {
         this.notNull = notNull;
     }
     
-    public Boolean getUnique() {
-        return unique;
+    public Boolean getIsUnique() {
+        return isUnique;
     }
 
-    public void setUnique(Boolean unique) {
-        this.unique = unique;
+    public void setIsUnique(Boolean isUnique) {
+        this.isUnique = isUnique;
     }
 
     public Integer getWidth() {

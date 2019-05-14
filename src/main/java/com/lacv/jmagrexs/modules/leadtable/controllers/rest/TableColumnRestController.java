@@ -89,8 +89,8 @@ public class TableColumnRestController extends RestEntityController {
                 if(jsonColumn.has("notNull")){
                     column.setNotNull(jsonColumn.getBoolean("notNull"));
                 }
-                if(jsonColumn.has("unique")){
-                    column.setUnique(jsonColumn.getBoolean("unique"));
+                if(jsonColumn.has("isUnique")){
+                    column.setUnique(jsonColumn.getBoolean("isUnique"));
                 }
 
                 jdbcDirectService.addTableColumn(tableName, column);
@@ -144,8 +144,8 @@ public class TableColumnRestController extends RestEntityController {
                 if(jsonColumn.has("notNull")){
                     column.setNotNull(jsonColumn.getBoolean("notNull"));
                 }
-                if(jsonColumn.has("unique")){
-                    column.setUnique(jsonColumn.getBoolean("unique"));
+                if(jsonColumn.has("isUnique")){
+                    column.setUnique(jsonColumn.getBoolean("isUnique"));
                 }
                 
                 jdbcDirectService.changeTableColumn(tableName, oldColumnAlias, column);

@@ -58,8 +58,8 @@ public class TableColumn implements BaseEntity {
     private Integer columnSize;
     @Column(name = "not_null")
     private Boolean notNull;
-    @Column(name = "unique")
-    private Boolean unique;
+    @Column(name = "is_unique")
+    private Boolean isUnique;
     @Column(name = "width")
     private Integer width;
     @Column(name = "column_order")
@@ -146,12 +146,12 @@ public class TableColumn implements BaseEntity {
         this.notNull = notNull;
     }
     
-    public Boolean getUnique() {
-        return unique;
+    public Boolean getIsUnique() {
+        return this.isUnique;
     }
 
-    public void setUnique(Boolean unique) {
-        this.unique = unique;
+    public void setIsUnique(Boolean isUnique) {
+        this.isUnique = isUnique;
     }
 
     public Integer getWidth() {
