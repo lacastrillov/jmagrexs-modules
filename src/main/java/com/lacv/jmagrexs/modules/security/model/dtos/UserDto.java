@@ -6,6 +6,7 @@
 package com.lacv.jmagrexs.modules.security.model.dtos;
 
 import com.lacv.jmagrexs.annotation.ColumnWidth;
+import com.lacv.jmagrexs.annotation.GroupField;
 import com.lacv.jmagrexs.annotation.HideField;
 import com.lacv.jmagrexs.annotation.ImageResize;
 import com.lacv.jmagrexs.annotation.LabelField;
@@ -37,108 +38,144 @@ public class UserDto implements BaseDto {
     @Order(2)
     @Size(max=100)
     @NotNull
+    @GroupField("Datos Personales")
     @TextField("Nombre")
     private String firstName;
     
     @Order(3)
     @Size(max=100)
     @NotNull
+    @GroupField("Datos Personales")
     @TextField("Apellidos")
     private String lastName;
     
     @Order(4)
-    @TextField("Documento Id")
-    private Long idDocument;
-    
-    @Order(5)
     @TypeFormField(value = FieldType.LIST, data = {"CC:Cédula de ciudadania","TI:Tarjeta de identidad","CE:Cédula de Extranjeria","NIT:NIT","PAS:Pasaporte"})
+    @GroupField("Datos Personales")
     @TextField("Tipo Documento")
     private String documentType;
     
+    @Order(5)
+    @GroupField("Datos Personales")
+    @TextField("Documento Id")
+    private Long idDocument;
+    
     @Order(6)
-    @Size(max=100)
-    @TextField("Tel&eacute;fono")
-    private String phone;
-    
-    @Order(7)
-    @Size(max=100)
-    @TextField("Celular")
-    private String cell;
-    
-    @Order(8)
-    @Size(max=100)
-    @TypeFormField(FieldType.EMAIL)
-    @NotNull
-    @TextField("Correo")
-    private String email;
-    
-    @Order(9)
-    @Size(max=100)
-    @TextField("Usuario")
-    private String username;
-    
-    @Order(10)
-    @Size(max=60)
-    @TypeFormField(FieldType.PASSWORD)
-    @HideField({HideView.FILTER, HideView.GRID})
-    @ReadOnly
-    @TextField("Contrase&ntilde;a")
-    private String password;
-    
-    @Order(11)
-    @HideField({HideView.FILTER, HideView.GRID})
-    @TextField("Direcci&oacute;n")
-    private String address;
-    
-    @Order(12)
-    @TextField("Ciudad")
-    private String city;
-    
-    @Size(max=1)
-    @TypeFormField(value = FieldType.LIST, data = {"F", "M"})
-    @TextField("Genero")
-    private String gender;
-    
-    @Size(max=200)
-    @TypeFormField(FieldType.URL)
-    @HideField({HideView.FILTER})
-    @TextField("P&aacute;gina")
-    private String link;
-    
     @Size(max=200)
     @TypeFormField(FieldType.IMAGE_FILE_UPLOAD)
     @ImageResize({"300,300", "500,500", "800,800"})
     @HideField({HideView.GRID, HideView.FILTER})
+    @GroupField("Datos Personales")
     @TextField("Foto perfil")
     private String urlPhoto;
     
+    @Order(7)
+    @Size(max=1)
+    @TypeFormField(value = FieldType.LIST, data = {"F:Femenino", "M:Masculino"})
+    @GroupField("Datos Personales")
+    @TextField("Genero")
+    private String gender;
+    
+    @Order(8)
+    @HideField({HideView.FILTER, HideView.GRID})
+    @GroupField("Datos Personales")
     @TextField("Fecha Nacimieto")
     private Date birthday;
     
-    @TextField("Token Usuario")
+    @Order(9)
+    @Size(max=100)
+    @GroupField("Datos de Contacto")
+    @TextField("Tel&eacute;fono")
+    private String phone;
+    
+    @Order(10)
+    @Size(max=100)
+    @GroupField("Datos de Contacto")
+    @TextField("Celular")
+    private String cell;
+    
+    @Order(11)
+    @Size(max=100)
+    @NotNull
+    @TypeFormField(FieldType.EMAIL)
+    @GroupField("Datos de Contacto")
+    @TextField("Correo")
+    private String email;
+    
+    @Order(12)
+    @GroupField("Datos de Contacto")
+    @TextField("Ciudad")
+    private String city;
+    
+    @Order(13)
+    @HideField({HideView.FILTER, HideView.GRID})
+    @GroupField("Datos de Contacto")
+    @TextField("Direcci&oacute;n")
+    private String address;
+    
+    @Order(14)
+    @Size(max=100)
+    @GroupField("Datos de Cuenta")
+    @TextField("Usuario")
+    private String username;
+    
+    @Order(15)
+    @Size(max=60)
+    @ReadOnly
+    @TypeFormField(FieldType.PASSWORD)
+    @HideField({HideView.FILTER, HideView.GRID, HideView.FORM})
+    @GroupField("Datos de Cuenta")
+    @TextField("Contrase&ntilde;a")
+    private String password;
+    
+    @Order(16)
     @Size(max=200)
-    @HideField({HideView.FILTER, HideView.FORM})
+    @TypeFormField(FieldType.URL)
+    @HideField({HideView.GRID, HideView.FILTER})
+    @GroupField("Datos de Cuenta")
+    @TextField("P&aacute;gina")
+    private String link;
+    
+    @Order(17)
+    @Size(max=200)
+    @HideField({HideView.FILTER, HideView.GRID})
+    @GroupField("Datos de Cuenta")
+    @TextField("Token Usuario")
     private String tokenUser;
     
+    @Order(18)
     @Size(max=45)
     @TypeFormField(value = FieldType.MULTI_SELECT, data = {"Active", "Inactive", "Locked", "Deleted"})
+    @GroupField("Datos de Cuenta")
     @TextField("Estado")
     private String status;
     
+    @Order(19)
     @TextField("Verificado")
+    @GroupField("Datos de Cuenta")
     private Boolean verified;
     
+    @Order(20)
     @ReadOnly
+    @HideField({HideView.FILTER, HideView.GRID})
+    @GroupField("Datos de Cuenta")
     @TextField("Intentos fallidos")
     private Integer failedAttempts;
     
+    @Order(21)
+    @HideField({HideView.GRID})
+    @GroupField("Datos de Cuenta")
     @TextField("Expiraci&oacute;n contrase&ntilde;a")
     private Date passwordExpiration;
     
+    @Order(22)
+    @GroupField("Datos de Cuenta")
     @TextField("Fecha Registro")
     private Date registrationDate;
     
+    @Order(23)
     @ReadOnly
+    @GroupField("Datos de Cuenta")
     @TextField("Ultimo login")
     private Date lastLogin;
     

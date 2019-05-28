@@ -46,6 +46,7 @@ public class UserViewController extends ExtEntityController {
         view.setSingularEntityTitle("Usuario");
         view.setPluralEntityTitle("Usuarios");
         view.addChildExtView("userRole", UserRole.class, EntityConfig.TCV_N_TO_N);
+        view.setNumColumnsForm(2);
         view.setMultipartFormData(true);
         view.setVisibleSeeAllButton(true);
         
