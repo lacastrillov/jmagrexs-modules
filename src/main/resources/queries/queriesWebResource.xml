@@ -23,6 +23,11 @@
                         select wr.*, 'role' as 'level', r.name as authority from webresource_role wrr
                         join web_resource wr on wr.id= wrr.webresource_id
                         join role r on r.id= wrr.role_id
+                        union
+                        select wr.*, 'none' as 'level', 'none' as authority from web_resource wr
+                        left join webresource_authorization wra on wr.id= wra.webresource_id
+                        left join webresource_role wrr on wr.id= wrr.webresource_id
+                        where wra.webresource_id is null and wrr.webresource_id is null
                     </value>
                 </entry>
             </map>

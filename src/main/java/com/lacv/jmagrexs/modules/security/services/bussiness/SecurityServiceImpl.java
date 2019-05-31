@@ -389,7 +389,7 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
                 }
                 if(level.equals("authorization")){
                     specificWebResources.get(path).addAuthorization(authority);
-                }else{
+                }else if(level.equals("role")){
                     specificWebResources.get(path).addRole(authority);
                 }
             }else if(type.equals("general")){
@@ -400,7 +400,7 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
                 }
                 if(level.equals("authorization")){
                     generalWebResources.get(path).addAuthorization(authority);
-                }else{
+                }else if(level.equals("role")){
                     generalWebResources.get(path).addRole(authority);
                 }
             }
@@ -437,6 +437,6 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
         
         String token= jwt.generateToken(userByToken, SecurityConstants.SECURITY_SEED_PASSW);
         System.out.println(token);
-    }
+}
     
 }
