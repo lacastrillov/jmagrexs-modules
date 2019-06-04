@@ -59,11 +59,13 @@ public class WebEntityDto implements BaseDto {
     
     @Order(7)
     @ReadOnly
+    @TypeFormField(FieldType.DATETIME)
     @TextField("Fecha creaci&oacute;n")
     private Date creationDate;
     
     @Order(8)
     @ReadOnly
+    @TypeFormField(FieldType.DATETIME)
     @TextField("Fecha modificaci&oacute;n")
     private Date modificationDate;
     
