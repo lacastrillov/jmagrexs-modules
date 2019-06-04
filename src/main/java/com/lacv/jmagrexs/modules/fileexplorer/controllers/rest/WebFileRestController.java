@@ -161,9 +161,9 @@ public class WebFileRestController extends RestEntityController {
         return result;
     }
     
-    @RequestMapping(value = "/resizeimage/{maxWidth}/{maxHeight}.htm", method = {RequestMethod.GET})
+    @RequestMapping(value = "/resizeimage/{maxWidth}/{maxHeight}/{imageName:.+}", method = {RequestMethod.GET})
     @ResponseBody
-    public ResponseEntity<byte[]> resizeImage(@PathVariable int maxWidth, @PathVariable int maxHeight, @RequestParam String location) {
+    public ResponseEntity<byte[]> resizeImage(@PathVariable int maxWidth, @PathVariable int maxHeight, @PathVariable String imageName, @RequestParam String location) {
         final HttpHeaders headers = new HttpHeaders();
         try {
             String extension = FilenameUtils.getExtension(location);
