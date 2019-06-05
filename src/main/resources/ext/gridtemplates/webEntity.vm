@@ -3,11 +3,13 @@
     <a class="thumbnail col-xs-12"
     #if ($item.webEntityType.entityRef == "folder")
         href='#?filter={"eq":{"webEntity":${item.id}}}'
+        #set( $icon = "/libimg/icon_types/folder.png" )
     #else
         href='#?id=${item.id}&tab=1'
+        #set( $icon = "/img/icon_entities/${item.webEntityType.icon}.png" )
     #end
     >
-      <figure><img class="img-responsive" src="/img/icon_entities/${item.webEntityType.icon}.png" title="${item.webEntityType.entityName}" alt=""></figure>
+      <figure><img class="img-responsive" src="${icon}" title="${item.webEntityType.entityName}" alt=""></figure>
       <div class="cnt-usuario">
         <strong id="item_check_${item.id}">${item.name}</strong>
       </div>
