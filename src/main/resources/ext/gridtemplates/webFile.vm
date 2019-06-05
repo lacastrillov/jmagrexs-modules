@@ -13,7 +13,7 @@
         <figure><img class="img-responsive" src="/services/rest/webFile/resizeimage/200/100/${item.name}?location=${item.location}" alt=""></figure>
     #end
       <div class="cnt-usuario">
-        <strong>${item.name}</strong>
+        <strong id="item_check_${item.id}">${item.name}</strong>
       </div>
     </a>
 </article>

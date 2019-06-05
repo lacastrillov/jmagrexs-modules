@@ -9,7 +9,7 @@
     >
       <figure><img class="img-responsive" src="/img/icon_entities/${item.webEntityType.icon}.png" title="${item.webEntityType.entityName}" alt=""></figure>
       <div class="cnt-usuario">
-        <strong>${item.name}</strong>
+        <strong id="item_check_${item.id}">${item.name}</strong>
       </div>
     </a>
 </article>
