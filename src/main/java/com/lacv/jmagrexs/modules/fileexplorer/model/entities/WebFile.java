@@ -5,9 +5,8 @@
  */
 package com.lacv.jmagrexs.modules.fileexplorer.model.entities;
 
-import com.lacv.jmagrexs.components.ServerDomain;
+import com.lacv.jmagrexs.components.ExplorerConstants;
 import com.lacv.jmagrexs.domain.BaseEntity;
-import com.lacv.jmagrexs.modules.fileexplorer.constants.ExplorerConstants;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -178,8 +177,8 @@ public class WebFile implements BaseEntity {
     
     public String getLocation() {
         ApplicationContext ctx = ContextLoader.getCurrentWebApplicationContext();
-        ServerDomain serverDomain= (ServerDomain) ctx.getBean("serverDomain");
-        return serverDomain.getDomainWithPort() + "/" + ExplorerConstants.ROOT_FOLDER + getPath() + getName();
+        ExplorerConstants explorerConstants= (ExplorerConstants) ctx.getBean("explorerConstants");
+        return explorerConstants.getLocalStaticDomain() + "/" + explorerConstants.getLocalRootFolder() + getPath() + getName();
     }
     
     public String getPath(){

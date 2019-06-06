@@ -16,7 +16,7 @@ import com.lacv.jmagrexs.util.FileService;
 import com.lacv.jmagrexs.util.Formats;
 import com.google.api.services.storage.model.StorageObject;
 import com.lacv.jmagrexs.mapper.EntityMapper;
-import com.lacv.jmagrexs.modules.fileexplorer.constants.ExplorerConstants;
+import com.lacv.jmagrexs.components.ExplorerConstants;
 import com.lacv.jmagrexs.modules.fileexplorer.model.entities.WebFile;
 import java.io.IOException;
 import java.io.InputStream;
@@ -84,7 +84,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
         WebFile webFile= new WebFile();
         webFile.setWebFile(parentWebFile);
         String path= webFile.getPath();
-        String location= explorerConstants.LOCAL_DIR + ExplorerConstants.ROOT_FOLDER + path;
+        String location= explorerConstants.getLocalStaticFolder() + explorerConstants.getLocalRootFolder() + path;
 
         if(slice==0){
             webFile.setName(fileName);
@@ -136,7 +136,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
             super.createForced(webFile);
 
             String path= webFile.getPath();
-            String location= explorerConstants.LOCAL_DIR + ExplorerConstants.ROOT_FOLDER + path;
+            String location= explorerConstants.getLocalStaticFolder() + explorerConstants.getLocalRootFolder() + path;
             FileService.createFolder(location + webFile.getName());
             return webFile;
         }
@@ -159,7 +159,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
             super.create(webFile);
 
             String path= webFile.getPath();
-            String location= explorerConstants.LOCAL_DIR + ExplorerConstants.ROOT_FOLDER + path;
+            String location= explorerConstants.getLocalStaticFolder() + explorerConstants.getLocalRootFolder() + path;
             FileService.createFile(location + webFile.getName());
 
             return webFile;
