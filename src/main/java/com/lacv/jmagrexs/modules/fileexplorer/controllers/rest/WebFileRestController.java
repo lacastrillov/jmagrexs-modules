@@ -167,26 +167,38 @@ public class WebFileRestController extends RestEntityController {
         final HttpHeaders headers = new HttpHeaders();
         try {
             String extension = FilenameUtils.getExtension(location);
-            if (FileService.existsFileUrl(location)) {
-                System.out.println("imageExist= true");
-                String contentType = null;
-                if (extension.equalsIgnoreCase("png")) {
-                    contentType= MediaType.IMAGE_PNG_VALUE;
-                    headers.setContentType(MediaType.IMAGE_PNG);
-                } else if (extension.equalsIgnoreCase("gif")) {
-                    contentType= MediaType.IMAGE_GIF_VALUE;
-                    headers.setContentType(MediaType.IMAGE_GIF);
-                } else if (extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg")){
-                    contentType= MediaType.IMAGE_JPEG_VALUE;
-                    headers.setContentType(MediaType.IMAGE_JPEG);
-                }
-                
-                if(contentType!=null){
-                    URI uri = new URI(location.replace(" ", "%20"));
-                    URL url = uri.toURL();
-                    BufferedImage bufferedImage= ImageIO.read(url);
+            String contentType = null;
+            if (extension.equalsIgnoreCase("png")) {
+                contentType= MediaType.IMAGE_PNG_VALUE;
+                headers.setContentType(MediaType.IMAGE_PNG);
+            } else if (extension.equalsIgnoreCase("gif")) {
+                contentType= MediaType.IMAGE_GIF_VALUE;
+                headers.setContentType(MediaType.IMAGE_GIF);
+            } else if (extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg")){
+                contentType= MediaType.IMAGE_JPEG_VALUE;
+                headers.setContentType(MediaType.IMAGE_JPEG);
+            }
 
-                    //Obtener Imagen redimensionada
+            if(contentType!=null){
+                BufferedImage bufferedImage= null;
+                if(FileService.getDomainFromURL(location).equals(explorerConstants.getLocalStaticDomain())){
+                    location= location.replace(explorerConstants.getLocalStaticDomain(), explorerConstants.getLocalStaticFolder());
+                    if(FileService.existsFile(location)){
+                        System.out.println("imageExist= true");
+                        File imageFile= new File(location);
+                        bufferedImage= ImageIO.read(imageFile);
+                    }
+                }else{
+                    if (FileService.existsFileUrl(location)) {
+                        System.out.println("imageExist= true");
+                        URI uri = new URI(location.replace(" ", "%20"));
+                        URL url = uri.toURL();
+                        bufferedImage= ImageIO.read(url);
+                    }
+                }
+
+                //Obtener Imagen redimensionada
+                if(bufferedImage!=null){
                     BufferedImage resizeImage = FileService.resizeImage(bufferedImage, maxWidth, maxHeight);
                     InputStream is = FileService.bufferedImageToInputStream(resizeImage, contentType);
 
