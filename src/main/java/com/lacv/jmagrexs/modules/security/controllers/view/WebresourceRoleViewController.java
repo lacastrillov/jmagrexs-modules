@@ -34,8 +34,8 @@ public class WebresourceRoleViewController extends ExtEntityController {
     @PostConstruct
     public void init(){
         EntityConfig view= new EntityConfig("webresourceRole", webresourceRoleService, WebresourceRoleDto.class);
-        view.setSingularEntityTitle("Rol");
-        view.setPluralEntityTitle("Roles");
+        view.setSingularEntityTitle("Rol de Recurso Web");
+        view.setPluralEntityTitle("Roles de Recursos Web");
         view.activateNNMulticheckChild("role");
         super.addControlMapping(view);
     }

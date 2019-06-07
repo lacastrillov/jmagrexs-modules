@@ -34,8 +34,8 @@ public class RoleAuthorizationViewController extends ExtEntityController {
     @PostConstruct
     public void init(){
         EntityConfig view= new EntityConfig("roleAuthorization", roleAuthorizationService, RoleAuthorizationDto.class);
-        view.setSingularEntityTitle("Comercio");
-        view.setPluralEntityTitle("Comercios");
+        view.setSingularEntityTitle("Autorizaci&oacute;n de Rol");
+        view.setPluralEntityTitle("Autorizaciones de Roles");
         view.activateNNMulticheckChild("authorization");
         super.addControlMapping(view);
         

@@ -34,8 +34,8 @@ public class WebresourceAuthorizationViewController extends ExtEntityController 
     @PostConstruct
     public void init(){
         EntityConfig view= new EntityConfig("webresourceAuthorization", webresourceAuthorizationService, WebresourceAuthorizationDto.class);
-        view.setSingularEntityTitle("Autorizaci&oacute;n");
-        view.setPluralEntityTitle("Autorizaciones");
+        view.setSingularEntityTitle("Autorizaci&oacute;n de Recurso Web");
+        view.setPluralEntityTitle("Autorizaciones de Recursos Web");
         view.activateNNMulticheckChild("authorization");
         super.addControlMapping(view);
     }
