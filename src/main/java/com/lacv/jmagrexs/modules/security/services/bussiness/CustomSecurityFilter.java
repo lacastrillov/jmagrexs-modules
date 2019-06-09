@@ -16,6 +16,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 
@@ -46,15 +47,15 @@ public class CustomSecurityFilter extends GenericFilterBean {
     @Autowired
     ServerDomain serverDomain;
     
-    private String[] accessControlModifiers;
-    
     private List accessControlModifiersList;
+    
+    private List excludedResourcesList;
 
     private final ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
     
     @PostConstruct
     public void init(){
-        accessControlModifiers= new String[]{
+        accessControlModifiersList= Arrays.asList(new String[]{
             serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/create.htm",
             serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/update.htm",
             serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/delete.htm",
@@ -74,8 +75,11 @@ public class CustomSecurityFilter extends GenericFilterBean {
             serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceAuthorization/update.htm",
             serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceAuthorization/delete.htm",
             serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceAuthorization/delete/byfilter.htm",
-        };
-        accessControlModifiersList= Arrays.asList(accessControlModifiers);
+        });
+        
+        excludedResourcesList= Arrays.asList(new String[]{
+            "css", "js", "png", "jpg", "jpeg", "gif"
+        });
     }
 
     @Override
@@ -86,7 +90,7 @@ public class CustomSecurityFilter extends GenericFilterBean {
         serverDomain.initDomain(req);
         try {
             String requestURI= req.getRequestURI();
-            logger.info("CustomSecurityFilter IN: "+requestURI);
+            String extension= FilenameUtils.getExtension(requestURI);
             
             if(req.getHeader("Authorization")!=null){
                 securityService.connect(req.getHeader("Authorization"));
@@ -94,19 +98,25 @@ public class CustomSecurityFilter extends GenericFilterBean {
                 securityService.connectByToken(req.getHeader("Auth-Token"));
             }
             
-            boolean continueAccess= securityService.checkAccessResource(requestURI);
-            
-            if(continueAccess){
-                chain.doFilter(request, response);
-                
-                if(accessControlModifiersList.contains(requestURI)){
-                    securityService.reconfigureAccessControl();
-                    replicateAccessControl();
+            if(!excludedResourcesList.contains(extension)){
+                boolean continueAccess= securityService.checkAccessResource(requestURI);
+
+                if(continueAccess){
+                    logger.info("CustomSecurityFilter Check: approved -> "+requestURI);
+                    chain.doFilter(request, response);
+
+                    if(accessControlModifiersList.contains(requestURI)){
+                        securityService.reconfigureAccessControl();
+                        replicateAccessControl();
+                    }
+                }else{
+                    logger.info("CustomSecurityFilter Check: denied -> "+requestURI);
+                    accessDenied(req, resp);
                 }
             }else{
-                accessDenied(req, resp);
+                logger.info("CustomSecurityFilter Check: ignored -> "+requestURI);
+                chain.doFilter(request, response);
             }
-            logger.info("CustomSecurityFilter END ");
         } catch (AuthenticationException ex){
             resp.sendError(403, ex.getMessage());
         } catch (Exception ex) {
