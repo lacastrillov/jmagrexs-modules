@@ -115,6 +115,7 @@ public class AccountController {
                 securityService.connect(basicAuthorization);
             }
             UserAndRolesDto userAndRoles= getUserAndRoles();
+            userAndRoles.getUser().setPassword(null);
             data.put("success", true);
             data.put("user", userAndRoles.getUser());
             data.put("roles", userAndRoles.getRoles());
@@ -194,6 +195,7 @@ public class AccountController {
         Map data= new HashMap();
         UserAndRolesDto userAndRoles= getUserAndRoles();
         if(userAndRoles!=null){
+            userAndRoles.getUser().setPassword(null);
             data.put("session", true);
             data.put("ba", securityService.getBasicAuthorization());
             data.put("user", userAndRoles.getUser());
