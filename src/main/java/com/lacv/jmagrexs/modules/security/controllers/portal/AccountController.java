@@ -1,5 +1,6 @@
 package com.lacv.jmagrexs.modules.security.controllers.portal;
 
+import com.lacv.jmagrexs.components.ServerDomain;
 import com.lacv.jmagrexs.dao.Parameters;
 import com.lacv.jmagrexs.modules.security.model.dtos.RoleDto;
 import com.lacv.jmagrexs.modules.security.model.dtos.UserDto;
@@ -50,6 +51,8 @@ public class AccountController {
     @Autowired
     UserRoleMapper userRoleMapper;
     
+    @Autowired
+    ServerDomain serverDomain;
     
     
     @RequestMapping(value = "/home", method = {RequestMethod.POST, RequestMethod.GET})
@@ -216,6 +219,13 @@ public class AccountController {
             return getHome(request, response, "user");
         }
         return new ModelAndView("login");
+    }
+    
+    @RequestMapping(value = "/UserAuthentication", method = {RequestMethod.GET})
+    public ModelAndView userAuthentication(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView mav = new ModelAndView("scripts/components/UserAuthentication");
+        mav.addObject("serverDomain", serverDomain);
+        return mav;
     }
 
     @RequestMapping(value = "/denied", method = {RequestMethod.POST, RequestMethod.GET})
