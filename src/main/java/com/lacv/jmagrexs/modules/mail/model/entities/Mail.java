@@ -22,6 +22,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
 
 /**
  *
@@ -59,6 +61,7 @@ public class Mail implements BaseEntity {
     @Column(name = "result")
     private String result;
     @JoinColumn(name = "id_mailtemplate", referencedColumnName = "id")
+    @JoinFetch(JoinFetchType.OUTER)
     @ManyToOne
     private MailTemplate mailTemplate;
 

@@ -83,6 +83,11 @@ public class WebFileDto implements BaseDto {
     @TextField("Autor")
     private String author;
     
+    @Order(12)
+    //@NotNull
+    @TextField("Usuario")
+    private Integer user;
+    
     @ReadOnly
     @TextField("Archivo padre")
     @HideField({HideView.FILTER, HideView.GRID, HideView.FORM})
@@ -208,6 +213,14 @@ public class WebFileDto implements BaseDto {
 
     public void setWebFile(WebFileDto webFile) {
         this.webFile = webFile;
+    }
+    
+    public Integer getUser() {
+        return user;
+    }
+
+    public void setUser(Integer user) {
+        this.user = user;
     }
 
     @Override

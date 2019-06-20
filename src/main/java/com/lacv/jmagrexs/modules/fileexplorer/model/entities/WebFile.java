@@ -69,6 +69,10 @@ public class WebFile implements BaseEntity {
     @JoinColumn(name = "parent_id", referencedColumnName = "id")
     @ManyToOne
     private WebFile webFile;
+    //@JoinColumn(name = "iduser", referencedColumnName = "id")
+    //@ManyToOne(optional = false)
+    @Column(name = "user_id")
+    private Integer user;
     @Transient
     protected Object[] jdoDetachedState;
 
@@ -173,6 +177,14 @@ public class WebFile implements BaseEntity {
 
     public void setWebFile(WebFile webFile) {
         this.webFile = webFile;
+    }
+    
+    public Integer getUser() {
+        return user;
+    }
+
+    public void setUser(Integer user) {
+        this.user = user;
     }
     
     public String getLocation() {

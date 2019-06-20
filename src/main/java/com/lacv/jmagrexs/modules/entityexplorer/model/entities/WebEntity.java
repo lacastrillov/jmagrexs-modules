@@ -25,6 +25,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
+import org.eclipse.persistence.annotations.JoinFetch;
+import org.eclipse.persistence.annotations.JoinFetchType;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ContextLoader;
 
@@ -65,6 +67,7 @@ public class WebEntity implements BaseEntity, WebEntityInterface {
     @Column(name = "status")
     private String status;
     @JoinColumn(name = "web_entity_type_id", referencedColumnName = "id")
+    @JoinFetch(JoinFetchType.OUTER)
     @ManyToOne
     private WebEntityType webEntityType;
     @OneToMany(mappedBy = "webEntity")

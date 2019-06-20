@@ -22,6 +22,8 @@ public interface WebFileService extends EntityService<WebFile> {
     
     WebFile findByPath(String path);
     
+    String getStaticFileLocation(String fileUrl);
+    
     WebFile createByFileData(WebFile parentWebFile, int slice, String fileName, String fileType, int fileSize, InputStream is) throws IOException;
     
     WebFile createByStorageObject(StorageObject object, WebFile parent, String location);
@@ -33,5 +35,9 @@ public interface WebFileService extends EntityService<WebFile> {
     WebFile createDirectoriesIfMissing(String path);
     
     boolean deleteIfExist(WebFile parentWebFile, String fileName);
+    
+    boolean deleteWebFile(WebFile webFile);
+    
+    String getRealFileLocation(WebFile webFile);
     
 }

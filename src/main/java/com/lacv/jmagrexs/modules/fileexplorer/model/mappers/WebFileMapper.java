@@ -19,6 +19,9 @@ import org.springframework.stereotype.Component;
 @Component("webFileMapper")
 public class WebFileMapper extends EntityMapperImpl<WebFile, WebFileDto> implements EntityMapper<WebFile, WebFileDto> {
 
+    //@Autowired
+    //UserMapper userMapper;
+    
     
     @Override
     public WebFileDto entityToDto(WebFile entity) {
@@ -36,6 +39,7 @@ public class WebFileMapper extends EntityMapperImpl<WebFile, WebFileDto> impleme
             dto.setSize(entity.getSize());
             dto.setType(entity.getType());
             dto.setWebFile(entityToDto(entity.getWebFile()));
+            dto.setUser(entity.getUser());
         }
         return dto;
     }
@@ -70,6 +74,7 @@ public class WebFileMapper extends EntityMapperImpl<WebFile, WebFileDto> impleme
             entity.setSize(dto.getSize());
             entity.setType(dto.getType());
             entity.setWebFile(dtoToEntity(dto.getWebFile()));
+            entity.setUser(dto.getUser());
         }
         return entity;
     }

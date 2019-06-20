@@ -14,10 +14,12 @@ import com.lacv.jmagrexs.enums.WebFileType;
 import com.lacv.jmagrexs.util.FileService;
 import com.lacv.jmagrexs.util.Util;
 import com.google.gson.Gson;
-import com.lacv.jmagrexs.components.ExplorerConstants;
 import com.lacv.jmagrexs.modules.fileexplorer.model.dtos.WebFileDto;
+import com.lacv.jmagrexs.util.Formats;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
@@ -27,8 +29,10 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.tika.Tika;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +62,7 @@ public class WebFileRestController extends RestEntityController {
     @Autowired
     WebFileMapper webFileMapper;
     
-    @Autowired
-    ExplorerConstants explorerConstants;
+    Tika tika = new Tika();
     
 
     @PostConstruct
@@ -105,7 +108,7 @@ public class WebFileRestController extends RestEntityController {
             WebFile webFile = webFileService.loadById(jsonObject.getLong("id"));
             if (!webFile.getName().equals(jsonObject.getString("name"))) {
                 String location = explorerConstants.getLocalStaticFolder() + explorerConstants.getLocalRootFolder() + webFile.getPath();
-                FileService.renameFile(location + webFile.getName(), location + jsonObject.getString("name"));
+                //FileService.renameFile(location + webFile.getName(), location + jsonObject.getString("name"));
             }
         }
 
@@ -130,7 +133,7 @@ public class WebFileRestController extends RestEntityController {
                 File sourceFile= new File(sourceLocation + sourceWebFile.getName());
                 File destFile= new File(destLocation + ((destWebFile!=null)?destWebFile.getName():""));
                 
-                FileService.move(sourceFile, destFile);
+                //FileService.move(sourceFile, destFile);
             }
             
             return super.updateByFilter(filter, request);
@@ -154,11 +157,45 @@ public class WebFileRestController extends RestEntityController {
                 LOGGER.info("path: " + path);
                 String location = explorerConstants.getLocalStaticFolder() + explorerConstants.getLocalRootFolder() + path;
 
-                FileService.deleteFile(location + webFile.getString("name"));
+                //FileService.deleteFile(location + webFile.getString("name"));
+                //webFileService.deleteFile(webFile);
             }
         }
 
         return result;
+    }
+    
+    @RequestMapping(value = "/download/**/{fileName:.+}", method = {RequestMethod.GET})
+    public void download(@PathVariable String fileName, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String realLocation= webFileService.getStaticFileLocation(request.getRequestURI());
+            if(realLocation!=null){
+                String extension = FilenameUtils.getExtension(fileName);
+
+                File file= new File(realLocation);
+                String mimeType = tika.detect(file);
+                if(Formats.getContentTypeByExtension(extension)!=null){
+                    mimeType= Formats.getContentTypeByExtension(extension);
+                }
+                FileInputStream fis = new FileInputStream(realLocation);
+                response.setContentType(mimeType);
+                response.setHeader("Content-Length", String.valueOf(fis.available()));
+                response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + "\"");
+
+                int fileSize = 1024*1024;
+                int read;
+                byte[] bytes = new byte[fileSize];
+                while ((read = fis.read(bytes)) != -1) {
+                    response.getOutputStream().write(bytes, 0, read);
+                }
+                response.getOutputStream().flush();
+            }else{
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Archivo no encontrado");
+            }
+        } catch (Exception ex) {
+            LOGGER.error("ERRROR getResizeImage", ex);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Archivo no encontrado");
+        }
     }
     
     @RequestMapping(value = "/resizeimage/{maxWidth}/{maxHeight}/{imageName:.+}", method = {RequestMethod.GET})
@@ -182,10 +219,10 @@ public class WebFileRestController extends RestEntityController {
             if(contentType!=null){
                 BufferedImage bufferedImage= null;
                 if(FileService.getDomainFromURL(location).equals(explorerConstants.getLocalStaticDomain())){
-                    location= location.replace(explorerConstants.getLocalStaticDomain(), explorerConstants.getLocalStaticFolder());
-                    if(FileService.existsFile(location)){
+                    String realLocation= webFileService.getStaticFileLocation(location);
+                    if(FileService.existsFile(realLocation)){
                         System.out.println("imageExist= true");
-                        File imageFile= new File(location);
+                        File imageFile= new File(realLocation);
                         bufferedImage= ImageIO.read(imageFile);
                     }
                 }else{
@@ -230,6 +267,36 @@ public class WebFileRestController extends RestEntityController {
             LOGGER.error("saveFile ", ex);
             return ex.getMessage();
         }
+    }
+    
+    @RequestMapping(value = "/readFile.htm", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public byte[] readFile(@RequestParam(required = true) String fileUrl, HttpServletRequest request) {
+        String content="";
+        String realLocation= webFileService.getStaticFileLocation(fileUrl);
+        if(realLocation!=null){
+            try {
+                content= FileService.getTextFile(realLocation);
+            } catch (IOException ex) {
+                LOGGER.error("readFile ",ex);
+            }
+        }
+        return Util.getStringBytes(content);
+    }
+    
+    @RequestMapping(value = "/writeFile.htm", method = RequestMethod.POST)
+    @ResponseBody
+    public String writeFile(@RequestParam(required = true) String fileUrl, @RequestParam(required = true) String content, HttpServletRequest request) {
+        String realLocation= webFileService.getStaticFileLocation(fileUrl);
+        if(realLocation!=null){
+            try {
+                FileService.setTextFile(content, realLocation);
+                return "Contenido guardado";
+            } catch (IOException ex) {
+                LOGGER.error("writeFile ",ex);
+            }
+        }
+        return "Error al guardar";
     }
     
     @RequestMapping(value = "/getNavigationTreeData.htm")
