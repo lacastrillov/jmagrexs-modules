@@ -11,6 +11,7 @@ import com.lacv.jmagrexs.service.EntityService;
 import com.google.api.services.storage.model.StorageObject;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 
 
@@ -24,6 +25,10 @@ public interface WebFileService extends EntityService<WebFile> {
     
     String getStaticFileLocation(String fileUrl);
     
+    String getStaticFileLocation(WebFile webFile);
+    
+    String getPathFromFileUrl(String fileUrl);
+    
     WebFile createByFileData(WebFile parentWebFile, int slice, String fileName, String fileType, int fileSize, InputStream is) throws IOException;
     
     WebFile createByStorageObject(StorageObject object, WebFile parent, String location);
@@ -36,8 +41,8 @@ public interface WebFileService extends EntityService<WebFile> {
     
     boolean deleteIfExist(WebFile parentWebFile, String fileName);
     
-    boolean deleteWebFile(WebFile webFile);
+    boolean deleteWebFileInDepth(WebFile webFile) throws IOException;
     
-    String getRealFileLocation(WebFile webFile);
+    Map exploreInDepth(WebFile webFile);
     
 }

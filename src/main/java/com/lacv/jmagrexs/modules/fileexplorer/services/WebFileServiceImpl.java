@@ -18,6 +18,7 @@ import com.google.api.services.storage.model.StorageObject;
 import com.lacv.jmagrexs.mapper.EntityMapper;
 import com.lacv.jmagrexs.components.ExplorerConstants;
 import com.lacv.jmagrexs.modules.fileexplorer.model.entities.WebFile;
+import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import com.lacv.jmagrexs.util.JwtUtil;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +28,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -50,6 +52,9 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
     
     @Autowired
     public WebFileMapper webFileMapper;
+    
+    @Autowired
+    public SecurityService securityService;
     
     @Autowired
     public ExplorerConstants explorerConstants;
@@ -95,14 +100,34 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
     @Override
     @Transactional(readOnly= true)
     public String getStaticFileLocation(String fileUrl){
+        if(fileUrl!=null){
+            WebFile webFile= findByPath(getPathFromFileUrl(fileUrl));
+            return getStaticFileLocation(webFile);
+        }else{
+            return null;
+        }
+    }
+    
+    @Override
+    public String getStaticFileLocation(WebFile webFile){
+        if(webFile!=null){
+            //GET USER FOLDER
+            String userFolder= getUserFolder(webFile);
+            //GET FILE NAME
+            String fileName= getFileName(webFile);
+            return explorerConstants.getLocalStaticFolder() + userFolder + fileName;
+        }else{
+            return null;
+        }
+    }
+    
+    @Override
+    public String getPathFromFileUrl(String fileUrl){
         try {
-            String requestURI= URLDecoder.decode(fileUrl, StandardCharsets.UTF_8.name());
-            requestURI=  requestURI.replaceFirst(explorerConstants.getLocalStaticDomain()+"/", "");
-            requestURI=  requestURI.replaceFirst(explorerConstants.getLocalRootFolder(), "");
-            WebFile webFile= findByPath(requestURI);
-            if(webFile!=null){
-                return getRealFileLocation(webFile);
-            }
+            String path = URLDecoder.decode(fileUrl, StandardCharsets.UTF_8.name());
+            path=  path.replaceFirst(explorerConstants.getLocalStaticDomain()+"/", "");
+            path=  path.replaceFirst(explorerConstants.getLocalRootFolder(), "");
+            return path;
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(WebFileServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -114,8 +139,6 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
     public WebFile createByFileData(WebFile parentWebFile, int slice, String fileName, String fileType, int fileSize, InputStream is) throws IOException {
         WebFile webFile= new WebFile();
         webFile.setWebFile(parentWebFile);
-        //String path= webFile.getPath();
-        //String location= explorerConstants.getLocalStaticFolder() + explorerConstants.getLocalRootFolder() + path;
 
         if(slice==0){
             webFile.setName(fileName);
@@ -124,34 +147,19 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
             webFile.setIcon(Formats.getSimpleContentType(fileType));
             webFile.setCreationDate(new Date());
             webFile.setModificationDate(new Date());
+            webFile.setAuthor(getUsername());
 
             deleteIfExist(parentWebFile, fileName);
             createForced(webFile);
-
-            //FileService.deleteFile(location + fileName);
+            
             deleteFile(webFile);
         }else{
             webFile= getCachedWebFile(parentWebFile, fileName, fileType);
         }
 
-        //FileService.addPartToFile(fileName, location, fileSize, is);
         addPartToFile(webFile, fileSize, is);
 
         return webFile;
-    }
-    
-    @Transactional(readOnly= true)
-    private WebFile getCachedWebFile(WebFile parentWebFile, String fileName, String fileType){
-        String wfKey= "pwf"+parentWebFile.getId()+"_fn"+fileName+"_ft"+fileType;
-        if(!cachedWebFiles.containsKey(wfKey)){
-            Parameters p= new Parameters();
-            p.whereEqual("webFile", parentWebFile);
-            p.whereEqual("name", fileName);
-            p.whereEqual("type", fileType);
-            WebFile webFile= super.loadByParameters(p);
-            cachedWebFiles.put(wfKey, webFile);
-        }
-        return cachedWebFiles.get(wfKey);
     }
 
     @Override
@@ -165,8 +173,9 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
         webFile.setIcon(Formats.getSimpleContentType(object.getContentType()));
         webFile.setCreationDate(new Date());
         webFile.setModificationDate(new Date());
+        webFile.setAuthor(getUsername());
         
-        super.create(webFile);
+        super.createForced(webFile);
         return webFile;
     }
 
@@ -182,11 +191,10 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
             webFile.setModificationDate(new Date());
             webFile.setSize(1);
             webFile.setWebFile(parentWebFile);
+            webFile.setAuthor(getUsername());
+            
             super.createForced(webFile);
 
-            //String path= webFile.getPath();
-            //String location= explorerConstants.getLocalStaticFolder() + explorerConstants.getLocalRootFolder() + path;
-            //FileService.createFolder(location + webFile.getName());
             return webFile;
         }
         return null;
@@ -205,11 +213,10 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
             webFile.setModificationDate(new Date());
             webFile.setSize(1);
             webFile.setWebFile(parentWebFile);
-            super.create(webFile);
+            webFile.setAuthor(getUsername());
+            
+            super.createForced(webFile);
 
-            //String path= webFile.getPath();
-            //String location= explorerConstants.getLocalStaticFolder() + explorerConstants.getLocalRootFolder() + path;
-            //FileService.createFile(location + webFile.getName());
             createFile(webFile);
 
             return webFile;
@@ -257,9 +264,54 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
         return false;
     }
     
-    public boolean deleteWebFile(WebFile webFile){
-        
-        return true;
+    @Override
+    @Transactional(value = TRANSACTION_MANAGER, propagation = Propagation.REQUIRED)
+    public boolean deleteWebFileInDepth(WebFile webFile) throws IOException {
+        if(webFile!=null){
+            if(!webFile.getType().equals("folder")){
+                deleteFile(webFile);
+            }else{
+                Parameters p= new Parameters();
+                p.whereEqual("webFile", webFile);
+                List<WebFile> webFiles= findByParameters(p);
+                for(WebFile childWebFile: webFiles){
+                    deleteWebFileInDepth(childWebFile);
+                }
+            }
+            super.remove(webFile);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    
+    @Override
+    @Transactional(readOnly= true)
+    public Map exploreInDepth(WebFile webFile){
+        Map child= new LinkedHashMap();
+        Parameters p= new Parameters();
+        p.whereEqual("webFile", webFile);
+        p.whereEqual("type", "folder");
+        p.orderBy("name", "ASC");
+        List<WebFile> webFiles= findByParameters(p);
+        for(WebFile childWebFile: webFiles){
+            child.put(childWebFile.getId()+"::"+childWebFile.getName(), exploreInDepth(childWebFile));
+        }
+        return child;
+    }
+    
+    @Transactional(readOnly= true)
+    private WebFile getCachedWebFile(WebFile parentWebFile, String fileName, String fileType){
+        String wfKey= "pwf"+parentWebFile.getId()+"_fn"+fileName+"_ft"+fileType;
+        if(!cachedWebFiles.containsKey(wfKey)){
+            Parameters p= new Parameters();
+            p.whereEqual("webFile", parentWebFile);
+            p.whereEqual("name", fileName);
+            p.whereEqual("type", fileType);
+            WebFile webFile= super.loadByParameters(p);
+            cachedWebFiles.put(wfKey, webFile);
+        }
+        return cachedWebFiles.get(wfKey);
     }
     
     private void createFile(WebFile webFile){
@@ -308,17 +360,6 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
         System.out.println("DELETE "+location+fileName);
     }
     
-    @Override
-    public String getRealFileLocation(WebFile webFile){
-        //GET USER FOLDER
-        String userFolder= getUserFolder(webFile);
-        
-        //GET FILE NAME
-        String fileName= getFileName(webFile);
-        
-        return explorerConstants.getLocalStaticFolder() + userFolder + fileName;
-    }
-    
     private String getUserFolder(WebFile webFile){
         JSONObject infoUser= new JSONObject();
         if(webFile.getUser()!=null){
@@ -333,11 +374,17 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
     private String getFileName(WebFile webFile){
         String extension = FilenameUtils.getExtension(webFile.getName());
         JSONObject infoFile= new JSONObject();
-        System.out.println("file"+webFile.getId());
         infoFile.put("file", "file"+webFile.getId());
         return Base64.getEncoder().encodeToString(infoFile.toString().getBytes()).replaceAll("=", "")+"."+extension;
         //jwt.generateJSONToken(infoFile, SecurityConstants.SECURITY_SEED_PASSW)+"."+extension;
     }
     
+    private String getUsername(){
+        if(securityService.getCurrentUser()!=null){
+            return securityService.getCurrentUser().getUsername();
+        }else{
+            return "";
+        }
+    }
     
 }

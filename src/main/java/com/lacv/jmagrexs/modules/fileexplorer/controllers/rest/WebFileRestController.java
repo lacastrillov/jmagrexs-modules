@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +109,7 @@ public class WebFileRestController extends RestEntityController {
         if (jsonObject.has("id") && jsonObject.has("name")) {
             WebFile webFile = webFileService.loadById(jsonObject.getLong("id"));
             if (!webFile.getName().equals(jsonObject.getString("name"))) {
-                String location = explorerConstants.getLocalStaticFolder() + explorerConstants.getLocalRootFolder() + webFile.getPath();
+                //String location = explorerConstants.getLocalStaticFolder() + explorerConstants.getLocalRootFolder() + webFile.getPath();
                 //FileService.renameFile(location + webFile.getName(), location + jsonObject.getString("name"));
             }
         }
@@ -147,22 +149,18 @@ public class WebFileRestController extends RestEntityController {
     @ResponseBody
     @Override
     public String deleteByFilter(@RequestParam String filter) {
-        String result = super.deleteByFilter(filter);
-        JSONObject jsonResult = new JSONObject(result);
-        if (jsonResult.getBoolean("success")) {
-            JSONArray webFiles = jsonResult.getJSONArray("data");
-            for (int i = 0; i < webFiles.length(); i++) {
-                JSONObject webFile = webFiles.getJSONObject(i);
-                String path = (webFile.has("path")) ? webFile.getString("path") : "";
-                LOGGER.info("path: " + path);
-                String location = explorerConstants.getLocalStaticFolder() + explorerConstants.getLocalRootFolder() + path;
-
-                //FileService.deleteFile(location + webFile.getString("name"));
-                //webFileService.deleteFile(webFile);
+        try {
+            List<WebFile> listEntities = service.findByJSONFilters(filter, null, null, null, null, null);
+            List<WebFileDto> listDtos = mapper.listEntitiesToListDtos(listEntities);
+            
+            for(WebFile webFile: listEntities){
+                webFileService.deleteWebFileInDepth(webFile);
             }
+            return Util.getResultListCallback(listDtos, (long)listDtos.size(),"Eliminaci&oacute;n de " + entityRef + " realizada...", true);
+        } catch (Exception e) {
+            LOGGER.error("delete " + entityRef, e);
+            return Util.getResultListCallback(new ArrayList(), 0L,"Error en eliminaci&oacute;n de " + entityRef + ": " + e.getMessage(), true);
         }
-
-        return result;
     }
     
     @RequestMapping(value = "/download/**/{fileName:.+}", method = {RequestMethod.GET})
@@ -273,9 +271,10 @@ public class WebFileRestController extends RestEntityController {
     @ResponseBody
     public byte[] readFile(@RequestParam(required = true) String fileUrl, HttpServletRequest request) {
         String content="";
-        String realLocation= webFileService.getStaticFileLocation(fileUrl);
-        if(realLocation!=null){
+        WebFile webFile= webFileService.findByPath(webFileService.getPathFromFileUrl(fileUrl));
+        if(webFile!=null){
             try {
+                String realLocation= webFileService.getStaticFileLocation(webFile);
                 content= FileService.getTextFile(realLocation);
             } catch (IOException ex) {
                 LOGGER.error("readFile ",ex);
@@ -287,10 +286,16 @@ public class WebFileRestController extends RestEntityController {
     @RequestMapping(value = "/writeFile.htm", method = RequestMethod.POST)
     @ResponseBody
     public String writeFile(@RequestParam(required = true) String fileUrl, @RequestParam(required = true) String content, HttpServletRequest request) {
-        String realLocation= webFileService.getStaticFileLocation(fileUrl);
-        if(realLocation!=null){
+        WebFile webFile= webFileService.findByPath(webFileService.getPathFromFileUrl(fileUrl));
+        if(webFile!=null){
             try {
+                String realLocation= webFileService.getStaticFileLocation(webFile);
                 FileService.setTextFile(content, realLocation);
+                
+                webFile.setModificationDate(new Date());
+                webFile.setSize(content.getBytes().length);
+                webFileService.update(webFile);
+                
                 return "Contenido guardado";
             } catch (IOException ex) {
                 LOGGER.error("writeFile ",ex);
@@ -313,7 +318,7 @@ public class WebFileRestController extends RestEntityController {
             p.orderBy("name", "ASC");
             List<WebFile> webFiles= webFileService.findByParameters(p);
             for(WebFile webFile: webFiles){
-                childs.put(webFile.getId()+"::"+webFile.getName(), exploreInDepth(webFile));
+                childs.put(webFile.getId()+"::"+webFile.getName(), webFileService.exploreInDepth(webFile));
             }
             tree.put("0::Raíz", childs);
             resultData=gson.toJson(tree);
@@ -322,19 +327,6 @@ public class WebFileRestController extends RestEntityController {
             resultData = "Error in getNavigationTreeData";
         }
         return Util.getStringBytes(resultData);
-    }
-    
-    private Map exploreInDepth(WebFile webFile){
-        Map child= new LinkedHashMap();
-        Parameters p= new Parameters();
-        p.whereEqual("webFile", webFile);
-        p.whereEqual("type", "folder");
-        p.orderBy("name", "ASC");
-        List<WebFile> webFiles= webFileService.findByParameters(p);
-        for(WebFile childWebFile: webFiles){
-            child.put(childWebFile.getId()+"::"+childWebFile.getName(), exploreInDepth(childWebFile));
-        }
-        return child;
     }
 
 }
