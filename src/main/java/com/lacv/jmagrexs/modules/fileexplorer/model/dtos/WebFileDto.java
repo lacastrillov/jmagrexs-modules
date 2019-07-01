@@ -84,7 +84,7 @@ public class WebFileDto implements BaseDto {
     private String author;
     
     @Order(12)
-    //@NotNull
+    @ReadOnly
     @TextField("Usuario")
     private Integer user;
     
