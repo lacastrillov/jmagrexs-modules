@@ -85,12 +85,13 @@ public class WebFileDto implements BaseDto {
     
     @Order(12)
     @ReadOnly
+    @HideField({HideView.FILTER, HideView.GRID, HideView.FORM})
     @TextField("Usuario")
     private Integer user;
     
     @ReadOnly
-    @TextField("Archivo padre")
     @HideField({HideView.FILTER, HideView.GRID, HideView.FORM})
+    @TextField("Archivo padre")
     private WebFileDto webFile;
     
     private List<WebFileDto> webFileList;

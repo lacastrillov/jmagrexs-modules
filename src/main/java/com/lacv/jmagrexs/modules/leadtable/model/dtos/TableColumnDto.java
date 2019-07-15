@@ -49,7 +49,10 @@ public class TableColumnDto implements BaseDto {
     @Size(max=45)
     @NotNull
     @ColumnWidth(150)
-    @TypeFormField(value = FieldType.LIST, data = {"java.lang.String", "char", "int", "long", "double", "float", "boolean", "java.util.Date", "java.sql.Time"})
+    @TypeFormField(value = FieldType.LIST, data = {
+        "java.lang.String", "char", "int", "long", "double",
+        "float", "boolean", "java.util.Date", "java.sql.Time"
+    })
     @TextField("Tipo Dato")
     private String dataType;
     
@@ -57,9 +60,9 @@ public class TableColumnDto implements BaseDto {
     @Size(max=45)
     @ColumnWidth(170)
     @TypeFormField(value = FieldType.LIST, data = {
-        "EMAIL", "PASSWORD", "DURATION", "PRICE", "DATETIME", "TEXT_AREA", "PERCENTAJE", "COLOR", "LIST", "MULTI_SELECT", "RADIOS", "URL",
-        "HTML_EDITOR", "FILE_UPLOAD", "FILE_SIZE", "IMAGE_FILE_UPLOAD", "VIDEO_YOUTUBE", "VIDEO_FILE_UPLOAD", "AUDIO_FILE_UPLOAD",
-        "GOOGLE_MAP", "MULTI_FILE_TYPE"
+        "EMAIL", "PASSWORD", "DURATION", "PRICE", "DATETIME", "TEXT_AREA", "PERCENTAJE", "COLOR", "CONDITIONAL_COLOR",
+        "ON_OFF", "LIST", "MULTI_SELECT", "RADIOS", "URL", "HTML_EDITOR", "FILE_UPLOAD", "FILE_SIZE",
+        "IMAGE_FILE_UPLOAD", "VIDEO_YOUTUBE", "VIDEO_FILE_UPLOAD", "AUDIO_FILE_UPLOAD", "GOOGLE_MAP", "MULTI_FILE_TYPE"
     })
     @TextField("Tipo Campo")
     private String fieldType;

@@ -10,7 +10,6 @@ package com.lacv.jmagrexs.modules.entityexplorer.controllers.rest;
 import com.lacv.jmagrexs.modules.entityexplorer.model.mappers.WebEntityTypeMapper;
 import com.lacv.jmagrexs.modules.entityexplorer.services.WebEntityTypeService;
 import com.lacv.jmagrexs.controller.rest.RestEntityController;
-import java.io.InputStream;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,8 +35,4 @@ public class WebEntityTypeRestController extends RestEntityController {
         super.addControlMapping("webEntityType", webEntityTypeService, webEntityTypeMapper);
     }
     
-    @Override
-    public String saveFilePart(int slice, String fieldName, String fileName, String fileType, int fileSize, InputStream is, Object idParent){
-        return "Almacenamiento de archivo no implementado!!";
-    }    
 }

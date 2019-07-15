@@ -152,6 +152,7 @@ public class UserDto implements BaseDto {
     
     @Order(19)
     @TextField("Verificado")
+    @TypeFormField(FieldType.ON_OFF)
     @GroupField("Datos de Cuenta")
     private Boolean verified;
     

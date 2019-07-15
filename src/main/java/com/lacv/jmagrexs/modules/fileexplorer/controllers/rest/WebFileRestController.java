@@ -8,13 +8,15 @@ package com.lacv.jmagrexs.modules.fileexplorer.controllers.rest;
 import com.lacv.jmagrexs.modules.fileexplorer.model.entities.WebFile;
 import com.lacv.jmagrexs.modules.fileexplorer.model.mappers.WebFileMapper;
 import com.lacv.jmagrexs.modules.fileexplorer.services.WebFileService;
-import com.lacv.jmagrexs.controller.rest.RestEntityController;
 import com.lacv.jmagrexs.dao.Parameters;
 import com.lacv.jmagrexs.enums.WebFileType;
 import com.lacv.jmagrexs.util.FileService;
 import com.lacv.jmagrexs.util.Util;
 import com.google.gson.Gson;
+import com.lacv.jmagrexs.controller.rest.RestSessionController;
+import com.lacv.jmagrexs.domain.BaseEntity;
 import com.lacv.jmagrexs.modules.fileexplorer.model.dtos.WebFileDto;
+import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import com.lacv.jmagrexs.util.Formats;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -28,6 +30,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
@@ -56,13 +59,16 @@ import org.springframework.web.server.ResponseStatusException;
  */
 @Controller
 @RequestMapping(value = "/rest/webFile")
-public class WebFileRestController extends RestEntityController {
+public class WebFileRestController extends RestSessionController {
 
     @Autowired
     WebFileService webFileService;
 
     @Autowired
     WebFileMapper webFileMapper;
+    
+    @Autowired
+    SecurityService securityService;
     
     Tika tika = new Tika();
     
@@ -71,6 +77,11 @@ public class WebFileRestController extends RestEntityController {
     public void init() {
         super.addControlMapping("webFile", webFileService, webFileMapper);
     }
+    
+    
+    //###############################################################################/
+    //############################## MAIN METHODS ###################################/
+    
 
     @RequestMapping(value = "/create.htm")
     @ResponseBody
@@ -84,11 +95,11 @@ public class WebFileRestController extends RestEntityController {
             if(jsonObject.has("webFile")){
                 parentWebFile= webFileService.loadById(jsonObject.getLong("webFile"));
             }
-
+            Integer user= (jsonObject.has("user"))?jsonObject.getInt("user"):null;
             if (jsonObject.getString("type").equals(WebFileType.folder.name())) {
-                webFile = webFileService.createFolder(parentWebFile, jsonObject.getString("name"));
+                webFile = webFileService.createFolder(parentWebFile, jsonObject.getString("name"), user);
             } else if (jsonObject.getString("type").equals(WebFileType.file.name())) {
-                webFile = webFileService.createEmptyFile(parentWebFile, jsonObject.getString("name"));
+                webFile = webFileService.createEmptyFile(parentWebFile, jsonObject.getString("name"), user);
             }
 
             WebFileDto dto = (WebFileDto) mapper.entityToDto(webFile);
@@ -109,46 +120,17 @@ public class WebFileRestController extends RestEntityController {
         if (jsonObject.has("id") && jsonObject.has("name")) {
             WebFile webFile = webFileService.loadById(jsonObject.getLong("id"));
             if (!webFile.getName().equals(jsonObject.getString("name"))) {
-                //String location = explorerConstants.getLocalStaticFolder() + explorerConstants.getLocalRootFolder() + webFile.getPath();
-                //FileService.renameFile(location + webFile.getName(), location + jsonObject.getString("name"));
+                webFileService.renameWebFile(webFile, jsonObject.getString("name"));
             }
         }
 
         return super.update(data, request);
     }
-    
-    @RequestMapping(value = "/update/byfilter.htm")
-    @ResponseBody
-    @Override
-    public byte[] updateByFilter(@RequestParam(required= false) String filter, HttpServletRequest request) {
-        JSONObject jsonObject = new JSONObject(filter);
-        String resultData;
-        try{
-            Long destWebFileId= jsonObject.getJSONObject("uv").getLong("webFile");
-            WebFile destWebFile= webFileService.loadById(destWebFileId);
-            String destLocation= explorerConstants.getLocalStaticFolder() + explorerConstants.getLocalRootFolder() + ((destWebFile!=null)?destWebFile.getPath():"");
-            
-            JSONArray fileIdToMove= jsonObject.getJSONObject("in").getJSONArray("id");
-            for(int i=0; i<fileIdToMove.length(); i++){
-                WebFile sourceWebFile= webFileService.loadById(fileIdToMove.getLong(i));
-                String sourceLocation= explorerConstants.getLocalStaticFolder() + explorerConstants.getLocalRootFolder() + sourceWebFile.getPath();
-                File sourceFile= new File(sourceLocation + sourceWebFile.getName());
-                File destFile= new File(destLocation + ((destWebFile!=null)?destWebFile.getName():""));
-                
-                //FileService.move(sourceFile, destFile);
-            }
-            
-            return super.updateByFilter(filter, request);
-        }catch(Exception e){
-            resultData= Util.getOperationCallback(null, "Error moviendo los archivos " + e.getMessage(), false);
-        }
-        return Util.getStringBytes(resultData);
-    }
 
     @RequestMapping(value = "/delete/byfilter.htm", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     @Override
-    public String deleteByFilter(@RequestParam String filter) {
+    public String deleteByFilter(@RequestParam String filter, HttpServletRequest request) {
         try {
             List<WebFile> listEntities = service.findByJSONFilters(filter, null, null, null, null, null);
             List<WebFileDto> listDtos = mapper.listEntitiesToListDtos(listEntities);
@@ -163,13 +145,12 @@ public class WebFileRestController extends RestEntityController {
         }
     }
     
-    @RequestMapping(value = "/download/**/{fileName:.+}", method = {RequestMethod.GET})
     public void download(@PathVariable String fileName, HttpServletRequest request, HttpServletResponse response) {
         try {
             String realLocation= webFileService.getStaticFileLocation(request.getRequestURI());
             if(realLocation!=null){
                 String extension = FilenameUtils.getExtension(fileName);
-
+                String contentDisposition= (extension.equalsIgnoreCase("jsp"))?"attachment":"inline";
                 File file= new File(realLocation);
                 String mimeType = tika.detect(file);
                 if(Formats.getContentTypeByExtension(extension)!=null){
@@ -178,7 +159,7 @@ public class WebFileRestController extends RestEntityController {
                 FileInputStream fis = new FileInputStream(realLocation);
                 response.setContentType(mimeType);
                 response.setHeader("Content-Length", String.valueOf(fis.available()));
-                response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + "\"");
+                response.setHeader("Content-Disposition", contentDisposition+"; filename=\"" + fileName + "\"");
 
                 int fileSize = 1024*1024;
                 int read;
@@ -250,15 +231,15 @@ public class WebFileRestController extends RestEntityController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Archivo no encontrado");
     }
 
-
     @Override
-    public String saveFilePart(int slice, String fieldName, String fileName, String fileType, int fileSize, InputStream filePart, Object idParent) {
+    public String saveFilePart(int slice, String fieldName, String fileName, String fileType, int fileSize, InputStream filePart, Object idParent, Boolean sessionUpload) {
         try {
+            Integer userId= (sessionUpload!=null && sessionUpload)? securityService.getCurrentUser().getId():null;
             WebFile parentWebFile = null;
             if (!idParent.toString().equals("undefined")) {
                 parentWebFile = webFileService.loadById(new Long(idParent.toString()));
             }
-            webFileService.createByFileData(parentWebFile, slice, fileName, fileType, fileSize, filePart);
+            webFileService.createByFileData(parentWebFile, slice, fileName, fileType, fileSize, filePart, userId);
 
             return "Archivo " + fileName + " almacenado correctamente";
         } catch (Exception ex) {
@@ -310,23 +291,200 @@ public class WebFileRestController extends RestEntityController {
         String resultData;
         try {
             Gson gson= new Gson();
-            Map tree = new LinkedHashMap();
-            Map childs= new LinkedHashMap();
-            Parameters p= new Parameters();
-            p.whereIsNull("webFile");
-            p.whereEqual("type", "folder");
-            p.orderBy("name", "ASC");
-            List<WebFile> webFiles= webFileService.findByParameters(p);
-            for(WebFile webFile: webFiles){
-                childs.put(webFile.getId()+"::"+webFile.getName(), webFileService.exploreInDepth(webFile));
-            }
-            tree.put("0::Raíz", childs);
-            resultData=gson.toJson(tree);
+            resultData=gson.toJson(getNavigationTree(null));
         } catch (Exception e) {
             LOGGER.error("getNavigationTreeData " + entityRef, e);
             resultData = "Error in getNavigationTreeData";
         }
         return Util.getStringBytes(resultData);
+    }
+    
+    //*********************** MAIN VALIDATIONS *************************************/
+    
+    @Override
+    public JSONObject addSearchFilter(JSONObject jsonFilters){
+        if(jsonFilters.has("isn")){
+            jsonFilters.getJSONArray("isn").put("user");
+        }else{
+            JSONArray jsonList= new JSONArray();
+            jsonList.put("user");
+            jsonFilters.put("isn", jsonList);
+        }
+        
+        return jsonFilters;
+    }
+    
+    @Override
+    public boolean canLoad(BaseEntity entity){
+        WebFile webFile= (WebFile) entity;
+        return (webFile.getUser()==null);
+    }
+    
+    @Override
+    public boolean canUpdate(BaseEntity entity){
+        WebFile webFile= (WebFile) entity;
+        return (webFile.getUser()==null);
+    }
+    
+    @Override
+    public boolean canDelete(BaseEntity entity){
+        WebFile webFile= (WebFile) entity;
+        return (webFile.getUser()==null);
+    }
+    
+    @Override
+    public boolean canImportData(List<BaseEntity> entities){
+        return false;
+    }
+    
+    
+    //###############################################################################/
+    //########################### SESSION METHODS ###################################/
+    
+    
+    @RequestMapping(value = "/session_create.htm", method = RequestMethod.POST)
+    @ResponseBody
+    @Override
+    public byte[] sessionCreate(@RequestParam(required= false) String data, HttpServletRequest request) {
+        JSONObject jsonData= new JSONObject(data);
+        jsonData.put("user", securityService.getCurrentUser().getId());
+        return this.create(jsonData.toString(), request);
+    }
+    
+    @RequestMapping(value = "/session_update.htm", method = {RequestMethod.PUT, RequestMethod.POST})
+    @ResponseBody
+    @Override
+    public byte[] sessionUpdate(@RequestParam(required= false) String data, HttpServletRequest request) {
+        JSONObject jsonObject = new JSONObject(data);
+        jsonObject.put("user", securityService.getCurrentUser().getId());
+        if (jsonObject.has("id")) {
+            WebFile webFile = webFileService.loadById(jsonObject.getLong("id"));
+            if(Objects.equals(webFile.getUser(), securityService.getCurrentUser().getId())){
+                return this.update(jsonObject.toString(), request);
+            }
+        }
+        String resultData= Util.getOperationCallback(null, "Error en actualizaci&oacute;n de " + entityRef, false);
+        return Util.getStringBytes(resultData);
+    }
+    
+    @RequestMapping(value = "/session_readFile.htm", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public byte[] sessionReadFile(@RequestParam(required = true) String fileUrl, HttpServletRequest request) {
+        String content="";
+        WebFile webFile= webFileService.findByPath(webFileService.getPathFromFileUrl(fileUrl));
+        if(webFile!=null && webFile.getUser().equals(securityService.getCurrentUser().getId())){
+            try {
+                String realLocation= webFileService.getStaticFileLocation(webFile);
+                content= FileService.getTextFile(realLocation);
+            } catch (IOException ex) {
+                LOGGER.error("readFile ",ex);
+            }
+        }
+        return Util.getStringBytes(content);
+    }
+    
+    @RequestMapping(value = "/session_writeFile.htm", method = RequestMethod.POST)
+    @ResponseBody
+    public String sessionWriteFile(@RequestParam(required = true) String fileUrl, @RequestParam(required = true) String content, HttpServletRequest request) {
+        WebFile webFile= webFileService.findByPath(webFileService.getPathFromFileUrl(fileUrl));
+        if(webFile!=null && webFile.getUser().equals(securityService.getCurrentUser().getId())){
+            try {
+                String realLocation= webFileService.getStaticFileLocation(webFile);
+                FileService.setTextFile(content, realLocation);
+                
+                webFile.setModificationDate(new Date());
+                webFile.setSize(content.getBytes().length);
+                webFileService.update(webFile);
+                
+                return "Contenido guardado";
+            } catch (IOException ex) {
+                LOGGER.error("writeFile ",ex);
+            }
+        }
+        return "Error al guardar";
+    }
+    
+    @RequestMapping(value = "/session_getNavigationTreeData.htm")
+    @ResponseBody
+    public byte[] sessionGetNavigationTreeData() {
+        String resultData;
+        try {
+            Gson gson= new Gson();
+            resultData=gson.toJson(getNavigationTree(securityService.getCurrentUser().getId()));
+        } catch (Exception e) {
+            LOGGER.error("getNavigationTreeData " + entityRef, e);
+            resultData = "Error in getNavigationTreeData";
+        }
+        return Util.getStringBytes(resultData);
+    }
+    
+    private Map getNavigationTree(Integer userId){
+        Map tree = new LinkedHashMap();
+        Map childs= new LinkedHashMap();
+        Parameters p= new Parameters();
+        p.whereIsNull("webFile");
+        p.whereEqual("type", "folder");
+        p.whereEqual("user", userId);
+        p.orderBy("name", "ASC");
+        List<WebFile> webFiles= webFileService.findByParameters(p);
+        for(WebFile webFile: webFiles){
+            childs.put(webFile.getId()+"::"+webFile.getName(), webFileService.exploreInDepth(webFile));
+        }
+        tree.put("0::Raíz", childs);
+        return tree;
+    }
+    
+    //*********************** SESSION VALIDATIONS *************************************/
+    
+    @Override
+    public JSONObject addSessionSearchFilter(JSONObject jsonFilters) {
+        jsonFilters.getJSONObject("eq").put("user", securityService.getCurrentUser().getId());
+        return jsonFilters;
+    }
+
+    @Override
+    public JSONObject addSessionReportFilter(String reportName, JSONObject jsonFilters) {
+        jsonFilters.getJSONObject("eq").put("user", securityService.getCurrentUser().getId());
+        return jsonFilters;
+    }
+
+    @Override
+    public boolean canSessionLoad(BaseEntity entity) {
+        WebFile webFile=(WebFile) entity;
+        return securityService.getCurrentUser().getId().equals(webFile.getUser());
+    }
+
+    @Override
+    public boolean canSessionCreate(BaseEntity entity) {
+        WebFile webFile=(WebFile) entity;
+        return securityService.getCurrentUser().getId().equals(webFile.getUser());
+    }
+
+    @Override
+    public boolean canSessionUpdate(BaseEntity entity) {
+        WebFile webFile=(WebFile) entity;
+        return securityService.getCurrentUser().getId().equals(webFile.getUser());
+    }
+
+    @Override
+    public boolean canSessionUpdateByFilters(JSONObject jsonFilters) {
+        return true;
+    }
+
+    @Override
+    public boolean canSessionDelete(BaseEntity entity) {
+        WebFile webFile=(WebFile) entity;
+        return securityService.getCurrentUser().getId().equals(webFile.getUser());
+    }
+
+    @Override
+    public boolean canSessionDeleteByFilters(JSONObject jsonFilters) {
+        return true;
+    }
+
+    @Override
+    public boolean canSessionImportData(List<BaseEntity> entities) {
+        return false;
     }
 
 }

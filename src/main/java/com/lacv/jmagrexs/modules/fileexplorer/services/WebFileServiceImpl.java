@@ -18,14 +18,14 @@ import com.google.api.services.storage.model.StorageObject;
 import com.lacv.jmagrexs.mapper.EntityMapper;
 import com.lacv.jmagrexs.components.ExplorerConstants;
 import com.lacv.jmagrexs.modules.fileexplorer.model.entities.WebFile;
+import com.lacv.jmagrexs.modules.security.model.entities.User;
+import com.lacv.jmagrexs.modules.security.services.UserService;
 import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
-import com.lacv.jmagrexs.util.JwtUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -57,9 +57,10 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
     public SecurityService securityService;
     
     @Autowired
-    public ExplorerConstants explorerConstants;
+    public UserService userService;
     
-    private final JwtUtil jwt= new JwtUtil();
+    @Autowired
+    public ExplorerConstants explorerConstants;
     
     private final Map<String, WebFile> cachedWebFiles= new HashMap<>();
     
@@ -79,14 +80,22 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
     @Transactional(readOnly= true)
     public WebFile findByPath(String path){
         WebFile parentWebFile=null;
+        Integer userId= null;
+        if(path.startsWith(explorerConstants.getLocalRootUserFolder())){
+            path= path.replaceFirst(explorerConstants.getLocalRootUserFolder(), "");
+            String username= path.substring(0, path.indexOf("/"));
+            path= path.replaceFirst(username+"/", "");
+            User user= userService.loadByParameter("username", username);
+            userId= (user!=null)? user.getId(): null;
+        }
         String[] folders= path.split("/");
-        
         if(folders.length>0){
             for(String folder: folders){
                 if(!folder.equals("")){
                     Parameters p= new Parameters();
                     p.whereEqual("webFile", parentWebFile);
                     p.whereEqual("name", folder);
+                    p.whereEqual("user", userId);
                     parentWebFile= super.loadByParameters(p);
                     if(parentWebFile==null){
                         return null;
@@ -125,8 +134,11 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
     public String getPathFromFileUrl(String fileUrl){
         try {
             String path = URLDecoder.decode(fileUrl, StandardCharsets.UTF_8.name());
-            path=  path.replaceFirst(explorerConstants.getLocalStaticDomain()+"/", "");
-            path=  path.replaceFirst(explorerConstants.getLocalRootFolder(), "");
+            path=  path.replaceFirst(explorerConstants.getLocalStaticDomain(), "");
+            path= (path.startsWith("/"))?path.replaceFirst("/", ""):path;
+            if(path.startsWith(explorerConstants.getLocalRootFolder())){
+                path=  path.replaceFirst(explorerConstants.getLocalRootFolder(), "");
+            }
             return path;
         } catch (UnsupportedEncodingException ex) {
             Logger.getLogger(WebFileServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -136,7 +148,9 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
     
     @Override
     @Transactional(value = TRANSACTION_MANAGER, propagation = Propagation.REQUIRED)
-    public WebFile createByFileData(WebFile parentWebFile, int slice, String fileName, String fileType, int fileSize, InputStream is) throws IOException {
+    public WebFile createByFileData(WebFile parentWebFile, int slice, String fileName, String fileType, int fileSize, InputStream is, Integer user)
+            throws IOException {
+        
         WebFile webFile= new WebFile();
         webFile.setWebFile(parentWebFile);
 
@@ -148,6 +162,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
             webFile.setCreationDate(new Date());
             webFile.setModificationDate(new Date());
             webFile.setAuthor(getUsername());
+            webFile.setUser(user);
 
             deleteIfExist(parentWebFile, fileName);
             createForced(webFile);
@@ -164,7 +179,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
 
     @Override
     @Transactional(value = TRANSACTION_MANAGER, propagation = Propagation.REQUIRED)
-    public WebFile createByStorageObject(StorageObject object, WebFile parent, String location) {
+    public WebFile createByStorageObject(StorageObject object, WebFile parent, String location, Integer user) {
         WebFile webFile= new WebFile();
         
         webFile.setName(object.getName());
@@ -174,6 +189,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
         webFile.setCreationDate(new Date());
         webFile.setModificationDate(new Date());
         webFile.setAuthor(getUsername());
+        webFile.setUser(user);
         
         super.createForced(webFile);
         return webFile;
@@ -181,7 +197,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
 
     @Override
     @Transactional(value = TRANSACTION_MANAGER, propagation = Propagation.REQUIRED)
-    public WebFile createFolder(WebFile parentWebFile, String folderName) {
+    public WebFile createFolder(WebFile parentWebFile, String folderName, Integer user) {
         if(!folderName.equals("")){
             WebFile webFile= new WebFile();
             webFile.setName(folderName);
@@ -192,6 +208,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
             webFile.setSize(1);
             webFile.setWebFile(parentWebFile);
             webFile.setAuthor(getUsername());
+            webFile.setUser(user);
             
             super.createForced(webFile);
 
@@ -202,7 +219,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
 
     @Override
     @Transactional(value = TRANSACTION_MANAGER, propagation = Propagation.REQUIRED)
-    public WebFile createEmptyFile(WebFile parentWebFile, String fileName) {
+    public WebFile createEmptyFile(WebFile parentWebFile, String fileName, Integer user) {
         if(!fileName.equals("")){
             String extension= FilenameUtils.getExtension(fileName);
             WebFile webFile= new WebFile();
@@ -214,6 +231,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
             webFile.setSize(1);
             webFile.setWebFile(parentWebFile);
             webFile.setAuthor(getUsername());
+            webFile.setUser(user);
             
             super.createForced(webFile);
 
@@ -227,7 +245,7 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
     
     @Override
     @Transactional(value = TRANSACTION_MANAGER, propagation = Propagation.REQUIRED)
-    public WebFile createDirectoriesIfMissing(String path){
+    public WebFile createDirectoriesIfMissing(String path, Integer user){
         WebFile parentWebFile=null, webFile=null;
         String[] folders= path.split("/");
         
@@ -237,15 +255,35 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
                     Parameters p= new Parameters();
                     p.whereEqual("webFile", parentWebFile);
                     p.whereEqual("name", folder);
+                    p.whereEqual("user", user);
                     webFile= super.loadByParameters(p);
                     if(webFile==null){
-                        webFile= createFolder(parentWebFile, folder);
+                        webFile= createFolder(parentWebFile, folder, user);
                     }
                     parentWebFile= webFile;
                 }
             }
         }
         return webFile;
+    }
+    
+    @Override
+    @Transactional(value = TRANSACTION_MANAGER, propagation = Propagation.REQUIRED)
+    public boolean renameWebFile(WebFile webFile, String newFileName){
+        String folder= explorerConstants.getLocalStaticFolder() + getUserFolder(webFile);
+        String oldLocation= folder + getFileName(webFile);
+        String extension= FilenameUtils.getExtension(newFileName);
+        webFile.setName(newFileName);
+        webFile.setIcon(Formats.getSimpleContentType(extension));
+        String newLocation= folder + getFileName(webFile);
+        
+        if(!oldLocation.equals(newLocation) && FileService.existsFile(oldLocation)){
+            FileService.renameFile(oldLocation, newLocation);
+            update(webFile);
+            return true;
+        }else{
+            return false;
+        }
     }
     
     @Override
@@ -363,20 +401,18 @@ public class WebFileServiceImpl extends EntityServiceImpl<WebFile> implements We
     private String getUserFolder(WebFile webFile){
         JSONObject infoUser= new JSONObject();
         if(webFile.getUser()!=null){
-            infoUser.put("user", "user"+webFile.getUser());
+            infoUser.put("user", "u"+webFile.getUser());
         }else{
             infoUser.put("user", "public");
         }
-        return Base64.getEncoder().encodeToString(infoUser.toString().getBytes()).replaceAll("=", "") + "/";
-        //jwt.generateJSONToken(infoUser, SecurityConstants.SECURITY_SEED_PASSW);
+        return EncryptDecryptWF.encrypt(infoUser.toString()) + "/";
     }
     
     private String getFileName(WebFile webFile){
         String extension = FilenameUtils.getExtension(webFile.getName());
         JSONObject infoFile= new JSONObject();
-        infoFile.put("file", "file"+webFile.getId());
-        return Base64.getEncoder().encodeToString(infoFile.toString().getBytes()).replaceAll("=", "")+"."+extension;
-        //jwt.generateJSONToken(infoFile, SecurityConstants.SECURITY_SEED_PASSW)+"."+extension;
+        infoFile.put("file", "f"+webFile.getId());
+        return EncryptDecryptWF.encrypt(infoFile.toString())+"."+extension;
     }
     
     private String getUsername(){

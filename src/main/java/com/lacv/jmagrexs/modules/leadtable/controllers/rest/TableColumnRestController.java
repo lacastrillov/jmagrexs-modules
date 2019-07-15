@@ -162,7 +162,7 @@ public class TableColumnRestController extends RestEntityController {
     @RequestMapping(value = "/delete.htm", method = {RequestMethod.DELETE, RequestMethod.GET})
     @ResponseBody
     @Override
-    public String delete(@RequestParam String idEntity) {
+    public String delete(@RequestParam String idEntity, HttpServletRequest request) {
         String tableName="";
         String columnAlias= "";
         try {
@@ -173,7 +173,7 @@ public class TableColumnRestController extends RestEntityController {
             LOGGER.error("update " + entityRef, e);
         }
         
-        String result= super.delete(idEntity);
+        String result= super.delete(idEntity, request);
         
         try{
             JSONObject jsonResult= new JSONObject(result);

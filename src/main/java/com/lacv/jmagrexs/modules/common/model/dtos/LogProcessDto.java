@@ -68,6 +68,12 @@ public class LogProcessDto implements BaseDto {
     private Boolean success;
     
     @Order(11)
+    @TypeFormField(value = FieldType.CONDITIONAL_COLOR, data={
+        "{eq:'Proceso corriendo',c:'#059',bg:'#BEF'}",
+        "{eq:'Proceso realizado',c:'#270',bg:'#DFF2BF'}",
+        "{eq:'Proceso incompleto',c:'#9F6000',bg:'#FEEFB3'}",
+        "{eq:'Proceso fallido',c:'#D8000C',bg:'#FFBABA'}"
+    })
     private String message;
     
     @TextField("Client Id")

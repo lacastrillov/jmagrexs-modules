@@ -16,6 +16,7 @@ import com.lacv.jmagrexs.modules.security.services.UserService;
 import com.lacv.jmagrexs.modules.fileexplorer.services.WebFileService;
 import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import java.io.InputStream;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,13 +50,14 @@ public class UserRestController extends RestSessionController {
     }
     
     @Override
-    public String saveFilePart(int slice, String fieldName, String fileName, String fileType, int fileSize, InputStream is, Object idParent) {
+    public String saveFilePart(int slice, String fieldName, String fileName, String fileType, int fileSize, InputStream is, Object idParent, Boolean sessionUpload) {
         String path= "imagenes/usuario/";
-        WebFile parentWebFile= webFileService.createDirectoriesIfMissing(path);
+        WebFile parentWebFile= webFileService.createDirectoriesIfMissing(path, null);
         
         try {
+            Integer userId= (sessionUpload!=null && sessionUpload)? securityService.getCurrentUser().getId():null;
             String imageName= idParent + "_" +fileName.replaceAll(" ", "_");
-            WebFile webFile= webFileService.createByFileData(parentWebFile, slice, imageName, fileType, fileSize, is);
+            WebFile webFile= webFileService.createByFileData(parentWebFile, slice, imageName, fileType, fileSize, is, userId);
             
             User user = userService.loadById(idParent);
             user.setUrlPhoto(webFile.getLocation());
@@ -68,13 +70,14 @@ public class UserRestController extends RestSessionController {
     }
     
     @Override
-    public String saveResizedImage(String fieldName, String fileName, String fileType, int width, int height, int fileSize, InputStream is, Object idParent){
+    public String saveResizedImage(String fieldName, String fileName, String fileType, int width, int height, int fileSize, InputStream is, Object idParent, Boolean sessionUpload){
         String path= "imagenes/usuario/";
-        WebFile parentWebFile= webFileService.createDirectoriesIfMissing(path);
+        WebFile parentWebFile= webFileService.createDirectoriesIfMissing(path, null);
         
         try {
+            Integer userId= (sessionUpload!=null && sessionUpload)? securityService.getCurrentUser().getId():null;
             String imageName= idParent + "_" + width + "x" + height + "_" +fileName.replaceAll(" ", "_");
-            webFileService.createByFileData(parentWebFile, 0, imageName, fileType, fileSize, is);
+            webFileService.createByFileData(parentWebFile, 0, imageName, fileType, fileSize, is, userId);
             
             return "Archivo " + imageName + " almacenado correctamente";
         } catch (Exception ex) {
@@ -94,34 +97,39 @@ public class UserRestController extends RestSessionController {
     }
     
     @Override
-    public boolean canLoad(BaseEntity entity){
+    public boolean canSessionLoad(BaseEntity entity){
         User user= (User) entity;
         return securityService.getCurrentUser().getId().equals(user.getId());
     }
     
     @Override
-    public boolean canCreate(BaseEntity entity){
+    public boolean canSessionCreate(BaseEntity entity){
         return false;
     }
     
     @Override
-    public boolean canUpdate(BaseEntity entity){
+    public boolean canSessionUpdate(BaseEntity entity){
         User user= (User) entity;
         return securityService.getCurrentUser().getId().equals(user.getId());
     }
 
     @Override
-    public boolean canDelete(BaseEntity entity) {
+    public boolean canSessionDelete(BaseEntity entity) {
         return false;
     }
 
     @Override
-    public boolean canUpdateByFilters(JSONObject jsonFilters) {
+    public boolean canSessionUpdateByFilters(JSONObject jsonFilters) {
         return false;
     }
 
     @Override
-    public boolean canDeleteByFilters(JSONObject jsonFilters) {
+    public boolean canSessionDeleteByFilters(JSONObject jsonFilters) {
+        return false;
+    }
+    
+    @Override
+    public boolean canSessionImportData(List<BaseEntity> entities){
         return false;
     }
     

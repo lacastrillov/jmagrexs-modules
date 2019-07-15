@@ -149,8 +149,8 @@ public class LeadTableRestController extends RestEntityController {
     @RequestMapping(value = "/delete.htm", method = {RequestMethod.DELETE, RequestMethod.GET})
     @ResponseBody
     @Override
-    public String delete(@RequestParam String idEntity) {
-        String result= super.delete(idEntity);
+    public String delete(@RequestParam String idEntity, HttpServletRequest request) {
+        String result= super.delete(idEntity, request);
         
         try{
             JSONObject jsonResult= new JSONObject(result);

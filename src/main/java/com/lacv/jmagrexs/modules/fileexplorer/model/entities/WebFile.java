@@ -7,6 +7,8 @@ package com.lacv.jmagrexs.modules.fileexplorer.model.entities;
 
 import com.lacv.jmagrexs.components.ExplorerConstants;
 import com.lacv.jmagrexs.domain.BaseEntity;
+import com.lacv.jmagrexs.modules.security.model.entities.User;
+import com.lacv.jmagrexs.modules.security.services.UserService;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -25,6 +27,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import org.json.JSONObject;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.ContextLoader;
 
@@ -190,7 +193,20 @@ public class WebFile implements BaseEntity {
     public String getLocation() {
         ApplicationContext ctx = ContextLoader.getCurrentWebApplicationContext();
         ExplorerConstants explorerConstants= (ExplorerConstants) ctx.getBean("explorerConstants");
-        return explorerConstants.getLocalStaticDomain() + "/" + explorerConstants.getLocalRootFolder() + getPath() + getName();
+        String location= explorerConstants.getLocalStaticDomain() + "/";
+        if(user==null){
+            location+= explorerConstants.getLocalRootFolder();
+        }else{
+            UserService userService= (UserService) ctx.getBean("userService");
+            User u= userService.loadById(user);
+            if(u!=null){
+                location+= explorerConstants.getLocalRootUserFolder() + u.getUsername() + "/";
+            }else{
+                location+= explorerConstants.getLocalRootFolder();
+            }
+        }
+        location+= getPath() + getName();
+        return location;
     }
     
     public String getPath(){

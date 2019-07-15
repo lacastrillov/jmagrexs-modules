@@ -29,15 +29,17 @@ public interface WebFileService extends EntityService<WebFile> {
     
     String getPathFromFileUrl(String fileUrl);
     
-    WebFile createByFileData(WebFile parentWebFile, int slice, String fileName, String fileType, int fileSize, InputStream is) throws IOException;
+    WebFile createByFileData(WebFile parentWebFile, int slice, String fileName, String fileType, int fileSize, InputStream is, Integer user) throws IOException;
     
-    WebFile createByStorageObject(StorageObject object, WebFile parent, String location);
+    WebFile createByStorageObject(StorageObject object, WebFile parent, String location, Integer user);
     
-    WebFile createFolder(WebFile parentWebFile, String folderName);
+    WebFile createFolder(WebFile parentWebFile, String folderName, Integer user);
     
-    WebFile createEmptyFile(WebFile parentWebFile, String fileName);
+    WebFile createEmptyFile(WebFile parentWebFile, String fileName, Integer user);
     
-    WebFile createDirectoriesIfMissing(String path);
+    WebFile createDirectoriesIfMissing(String path, Integer user);
+    
+    boolean renameWebFile(WebFile webFile, String newFileName);
     
     boolean deleteIfExist(WebFile parentWebFile, String fileName);
     
