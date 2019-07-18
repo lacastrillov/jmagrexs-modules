@@ -147,10 +147,13 @@ public class WebFileRestController extends RestSessionController {
     
     public void download(@PathVariable String fileName, HttpServletRequest request, HttpServletResponse response) {
         try {
-            String realLocation= webFileService.getStaticFileLocation(request.getRequestURI());
+            String requestURI= request.getRequestURI();
+            if(requestURI.endsWith("/")){
+                requestURI= requestURI.substring(0, requestURI.length()-1);
+            }
+            String realLocation= webFileService.getStaticFileLocation(requestURI);
             if(realLocation!=null){
                 String extension = FilenameUtils.getExtension(fileName);
-                String contentDisposition= (extension.equalsIgnoreCase("jsp"))?"attachment":"inline";
                 File file= new File(realLocation);
                 String mimeType = tika.detect(file);
                 if(Formats.getContentTypeByExtension(extension)!=null){
@@ -159,7 +162,7 @@ public class WebFileRestController extends RestSessionController {
                 FileInputStream fis = new FileInputStream(realLocation);
                 response.setContentType(mimeType);
                 response.setHeader("Content-Length", String.valueOf(fis.available()));
-                response.setHeader("Content-Disposition", contentDisposition+"; filename=\"" + fileName + "\"");
+                response.setHeader("Content-Disposition", "inline; filename=\"" + fileName + "\"");
 
                 int fileSize = 1024*1024;
                 int read;
