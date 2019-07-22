@@ -44,6 +44,7 @@ public class MailViewController extends ExtEntityController {
         view.setPluralEntityTitle("Correos");
         view.setEditableForm(false);
         view.setEditableGrid(false);
+        view.setVisibleSeeAllButton(true);
         super.addControlMapping(view);
         
         MenuItem menuParent= new MenuItem("Sistema");
