@@ -27,6 +27,7 @@ public class WebResourceMapper extends EntityMapperImpl<WebResource, WebResource
             dto.setCategory(entity.getCategory());
             dto.setId(entity.getId());
             dto.setIsPublic(entity.getIsPublic());
+            dto.setModule(entity.getModule());
             dto.setName(entity.getName());
             dto.setPath(entity.getPath());
             dto.setType(entity.getType());
@@ -57,6 +58,7 @@ public class WebResourceMapper extends EntityMapperImpl<WebResource, WebResource
             entity.setCategory(dto.getCategory());
             entity.setId(dto.getId());
             entity.setIsPublic(dto.getIsPublic());
+            entity.setModule(dto.getModule());
             entity.setName(dto.getName());
             entity.setPath(dto.getPath());
             entity.setType(dto.getType());

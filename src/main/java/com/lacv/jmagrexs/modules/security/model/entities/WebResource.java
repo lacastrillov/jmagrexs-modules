@@ -55,6 +55,9 @@ public class WebResource implements BaseEntity {
     @Size(max = 100)
     @Column(name = "category")
     private String category;
+    @Size(max = 100)
+    @Column(name = "module")
+    private String module;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "webResource")
     private List<WebresourceAuthorization> webresourceAuthorizationList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "webResource")
@@ -121,6 +124,14 @@ public class WebResource implements BaseEntity {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getModule() {
+        return module;
+    }
+
+    public void setModule(String module) {
+        this.module = module;
     }
 
     public List<WebresourceAuthorization> getWebresourceAuthorizationList() {

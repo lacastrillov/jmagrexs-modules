@@ -46,7 +46,7 @@ public class WebResourceViewController extends ExtEntityController {
         view.setPluralEntityTitle("Recursos Web");
         view.addChildExtView("webresourceRole", WebresourceRole.class, EntityConfig.TCV_N_TO_N);
         view.addChildExtView("webresourceAuthorization", WebresourceAuthorization.class, EntityConfig.TCV_N_TO_N);
-        view.setDefaultOrderBy("category");
+        view.setDefaultOrderBy("module");
         view.setDefaultOrderDir("ASC");
         super.addControlMapping(view);
         

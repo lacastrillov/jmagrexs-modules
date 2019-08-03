@@ -31,27 +31,32 @@ public class WebResourceDto implements BaseDto {
     private Integer id;
     
     @Order(2)
+    @ColumnWidth(150)
+    @TextField("M&oacute;dulo")
+    private String module;
+    
+    @Order(3)
     @TextField("Categor&iacute;a")
     private String category;
     
-    @Order(3)
+    @Order(4)
     @NotNull
     @TextField("Nombre")
     private String name;
     
-    @Order(4)
+    @Order(5)
     @NotNull
-    @ColumnWidth(300)
+    @ColumnWidth(350)
     @TextField("Path")
     private String path;
     
-    @Order(5)
+    @Order(6)
     @NotNull
     @TextField("Tipo")
     @TypeFormField(value = FieldType.LIST, data = {"general", "specific"})
     private String type;
     
-    @Order(6)
+    @Order(7)
     @TextField("Es p&uacute;blico")
     private Boolean isPublic;
     
@@ -120,6 +125,14 @@ public class WebResourceDto implements BaseDto {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getModule() {
+        return module;
+    }
+
+    public void setModule(String module) {
+        this.module = module;
     }
 
     public List<WebresourceAuthorizationDto> getWebresourceAuthorizationList() {

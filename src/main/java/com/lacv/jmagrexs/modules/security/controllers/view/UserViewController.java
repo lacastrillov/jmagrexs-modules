@@ -49,6 +49,7 @@ public class UserViewController extends ExtEntityController {
         view.setNumColumnsForm(2);
         view.setMultipartFormData(true);
         view.setVisibleSeeAllButton(true);
+        view.setLabelPlusId(true);
         
         ProcessButton setPasswordButton= new ProcessButton();
         setPasswordButton.setMainProcessRef("processUser");
