@@ -10,6 +10,7 @@ import com.lacv.jmagrexs.modules.security.model.dtos.WebresourceAuthorizationDto
 import com.lacv.jmagrexs.modules.security.model.mappers.WebresourceAuthorizationMapper;
 import com.lacv.jmagrexs.modules.security.services.WebresourceAuthorizationService;
 import com.lacv.jmagrexs.controller.view.ExtEntityController;
+import com.lacv.jmagrexs.dto.MenuItem;
 import com.lacv.jmagrexs.dto.config.EntityConfig;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,13 @@ public class WebresourceAuthorizationViewController extends ExtEntityController 
         view.setPluralEntityTitle("Autorizaciones de Recursos Web");
         view.activateNNMulticheckChild("authorization");
         super.addControlMapping(view);
+        
+        MenuItem menuParent= new MenuItem("Sistema");
+        MenuItem menuParent1= new MenuItem("Seguridad");
+        MenuItem menuItem= new MenuItem("webresourceAuthorization", "Gestionar Recursos Web por Autorizaciones", 7);
+        menuParent1.addSubMenu(menuItem);
+        menuParent.addSubMenu(menuParent1);
+        menuComponent.addItemMenu(menuParent);
     }
     
     

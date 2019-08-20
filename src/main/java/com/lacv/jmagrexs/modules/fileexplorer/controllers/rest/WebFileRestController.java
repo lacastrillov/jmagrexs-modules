@@ -9,7 +9,6 @@ import com.lacv.jmagrexs.modules.fileexplorer.model.entities.WebFile;
 import com.lacv.jmagrexs.modules.fileexplorer.model.mappers.WebFileMapper;
 import com.lacv.jmagrexs.modules.fileexplorer.services.WebFileService;
 import com.lacv.jmagrexs.dao.Parameters;
-import com.lacv.jmagrexs.enums.WebFileType;
 import com.lacv.jmagrexs.util.FileService;
 import com.lacv.jmagrexs.util.Util;
 import com.google.gson.Gson;
@@ -96,9 +95,9 @@ public class WebFileRestController extends RestSessionController {
                 parentWebFile= webFileService.loadById(jsonObject.getLong("webFile"));
             }
             Integer user= (jsonObject.has("user"))?jsonObject.getInt("user"):null;
-            if (jsonObject.getString("type").equals(WebFileType.folder.name())) {
+            if (jsonObject.getString("type").equals("folder")) {
                 webFile = webFileService.createFolder(parentWebFile, jsonObject.getString("name"), user);
-            } else if (jsonObject.getString("type").equals(WebFileType.file.name())) {
+            } else if (jsonObject.getString("type").equals("file")) {
                 webFile = webFileService.createEmptyFile(parentWebFile, jsonObject.getString("name"), user);
             }
 

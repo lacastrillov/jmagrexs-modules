@@ -176,6 +176,7 @@ public class UserDto implements BaseDto {
     
     @Order(23)
     @ReadOnly
+    @TypeFormField(FieldType.DATETIME)
     @GroupField("Datos de Cuenta")
     @TextField("Ultimo login")
     private Date lastLogin;

@@ -15,7 +15,6 @@ import com.lacv.jmagrexs.util.AESEncrypt;
 import com.lacv.jmagrexs.modules.common.services.LogProcessService;
 import com.lacv.jmagrexs.modules.security.services.UserService;
 import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
-import com.lacv.jmagrexs.modules.common.services.PropertyService;
 import com.lacv.jmagrexs.modules.security.services.RoleService;
 import com.lacv.jmagrexs.modules.security.services.UserRoleService;
 import com.lacv.jmagrexs.modules.security.constants.SecurityConstants;
@@ -43,14 +42,11 @@ public class UserProcessRestController extends RestProcessController {
     @Autowired
     UserRoleService userRoleService;
     
-    @Autowired
+    @Autowired(required=false)
     LogProcessService logProcessService;
     
     @Autowired
     SecurityService securityService;
-    
-    @Autowired
-    PropertyService propertyService;
     
     AESEncrypt myInstance= AESEncrypt.getDefault(SecurityConstants.SECURITY_SALT);
     

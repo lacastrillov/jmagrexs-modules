@@ -36,13 +36,13 @@ public class WebResourceDto implements BaseDto {
     private String module;
     
     @Order(3)
-    @TextField("Categor&iacute;a")
-    private String category;
-    
-    @Order(4)
     @NotNull
     @TextField("Nombre")
     private String name;
+    
+    @Order(4)
+    @TextField("Categor&iacute;a")
+    private String category;
     
     @Order(5)
     @NotNull
@@ -52,11 +52,13 @@ public class WebResourceDto implements BaseDto {
     
     @Order(6)
     @NotNull
+    @ColumnWidth(100)
     @TextField("Tipo")
     @TypeFormField(value = FieldType.LIST, data = {"general", "specific"})
     private String type;
     
     @Order(7)
+    @ColumnWidth(100)
     @TextField("Es p&uacute;blico")
     private Boolean isPublic;
     

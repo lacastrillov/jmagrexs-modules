@@ -5,6 +5,9 @@
  */
 package com.lacv.jmagrexs.modules.security.model.dtos;
 
+import com.lacv.jmagrexs.annotation.ColumnWidth;
+import com.lacv.jmagrexs.annotation.Order;
+import com.lacv.jmagrexs.annotation.TextField;
 import com.lacv.jmagrexs.domain.BaseDto;
 
 /**
@@ -15,10 +18,16 @@ public class WebresourceAuthorizationDto implements BaseDto {
 
     private static final long serialVersionUID = 1L;
     
+    @Order(1)
+    @ColumnWidth(100)
     private Integer id;
     
+    @Order(2)
+    @TextField("Recurso Web")
     private WebResourceDto webResource;
     
+    @Order(3)
+    @TextField("Autorizaci&oacute;n")
     private AuthorizationDto authorization;
 
     public WebresourceAuthorizationDto() {

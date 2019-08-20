@@ -40,7 +40,7 @@ public class UserRestController extends RestSessionController {
     @Autowired
     SecurityService securityService;
     
-    @Autowired
+    @Autowired(required=false)
     WebFileService webFileService;
     
     
@@ -51,38 +51,44 @@ public class UserRestController extends RestSessionController {
     
     @Override
     public String saveFilePart(int slice, String fieldName, String fileName, String fileType, int fileSize, InputStream is, Object idParent, Boolean sessionUpload) {
-        String path= "imagenes/usuario/";
-        WebFile parentWebFile= webFileService.createDirectoriesIfMissing(path, null);
-        
-        try {
-            Integer userId= (sessionUpload!=null && sessionUpload)? securityService.getCurrentUser().getId():null;
-            String imageName= idParent + "_" +fileName.replaceAll(" ", "_");
-            WebFile webFile= webFileService.createByFileData(parentWebFile, slice, imageName, fileType, fileSize, is, userId);
-            
-            User user = userService.loadById(idParent);
-            user.setUrlPhoto(webFile.getLocation());
-            userService.update(user);
-            
-            return "Archivo " + imageName + " almacenado correctamente";
-        } catch (Exception ex) {
-            return ex.getMessage();
+        if(webFileService!=null){
+            String path= "imagenes/usuario/";
+            WebFile parentWebFile= webFileService.createDirectoriesIfMissing(path, null);
+
+            try {
+                Integer userId= (sessionUpload!=null && sessionUpload)? securityService.getCurrentUser().getId():null;
+                String imageName= idParent + "_" +fileName.replaceAll(" ", "_");
+                WebFile webFile= webFileService.createByFileData(parentWebFile, slice, imageName, fileType, fileSize, is, userId);
+
+                User user = userService.loadById(idParent);
+                user.setUrlPhoto(webFile.getLocation());
+                userService.update(user);
+
+                return "Archivo " + imageName + " almacenado correctamente";
+            } catch (Exception ex) {
+                return ex.getMessage();
+            }
         }
+        return "Sistema de archivos no definido!!!";
     }
     
     @Override
     public String saveResizedImage(String fieldName, String fileName, String fileType, int width, int height, int fileSize, InputStream is, Object idParent, Boolean sessionUpload){
-        String path= "imagenes/usuario/";
-        WebFile parentWebFile= webFileService.createDirectoriesIfMissing(path, null);
-        
-        try {
-            Integer userId= (sessionUpload!=null && sessionUpload)? securityService.getCurrentUser().getId():null;
-            String imageName= idParent + "_" + width + "x" + height + "_" +fileName.replaceAll(" ", "_");
-            webFileService.createByFileData(parentWebFile, 0, imageName, fileType, fileSize, is, userId);
-            
-            return "Archivo " + imageName + " almacenado correctamente";
-        } catch (Exception ex) {
-            return ex.getMessage();
+        if(webFileService!=null){
+            String path= "imagenes/usuario/";
+            WebFile parentWebFile= webFileService.createDirectoriesIfMissing(path, null);
+
+            try {
+                Integer userId= (sessionUpload!=null && sessionUpload)? securityService.getCurrentUser().getId():null;
+                String imageName= idParent + "_" + width + "x" + height + "_" +fileName.replaceAll(" ", "_");
+                webFileService.createByFileData(parentWebFile, 0, imageName, fileType, fileSize, is, userId);
+
+                return "Archivo " + imageName + " almacenado correctamente";
+            } catch (Exception ex) {
+                return ex.getMessage();
+            }
         }
+        return "Sistema de archivos no definido!!!";
     }
     
     @Override

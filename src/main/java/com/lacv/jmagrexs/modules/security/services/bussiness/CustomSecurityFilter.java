@@ -5,6 +5,7 @@ import com.lacv.jmagrexs.dto.RESTServiceDto;
 import com.lacv.jmagrexs.util.RESTServiceConnection;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -47,35 +48,28 @@ public class CustomSecurityFilter extends GenericFilterBean {
     @Autowired
     ServerDomain serverDomain;
     
-    private List accessControlModifiersList;
+    private List<String> accessControlModifiersList;
     
-    private List excludedResourcesList;
+    private List<String> excludedResourcesList;
 
     private final ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
     
     @PostConstruct
     public void init(){
-        accessControlModifiersList= Arrays.asList(new String[]{
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/create.htm",
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/update.htm",
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/delete.htm",
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/delete/byfilter.htm",
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/import.htm",
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/import/xls.htm",
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/import/csv.htm",
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/import/json.htm",
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webResource/import/xml.htm",
-            
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceRole/create.htm",
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceRole/update.htm",
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceRole/delete.htm",
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceRole/delete/byfilter.htm",
-            
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceAuthorization/create.htm",
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceAuthorization/update.htm",
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceAuthorization/delete.htm",
-            serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/webresourceAuthorization/delete/byfilter.htm",
-        });
+        String[] entityModifiers= {"webResource", "webresourceRole", "webresourceAuthorization"};
+        String rootPath= serverDomain.getApplicationContext()+serverDomain.getRestContext()+"/rest/";
+        accessControlModifiersList= new ArrayList<>();
+        for(String entityModifier: entityModifiers){
+            accessControlModifiersList.add(rootPath + entityModifier + "/create.htm");
+            accessControlModifiersList.add(rootPath + entityModifier + "/update.htm");
+            accessControlModifiersList.add(rootPath + entityModifier + "/delete.htm");
+            accessControlModifiersList.add(rootPath + entityModifier + "/delete/byfilter.htm");
+            accessControlModifiersList.add(rootPath + entityModifier + "/import.htm");
+            accessControlModifiersList.add(rootPath + entityModifier + "/import/xlsx.htm");
+            accessControlModifiersList.add(rootPath + entityModifier + "/import/csv.htm");
+            accessControlModifiersList.add(rootPath + entityModifier + "/import/json.htm");
+            accessControlModifiersList.add(rootPath + entityModifier + "/import/xml.htm");
+        }
         
         excludedResourcesList= Arrays.asList(new String[]{
             "css", "js", "png", "jpg", "jpeg", "gif"
