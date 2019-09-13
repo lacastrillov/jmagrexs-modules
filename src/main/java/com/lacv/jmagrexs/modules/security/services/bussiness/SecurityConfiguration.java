@@ -7,9 +7,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -21,11 +19,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     CustomSecurityFilter customSecurityFilter;
     
-    @Autowired
+    /*@Autowired
     AuthenticationSuccessHandler authenticationSuccessHandler;
     
     @Autowired
-    LogoutSuccessHandler logoutSuccessHandler;
+    LogoutSuccessHandler logoutSuccessHandler;*/
 
     @Autowired
     public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {

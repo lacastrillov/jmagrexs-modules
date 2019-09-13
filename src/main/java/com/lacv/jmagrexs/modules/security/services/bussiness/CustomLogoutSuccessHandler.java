@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  *
  * @author grupot
  */
-@Component
+//@Component
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
     
     private final String[] CONTEXT_APPS= {"/rest","/vista"};

@@ -131,7 +131,8 @@ public class WebFileRestController extends RestSessionController {
     @Override
     public String deleteByFilter(@RequestParam String filter, HttpServletRequest request) {
         try {
-            List<WebFile> listEntities = service.findByJSONFilters(filter, null, null, null, null, null);
+            Parameters p= service.buildParameters(filter, null, null, null, null, null);
+            List<WebFile> listEntities = service.findByParameters(p);
             List<WebFileDto> listDtos = mapper.listEntitiesToListDtos(listEntities);
             
             for(WebFile webFile: listEntities){

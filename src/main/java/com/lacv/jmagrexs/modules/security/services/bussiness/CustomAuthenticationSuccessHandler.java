@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
  *
  * @author grupot
  */
-@Component
+//@Component
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
     
     private final String[] CONTEXT_APPS= {"/rest","/vista"};
