@@ -25,7 +25,7 @@ import org.eclipse.persistence.annotations.JoinFetchType;
  * @author grupot
  */
 @Entity
-@Table(name = "role_authorization")
+@Table(name = "sys_role_authorization")
 @NamedQueries({
     @NamedQuery(name = "RoleAuthorization.findAll", query = "SELECT r FROM RoleAuthorization r")})
 public class RoleAuthorization implements BaseEntity {

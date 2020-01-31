@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
  * @author grupot
  */
 @Entity
-@Table(name = "web_resource")
+@Table(name = "sys_web_resource")
 @NamedQueries({
     @NamedQuery(name = "WebResource.findAll", query = "SELECT w FROM WebResource w")})
 public class WebResource implements BaseEntity {

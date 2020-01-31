@@ -10,6 +10,7 @@ import com.lacv.jmagrexs.modules.security.model.dtos.RoleAuthorizationDto;
 import com.lacv.jmagrexs.modules.security.model.mappers.RoleAuthorizationMapper;
 import com.lacv.jmagrexs.modules.security.services.RoleAuthorizationService;
 import com.lacv.jmagrexs.controller.view.ExtEntityController;
+import com.lacv.jmagrexs.dto.MenuItem;
 import com.lacv.jmagrexs.dto.config.EntityConfig;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +40,15 @@ public class RoleAuthorizationViewController extends ExtEntityController {
         view.activateNNMulticheckChild("authorization");
         super.addControlMapping(view);
         
-        /*MenuItem menuItem= new MenuItem("Seguridad", "roleAuthorization", "Gestionar Comercios");
-        menuComponent.addItemMenu(menuItem);
-        super.addMenuComponent(menuComponent);*/
+        MenuItem menuItem= new MenuItem("roleAuthorization", "Gestionar Autorizaciones de Roles", 3);
+        
+        MenuItem menuParent1= new MenuItem("Seguridad", 1);
+        menuParent1.addSubMenu(menuItem);
+        
+        MenuItem menuParent= new MenuItem("Sistema");
+        menuParent.addSubMenu(menuParent1);
+        
+        menuComponent.addItemMenu(menuParent);
     }
     
     

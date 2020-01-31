@@ -9,6 +9,7 @@ import com.lacv.jmagrexs.annotation.ColumnWidth;
 import com.lacv.jmagrexs.annotation.LabelField;
 import com.lacv.jmagrexs.annotation.NotNull;
 import com.lacv.jmagrexs.annotation.Order;
+import com.lacv.jmagrexs.annotation.ReadOnly;
 import com.lacv.jmagrexs.annotation.TextField;
 import com.lacv.jmagrexs.annotation.TypeFormField;
 import com.lacv.jmagrexs.domain.BaseDto;
@@ -24,7 +25,9 @@ public class PropertyDto implements BaseDto {
     private static final long serialVersionUID = 1L;
     
     @Order(1)
+    @ReadOnly
     @ColumnWidth(100)
+    @TextField("Id")
     private Integer id;
     
     @Order(2)

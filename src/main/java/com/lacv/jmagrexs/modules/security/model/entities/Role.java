@@ -26,7 +26,7 @@ import javax.validation.constraints.Size;
  * @author grupot
  */
 @Entity
-@Table(name = "role")
+@Table(name = "sys_role")
 @NamedQueries({
     @NamedQuery(name = "Role.findAll", query = "SELECT r FROM Role r")})
 public class Role implements BaseEntity {

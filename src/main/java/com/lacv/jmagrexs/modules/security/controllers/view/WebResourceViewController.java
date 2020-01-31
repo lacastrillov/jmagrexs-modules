@@ -50,11 +50,14 @@ public class WebResourceViewController extends ExtEntityController {
         view.setDefaultOrderDir("ASC");
         super.addControlMapping(view);
         
-        MenuItem menuParent= new MenuItem("Sistema");
+        MenuItem menuItem= new MenuItem("webResource", "Gestionar Recursos Web", 6);
+        
         MenuItem menuParent1= new MenuItem("Seguridad");
-        MenuItem menuItem= new MenuItem("webResource", "Gestionar Recursos Web", 5);
         menuParent1.addSubMenu(menuItem);
+        
+        MenuItem menuParent= new MenuItem("Sistema");
         menuParent.addSubMenu(menuParent1);
+        
         menuComponent.addItemMenu(menuParent);
     }
     

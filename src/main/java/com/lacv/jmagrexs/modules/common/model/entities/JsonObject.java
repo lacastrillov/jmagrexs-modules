@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
  * @author lacastrillov
  */
 @Entity
-@Table(name = "json_object")
+@Table(name = "sys_json_object")
 @NamedQueries({
     @NamedQuery(name = "JsonObject.findAll", query = "SELECT c FROM JsonObject c")})
 public class JsonObject implements JsonObjectInterface {
@@ -37,12 +37,13 @@ public class JsonObject implements JsonObjectInterface {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 200)
+    @Size(min = 1, max = 255)
     @Column(name = "type")
     private String type;
-    @Size(max = 45)
+    @Size(max = 100)
     @Column(name = "related_entity")
     private String relatedEntity;
+    @Size(max = 255)
     @Column(name = "related_id")
     private Integer relatedId;
     @Lob

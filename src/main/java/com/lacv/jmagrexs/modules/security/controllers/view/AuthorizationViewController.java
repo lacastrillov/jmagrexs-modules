@@ -44,11 +44,14 @@ public class AuthorizationViewController extends ExtEntityController {
         view.setPluralEntityTitle("Autorizaciones");
         super.addControlMapping(view);
         
-        MenuItem menuParent= new MenuItem("Sistema");
-        MenuItem menuParent1= new MenuItem("Seguridad");
         MenuItem menuItem= new MenuItem("authorization", "Gestionar Autorizaciones", 1);
+        
+        MenuItem menuParent1= new MenuItem("Seguridad");
         menuParent1.addSubMenu(menuItem);
+        
+        MenuItem menuParent= new MenuItem("Sistema");
         menuParent.addSubMenu(menuParent1);
+        
         menuComponent.addItemMenu(menuParent);
     }
     

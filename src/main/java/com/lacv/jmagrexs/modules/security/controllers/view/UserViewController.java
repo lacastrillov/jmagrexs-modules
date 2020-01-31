@@ -62,11 +62,14 @@ public class UserViewController extends ExtEntityController {
         
         super.addControlMapping(view);
         
-        MenuItem menuParent= new MenuItem("Sistema", 1);
+        MenuItem menuItem= new MenuItem("user", "Gestionar Usuarios", 4);
+        
         MenuItem menuParent1= new MenuItem("Seguridad");
-        MenuItem menuItem= new MenuItem("user", "Gestionar Usuarios", 3);
         menuParent1.addSubMenu(menuItem);
+        
+        MenuItem menuParent= new MenuItem("Sistema", 1);
         menuParent.addSubMenu(menuParent1);
+        
         menuComponent.addItemMenu(menuParent);
     }
     

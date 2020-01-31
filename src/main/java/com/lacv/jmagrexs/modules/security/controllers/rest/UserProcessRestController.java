@@ -71,7 +71,7 @@ public class UserProcessRestController extends RestProcessController {
         result.setSuccess(false);
         if(user!=null){
             if(createPassword.getPassword().equals(createPassword.getConfirmPassword())){
-                user.setPassword(myInstance.encrypt(createPassword.getPassword(), SecurityConstants.SECURITY_SEED_PASSW));
+                user.setPassword(myInstance.encrypt(user.getId()+"#"+createPassword.getPassword(), SecurityConstants.SECURITY_SEED_PASSW));
                 userService.update(user);
                 result.setMessage("La contraseña se ha creado correctamente");
                 result.setSuccess(true);

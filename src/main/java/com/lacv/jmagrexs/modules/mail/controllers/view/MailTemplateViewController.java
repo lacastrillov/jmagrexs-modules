@@ -44,11 +44,14 @@ public class MailTemplateViewController extends ExtEntityController {
         view.setPluralEntityTitle("Plantillas de Correo");
         super.addControlMapping(view);
         
-        MenuItem menuParent= new MenuItem("Sistema");
-        MenuItem menuParent1= new MenuItem("Correos", 5);
         MenuItem menuItem= new MenuItem("mailTemplate", "Gestionar Plantillas de Correo", 2);
+        
+        MenuItem menuParent1= new MenuItem("Correos", 5);
         menuParent1.addSubMenu(menuItem);
+        
+        MenuItem menuParent= new MenuItem("Sistema");
         menuParent.addSubMenu(menuParent1);
+        
         menuComponent.addItemMenu(menuParent);
     }
     

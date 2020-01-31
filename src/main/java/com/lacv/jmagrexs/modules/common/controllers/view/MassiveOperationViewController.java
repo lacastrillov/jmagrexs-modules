@@ -41,19 +41,22 @@ public class MassiveOperationViewController extends ExtEntityController {
     @PostConstruct
     public void init(){
         EntityConfig view= new EntityConfig("massiveOperation", massiveOperationService, MassiveOperationDto.class);
-        view.setSingularEntityTitle("Massive Operation");
-        view.setPluralEntityTitle("Massive Operations");
+        view.setSingularEntityTitle("Operaci&oacute;n Masiva");
+        view.setPluralEntityTitle("Operaciones Masivas");
         view.setMultipartFormData(false);
         view.setVisibleSeeAllButton(false);
         view.setDefaultOrder("id", "DESC");
         view.addChildExtView("dbOperation", DbOperation.class, EntityConfig.TCV_1_TO_N);
         super.addControlMapping(view);
         
-        MenuItem menuParent= new MenuItem("Sistema");
-        MenuItem menuParent1= new MenuItem("Configuraci&oacute;n", 2);
-        MenuItem menuItem= new MenuItem("massiveOperation", "Gestionar Massive Operations");
+        MenuItem menuItem= new MenuItem("massiveOperation", "Gestionar Operaciones Masivas");
+        
+        MenuItem menuParent1= new MenuItem("Registros", 3);
         menuParent1.addSubMenu(menuItem);
+        
+        MenuItem menuParent= new MenuItem("Sistema");
         menuParent.addSubMenu(menuParent1);
+        
         menuComponent.addItemMenu(menuParent);
     }
     

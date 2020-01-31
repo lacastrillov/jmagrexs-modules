@@ -47,11 +47,14 @@ public class RoleViewController extends ExtEntityController {
         view.addChildExtView("roleAuthorization", RoleAuthorization.class, EntityConfig.TCV_N_TO_N);
         super.addControlMapping(view);
         
-        MenuItem menuParent= new MenuItem("Sistema");
-        MenuItem menuParent1= new MenuItem("Seguridad", 1);
         MenuItem menuItem= new MenuItem("role", "Gestionar Roles", 2);
+        
+        MenuItem menuParent1= new MenuItem("Seguridad", 1);
         menuParent1.addSubMenu(menuItem);
+        
+        MenuItem menuParent= new MenuItem("Sistema");
         menuParent.addSubMenu(menuParent1);
+        
         menuComponent.addItemMenu(menuParent);
     }
     

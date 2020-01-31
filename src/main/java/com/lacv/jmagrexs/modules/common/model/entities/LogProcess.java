@@ -27,7 +27,7 @@ import javax.persistence.Transient;
  * @author grupot
  */
 @Entity
-@Table(name = "log_process")
+@Table(name = "sys_log_process")
 @NamedQueries({
     @NamedQuery(name = "LogProcess.findAll", query = "SELECT l FROM LogProcess l")})
 public class LogProcess implements LogProcesInterface {
@@ -37,7 +37,7 @@ public class LogProcess implements LogProcesInterface {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     @Basic(optional = false)
     @Column(name = "main_process_ref")
     private String mainProcessRef;
@@ -71,24 +71,24 @@ public class LogProcess implements LogProcesInterface {
     public LogProcess() {
     }
 
-    public LogProcess(Integer id) {
+    public LogProcess(Long id) {
         this.id = id;
     }
 
-    public LogProcess(Integer id, String mainProcessRef, String processName) {
+    public LogProcess(Long id, String mainProcessRef, String processName) {
         this.id = id;
         this.mainProcessRef = mainProcessRef;
         this.processName = processName;
     }
 
     @Override
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @Override
     public void setId(Object id) {
-        this.id = (Integer) id;
+        this.id = (Long) id;
     }
 
     @Override

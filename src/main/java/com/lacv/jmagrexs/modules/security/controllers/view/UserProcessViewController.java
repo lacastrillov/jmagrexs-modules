@@ -37,15 +37,19 @@ public class UserProcessViewController extends ExtProcessController {
         ProcessConfig process= new ProcessConfig("processUser", "logProcess", LogProcessDto.class);
         process.setMainProcessTitle("Gestionar Procesos de Usuario");
         process.addControlProcessView("createPassword", "Crear Password", CreatePasswordDto.class, BasicResultDto.class);
+        process.setEditableGrid(false);
         
         super.addControlMapping(process);
         
-        MenuItem menuParent= new MenuItem("Sistema", 1);
-        MenuItem menuParent1= new MenuItem("Seguridad");
-        MenuItem menuItem= new MenuItem("processUser", "Gestionar Procesos de Usuario", 8);
+        MenuItem menuItem= new MenuItem("processUser", "Gestionar Procesos de Usuario", 9);
         menuItem.setPageType(PageType.PROCESS);
+        
+        MenuItem menuParent1= new MenuItem("Seguridad");
         menuParent1.addSubMenu(menuItem);
+        
+        MenuItem menuParent= new MenuItem("Sistema", 1);
         menuParent.addSubMenu(menuParent1);
+        
         menuComponent.addItemMenu(menuParent);
     }
     

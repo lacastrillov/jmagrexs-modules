@@ -25,7 +25,7 @@ import org.eclipse.persistence.annotations.JoinFetchType;
  * @author grupot
  */
 @Entity
-@Table(name = "webresource_authorization")
+@Table(name = "sys_webresource_authorization")
 @NamedQueries({
     @NamedQuery(name = "WebresourceAuthorization.findAll", query = "SELECT w FROM WebresourceAuthorization w")})
 public class WebresourceAuthorization implements BaseEntity {

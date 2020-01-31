@@ -27,7 +27,7 @@ import javax.validation.constraints.Size;
  * @author grupot
  */
 @Entity
-@Table(name = "user")
+@Table(name = "sys_user")
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")})
 public class User implements BaseEntity {

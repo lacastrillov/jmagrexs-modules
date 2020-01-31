@@ -9,24 +9,24 @@
             <map>
                 <entry key="authorizations">
                     <value>
-                        select a.name from role_authorization ra
-                        join authorization a on ra.authorization_id= a.id
-                        where ra.role_id in (select idrole from user_role where iduser=:userId)
+                        select a.name from sys_role_authorization ra
+                        join sys_authorization a on ra.authorization_id= a.id
+                        where ra.role_id in (select role_id from sys_user_role where user_id=:userId)
                     </value>
                 </entry>
                 <entry key="webResourceAuthorities">
                     <value>
-                        select wr.*, 'authorization' as 'level', a.name as authority from webresource_authorization wra
-                        join web_resource wr on wr.id= wra.webresource_id
-                        join authorization a on a.id= wra.authorization_id
+                        select wr.*, 'authorization' as 'level', a.name as authority from sys_webresource_authorization wra
+                        join sys_web_resource wr on wr.id= wra.webresource_id
+                        join sys_authorization a on a.id= wra.authorization_id
                         union
-                        select wr.*, 'role' as 'level', r.name as authority from webresource_role wrr
-                        join web_resource wr on wr.id= wrr.webresource_id
-                        join role r on r.id= wrr.role_id
+                        select wr.*, 'role' as 'level', r.name as authority from sys_webresource_role wrr
+                        join sys_web_resource wr on wr.id= wrr.webresource_id
+                        join sys_role r on r.id= wrr.role_id
                         union
-                        select wr.*, 'none' as 'level', 'none' as authority from web_resource wr
-                        left join webresource_authorization wra on wr.id= wra.webresource_id
-                        left join webresource_role wrr on wr.id= wrr.webresource_id
+                        select wr.*, 'none' as 'level', 'none' as authority from sys_web_resource wr
+                        left join sys_webresource_authorization wra on wr.id= wra.webresource_id
+                        left join sys_webresource_role wrr on wr.id= wrr.webresource_id
                         where wra.webresource_id is null and wrr.webresource_id is null
                     </value>
                 </entry>

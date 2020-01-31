@@ -25,7 +25,7 @@ import org.eclipse.persistence.annotations.JoinFetchType;
  * @author grupot
  */
 @Entity
-@Table(name = "webresource_role")
+@Table(name = "sys_webresource_role")
 @NamedQueries({
     @NamedQuery(name = "WebresourceRole.findAll", query = "SELECT w FROM WebresourceRole w")})
 public class WebresourceRole implements BaseEntity {

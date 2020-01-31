@@ -40,18 +40,21 @@ public class DbOperationViewController extends ExtEntityController {
     @PostConstruct
     public void init(){
         EntityConfig view= new EntityConfig("dbOperation", dbOperationService, DbOperationDto.class);
-        view.setSingularEntityTitle("Db Operation");
-        view.setPluralEntityTitle("Db Operations");
+        view.setSingularEntityTitle("Operaci&oacute;n de Base de Datos");
+        view.setPluralEntityTitle("Operaciones de Base de Datos");
         view.setMultipartFormData(false);
         view.setVisibleSeeAllButton(false);
         view.setDefaultOrder("id", "DESC");
         super.addControlMapping(view);
         
-        MenuItem menuParent= new MenuItem("Sistema");
-        MenuItem menuParent1= new MenuItem("Configuraci&oacute;n", 2);
-        MenuItem menuItem= new MenuItem("dbOperation", "Gestionar Db Operations");
+        MenuItem menuItem= new MenuItem("dbOperation", "Gestionar Operaciones de Base de Datos");
+        
+        MenuItem menuParent1= new MenuItem("Registros", 3);
         menuParent1.addSubMenu(menuItem);
+        
+        MenuItem menuParent= new MenuItem("Sistema");
         menuParent.addSubMenu(menuParent1);
+        
         menuComponent.addItemMenu(menuParent);
     }
     

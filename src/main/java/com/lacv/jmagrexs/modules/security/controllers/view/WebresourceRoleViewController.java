@@ -40,11 +40,14 @@ public class WebresourceRoleViewController extends ExtEntityController {
         view.activateNNMulticheckChild("role");
         super.addControlMapping(view);
         
-        MenuItem menuParent= new MenuItem("Sistema");
+        MenuItem menuItem= new MenuItem("webresourceRole", "Gestionar Recursos Web por Roles", 7);
+        
         MenuItem menuParent1= new MenuItem("Seguridad");
-        MenuItem menuItem= new MenuItem("webresourceRole", "Gestionar Recursos Web por Roles", 6);
         menuParent1.addSubMenu(menuItem);
+        
+        MenuItem menuParent= new MenuItem("Sistema");
         menuParent.addSubMenu(menuParent1);
+        
         menuComponent.addItemMenu(menuParent);
     }
     

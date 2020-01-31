@@ -44,11 +44,14 @@ public class PropertyViewController extends ExtEntityController {
         view.setPluralEntityTitle("Propiedades");
         super.addControlMapping(view);
         
-        MenuItem menuParent= new MenuItem("Sistema");
-        MenuItem menuParent1= new MenuItem("Configuraci&oacute;n", 2);
         MenuItem menuItem= new MenuItem("property", "Gestionar Propiedades");
+        
+        MenuItem menuParent1= new MenuItem("Configuraci&oacute;n", 2);
         menuParent1.addSubMenu(menuItem);
+        
+        MenuItem menuParent= new MenuItem("Sistema");
         menuParent.addSubMenu(menuParent1);
+        
         menuComponent.addItemMenu(menuParent);
     }
     

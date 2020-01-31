@@ -26,7 +26,7 @@ public class LogProcessDto implements BaseDto {
     
     @Order(1)
     @ColumnWidth(100)
-    private Integer id;
+    private Long id;
     
     @Order(2)
     @TextField("Main Process Ref")
@@ -83,24 +83,24 @@ public class LogProcessDto implements BaseDto {
     public LogProcessDto() {
     }
 
-    public LogProcessDto(Integer id) {
+    public LogProcessDto(Long id) {
         this.id = id;
     }
 
-    public LogProcessDto(Integer id, String mainProcessRef, String processName) {
+    public LogProcessDto(Long id, String mainProcessRef, String processName) {
         this.id = id;
         this.mainProcessRef = mainProcessRef;
         this.processName = processName;
     }
 
     @Override
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     @Override
     public void setId(Object id) {
-        this.id = (Integer) id;
+        this.id = (Long) id;
     }
 
     public String getMainProcessRef() {

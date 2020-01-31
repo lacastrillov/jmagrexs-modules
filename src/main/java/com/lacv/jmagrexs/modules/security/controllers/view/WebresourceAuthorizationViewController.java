@@ -40,11 +40,14 @@ public class WebresourceAuthorizationViewController extends ExtEntityController 
         view.activateNNMulticheckChild("authorization");
         super.addControlMapping(view);
         
-        MenuItem menuParent= new MenuItem("Sistema");
+        MenuItem menuItem= new MenuItem("webresourceAuthorization", "Gestionar Recursos Web por Autorizaciones", 8);
+        
         MenuItem menuParent1= new MenuItem("Seguridad");
-        MenuItem menuItem= new MenuItem("webresourceAuthorization", "Gestionar Recursos Web por Autorizaciones", 7);
         menuParent1.addSubMenu(menuItem);
+        
+        MenuItem menuParent= new MenuItem("Sistema");
         menuParent.addSubMenu(menuParent1);
+        
         menuComponent.addItemMenu(menuParent);
     }
     

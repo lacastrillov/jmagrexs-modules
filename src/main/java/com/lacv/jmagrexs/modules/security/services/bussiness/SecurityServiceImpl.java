@@ -87,7 +87,7 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
         User user = getUser(a.getName());
         if (user != null){
             String contrasena= myInstance.decrypt(user.getPassword(), SecurityConstants.SECURITY_SEED_PASSW);
-            if (contrasena!=null && contrasena.equals(a.getCredentials())) {
+            if (contrasena!=null && contrasena.equals(user.getId()+"#"+a.getCredentials())) {
                 UserDetailsDto userDetails = entityToUserDetail(user);
                 if (userDetails.isEnabled() == false) {
                     throw new BadCredentialsException("Error, el usuario esta inactivo");
@@ -124,7 +124,7 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
         User user= getUser(username);
         if (user != null){
             String contrasena= myInstance.decrypt(user.getPassword(), SecurityConstants.SECURITY_SEED_PASSW);
-            if (contrasena!=null && contrasena.equals(password)) {
+            if (contrasena!=null && contrasena.equals(user.getId()+"#"+password)) {
                 return connect(user);
             }
         }

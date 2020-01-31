@@ -26,7 +26,7 @@ import org.eclipse.persistence.annotations.JoinFetchType;
  * @author grupot
  */
 @Entity
-@Table(name = "user_role")
+@Table(name = "sys_user_role")
 @NamedQueries({
     @NamedQuery(name = "UserRole.findAll", query = "SELECT u FROM UserRole u")})
 public class UserRole implements BaseEntity {
@@ -37,11 +37,11 @@ public class UserRole implements BaseEntity {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @JoinColumn(name = "iduser", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JoinFetch(JoinFetchType.OUTER)
     @ManyToOne(optional = false)
     private User user;
-    @JoinColumn(name = "idrole", referencedColumnName = "id")
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
     @JoinFetch(JoinFetchType.OUTER)
     @ManyToOne(optional = false)
     private Role role;

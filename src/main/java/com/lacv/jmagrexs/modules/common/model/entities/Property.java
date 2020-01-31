@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
  * @author lacastrillov
  */
 @Entity
-@Table(name = "property")
+@Table(name = "sys_property")
 @NamedQueries({
     @NamedQuery(name = "Property.findAll", query = "SELECT p FROM Property p")})
 public class Property implements BaseEntity {
@@ -36,10 +36,10 @@ public class Property implements BaseEntity {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 255)
     @Column(name = "property_key")
     private String key;
-    @Size(max = 200)
+    @Size(max = 255)
     @Column(name = "property_value")
     private String value;
     @Size(max = 45)

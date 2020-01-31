@@ -47,11 +47,14 @@ public class WebEntityTypeViewController extends ExtEntityController {
         view.setDefaultOrder("entityName", "ASC");
         super.addControlMapping(view);
         
-        MenuItem menuParent= new MenuItem("Sistema");
-        MenuItem menuParent1= new MenuItem("Gestor de Contenidos", 3);
         MenuItem menuItem= new MenuItem("webEntityType", "Gestionar Tipos de Entidades", 1);
+        
+        MenuItem menuParent1= new MenuItem("Gestor de Contenidos", 3);
         menuParent1.addSubMenu(menuItem);
+        
+        MenuItem menuParent= new MenuItem("Sistema");
         menuParent.addSubMenu(menuParent1);
+        
         menuComponent.addItemMenu(menuParent);
     }
     
