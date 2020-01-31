@@ -72,7 +72,8 @@ public class LogProcessDto implements BaseDto {
         "{eq:'Proceso corriendo',c:'#059',bg:'#BEF'}",
         "{eq:'Proceso realizado',c:'#270',bg:'#DFF2BF'}",
         "{eq:'Proceso incompleto',c:'#9F6000',bg:'#FEEFB3'}",
-        "{eq:'Proceso fallido',c:'#D8000C',bg:'#FFBABA'}"
+        "{eq:'Proceso fallido',c:'#D8000C',bg:'#FFBABA'}",
+        "{lk:'ERROR',c:'#D8000C',bg:'#FFBABA'}"
     })
     private String message;
     
