@@ -56,10 +56,15 @@ public class MassiveOperationProcessRestController extends RestProcessController
         result.setUsername(getClientId());
         MassiveOperation massiveOperation= massiveOperationService.loadById(cancelMassiveOperation.getId());
         if(massiveOperation!=null){
-            massiveOperation.setStatus("Cancelado");
-            massiveOperationService.update(massiveOperation);
-            result.setMessage("La operaci&oacute;n masiva fue cancelada");
-            result.setSuccess(true);
+            if(!massiveOperation.getStatus().equals("Terminado")){
+                massiveOperation.setStatus("Cancelado");
+                massiveOperationService.update(massiveOperation);
+                result.setMessage("La operaci&oacute;n masiva fue cancelada");
+                result.setSuccess(true);
+            }else{
+                result.setMessage("La operaci&oacute;n masiva ya termino");
+                result.setSuccess(false);
+            }
         }else{
             result.setMessage("La operaci&oacute;n masiva no existe!!!");
             result.setSuccess(false);
