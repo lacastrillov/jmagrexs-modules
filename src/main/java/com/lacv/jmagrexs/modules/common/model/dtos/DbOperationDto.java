@@ -46,7 +46,7 @@ public class DbOperationDto implements BaseDto {
     @Size(max=45)
     @ColumnWidth(100)
     @TextField("Type")
-    @TypeFormField(value = FieldType.LIST, data = {"create", "update", "update_byfilter", "delete", "delete_byfilter"})
+    @TypeFormField(value = FieldType.LIST, data = {"create", "update", "update_byfilter", "delete"})
     private String type;
     
     @Order(4)
@@ -64,53 +64,45 @@ public class DbOperationDto implements BaseDto {
     @Size(max=2147483647)
     @ColumnWidth(200)
     @TypeFormField(value = FieldType.TEXT_AREA)
-    @TextField("Data In")
-    private String dataIn;
+    @TextField("Data New")
+    private String dataNew;
     
     @Order(7)
-    @Size(max=2147483647)
-    @ColumnWidth(200)
-    @TypeFormField(value = FieldType.TEXT_AREA)
-    @TextField("Data Out")
-    private String dataOut;
-    
-    @Order(8)
     @Size(max=255)
     @ColumnWidth(200)
     @TextField("Entity Ref")
     private String entityRef;
     
-    @Order(9)
+    @Order(8)
     @Size(max=100)
     @ColumnWidth(200)
     @TextField("Entity Id")
     private String entityId;
     
-    @Order(10)
+    @Order(9)
     @ColumnWidth(100)
     @TextField("Duration")
     @TypeFormField(value = FieldType.DURATION)
     private Integer duration;
     
-    @Order(11)
+    @Order(10)
     @Size(max=45)
     @ColumnWidth(150)
-    @TextField("Status")
-    @TypeFormField(value = FieldType.LIST, data = {"Creado", "Procesando", "Detenido", "Terminado"})
-    private String status;
+    @TextField("Success")
+    private Boolean success;
     
-    @Order(12)
+    @Order(11)
     @Size(max=300)
     @ColumnWidth(300)
     @TextField("Message")
     private String message;
     
-    @Order(13)
+    @Order(12)
     @NotNull
     @TextField("Usuario")
     private UserDto user;
     
-    @Order(14)
+    @Order(13)
     @ColumnWidth(200)
     @TextField("Massive Operation")
     private MassiveOperationDto massiveOperation;
@@ -137,12 +129,12 @@ public class DbOperationDto implements BaseDto {
         this.name =  name;
     }
 
-    public String getDataOut() {
-        return dataOut;
+    public String getDataNew() {
+        return dataNew;
     }
 
-    public void setDataOut(String dataOut) {
-        this.dataOut =  dataOut;
+    public void setDataNew(String dataNew) {
+        this.dataNew =  dataNew;
     }
 
     public Integer getDuration() {
@@ -185,14 +177,6 @@ public class DbOperationDto implements BaseDto {
         this.message =  message;
     }
 
-    public String getDataIn() {
-        return dataIn;
-    }
-
-    public void setDataIn(String dataIn) {
-        this.dataIn =  dataIn;
-    }
-
     public Time getRecordTime() {
         return recordTime;
     }
@@ -209,12 +193,12 @@ public class DbOperationDto implements BaseDto {
         this.registrationDate =  registrationDate;
     }
 
-    public String getStatus() {
-        return status;
+    public Boolean getSuccess() {
+        return success;
     }
 
-    public void setStatus(String status) {
-        this.status =  status;
+    public void setSuccess(Boolean success) {
+        this.success =  success;
     }
 
     public String getType() {

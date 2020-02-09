@@ -6,6 +6,7 @@
 package com.lacv.jmagrexs.modules.common.model.entities;
 
 import com.lacv.jmagrexs.domain.BaseEntity;
+import com.lacv.jmagrexs.interfaces.MassiveOperationInterface;
 import com.lacv.jmagrexs.modules.security.model.entities.User;
 import java.sql.Time;
 import java.util.Date;
@@ -37,7 +38,7 @@ import org.eclipse.persistence.annotations.JoinFetchType;
 @Table(name = "sys_massive_operation")
 @NamedQueries({
     @NamedQuery(name = "MassiveOperation.findAll", query = "SELECT m FROM MassiveOperation m")})
-public class MassiveOperation implements BaseEntity {
+public class MassiveOperation implements MassiveOperationInterface {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,9 +54,6 @@ public class MassiveOperation implements BaseEntity {
     @Size(max = 45)
     @Column(name = "type")
     private String type;
-    @Size(max = 200)
-    @Column(name = "source_file")
-    private String sourceFile;
     @Column(name = "registration_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date registrationDate;
@@ -108,116 +106,134 @@ public class MassiveOperation implements BaseEntity {
         this.id = (Integer) id;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public String getType() {
         return type;
     }
 
+    @Override
     public void setType(String type) {
         this.type = type;
     }
 
-    public String getSourceFile() {
-        return sourceFile;
-    }
-
-    public void setSourceFile(String sourceFile) {
-        this.sourceFile = sourceFile;
-    }
-
+    @Override
     public Date getRegistrationDate() {
         return registrationDate;
     }
 
+    @Override
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
     }
 
+    @Override
     public Time getRecordTime() {
         return recordTime;
     }
 
+    @Override
     public void setRecordTime(Time recordTime) {
         this.recordTime = recordTime;
     }
 
+    @Override
     public Integer getTotal() {
         return total;
     }
 
+    @Override
     public void setTotal(Integer total) {
         this.total = total;
     }
 
+    @Override
     public Integer getProcessed() {
         return processed;
     }
 
+    @Override
     public void setProcessed(Integer processed) {
         this.processed = processed;
     }
 
+    @Override
     public Integer getPercentage() {
         return percentage;
     }
 
+    @Override
     public void setPercentage(Integer percentage) {
         this.percentage = percentage;
     }
 
+    @Override
     public Integer getTotalSuccessful() {
         return totalSuccessful;
     }
 
+    @Override
     public void setTotalSuccessful(Integer totalSuccessful) {
         this.totalSuccessful = totalSuccessful;
     }
 
+    @Override
     public Integer getTotalFailed() {
         return totalFailed;
     }
 
+    @Override
     public void setTotalFailed(Integer totalFailed) {
         this.totalFailed = totalFailed;
     }
 
+    @Override
     public Integer getDuration() {
         return duration;
     }
 
+    @Override
     public void setDuration(Integer duration) {
         this.duration = duration;
     }
 
+    @Override
     public String getStatus() {
         return status;
     }
 
+    @Override
     public void setStatus(String status) {
         this.status = status;
     }
 
+    @Override
     public String getMessage() {
         return message;
     }
 
+    @Override
     public void setMessage(String message) {
         this.message = message;
     }
     
+    @Override
     public User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    @Override
+    public void setUser(BaseEntity user) {
+        this.user = (User)user;
     }
 
     public List<DbOperation> getDbOperationList() {

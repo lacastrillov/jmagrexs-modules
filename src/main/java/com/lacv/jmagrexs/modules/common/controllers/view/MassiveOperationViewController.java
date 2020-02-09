@@ -11,7 +11,9 @@ import com.lacv.jmagrexs.modules.common.model.mappers.MassiveOperationMapper;
 import com.lacv.jmagrexs.modules.common.services.MassiveOperationService;
 import com.lacv.jmagrexs.controller.view.ExtEntityController;
 import com.lacv.jmagrexs.dto.MenuItem;
+import com.lacv.jmagrexs.dto.ProcessButton;
 import com.lacv.jmagrexs.dto.config.EntityConfig;
+import com.lacv.jmagrexs.modules.common.model.dtos.CancelMassiveOperationPDto;
 import com.lacv.jmagrexs.modules.common.model.entities.DbOperation;
 import com.lacv.jmagrexs.modules.security.services.bussiness.SecurityService;
 import java.util.List;
@@ -46,7 +48,19 @@ public class MassiveOperationViewController extends ExtEntityController {
         view.setMultipartFormData(false);
         view.setVisibleSeeAllButton(false);
         view.setDefaultOrder("id", "DESC");
+        view.setGridAutoReloadInterval(5000);
+        view.setLabelPlusId(true);
         view.addChildExtView("dbOperation", DbOperation.class, EntityConfig.TCV_1_TO_N);
+        
+        ProcessButton cancelMassiveOperationButton= new ProcessButton();
+        cancelMassiveOperationButton.setMainProcessRef("processMassiveOperation");
+        cancelMassiveOperationButton.setProcessName("cancelMassiveOperation");
+        cancelMassiveOperationButton.setProcessTitle("Cancelar Operaci&oacute;n Masiva");
+        cancelMassiveOperationButton.addSourceByDestinationField("id", "id");
+        cancelMassiveOperationButton.setDtoClass(CancelMassiveOperationPDto.class);
+        cancelMassiveOperationButton.setIconUrl("/libimg/ext/icon-red.png");
+        view.addProcessButton(cancelMassiveOperationButton);
+        
         super.addControlMapping(view);
         
         MenuItem menuItem= new MenuItem("massiveOperation", "Gestionar Operaciones Masivas");

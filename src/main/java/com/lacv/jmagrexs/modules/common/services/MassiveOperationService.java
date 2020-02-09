@@ -7,7 +7,7 @@
 package com.lacv.jmagrexs.modules.common.services;
 
 import com.lacv.jmagrexs.modules.common.model.entities.MassiveOperation;
-import com.lacv.jmagrexs.service.EntityService;
+import com.lacv.jmagrexs.service.MassiveOperationLogService;
 
 
 
@@ -15,7 +15,7 @@ import com.lacv.jmagrexs.service.EntityService;
  *
  * @author lacastrillov
  */
-public interface MassiveOperationService extends EntityService<MassiveOperation> {
+public interface MassiveOperationService extends MassiveOperationLogService<MassiveOperation> {
     
     
 }

@@ -36,7 +36,6 @@ public class MassiveOperationMapper extends EntityMapperImpl<MassiveOperation, M
             dto.setProcessed(entity.getProcessed());
             dto.setRecordTime(entity.getRecordTime());
             dto.setRegistrationDate(entity.getRegistrationDate());
-            dto.setSourceFile(entity.getSourceFile());
             dto.setStatus(entity.getStatus());
             dto.setTotal(entity.getTotal());
             dto.setTotalFailed(entity.getTotalFailed());
@@ -75,7 +74,6 @@ public class MassiveOperationMapper extends EntityMapperImpl<MassiveOperation, M
             entity.setProcessed(dto.getProcessed());
             entity.setRecordTime(dto.getRecordTime());
             entity.setRegistrationDate(dto.getRegistrationDate());
-            entity.setSourceFile(dto.getSourceFile());
             entity.setStatus(dto.getStatus());
             entity.setTotal(dto.getTotal());
             entity.setTotalFailed(dto.getTotalFailed());

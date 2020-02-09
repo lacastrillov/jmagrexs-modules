@@ -6,6 +6,8 @@
 package com.lacv.jmagrexs.modules.common.model.entities;
 
 import com.lacv.jmagrexs.domain.BaseEntity;
+import com.lacv.jmagrexs.interfaces.DbOperationInterface;
+import com.lacv.jmagrexs.interfaces.MassiveOperationInterface;
 import com.lacv.jmagrexs.modules.security.model.entities.User;
 import java.sql.Time;
 import java.util.Date;
@@ -36,7 +38,7 @@ import org.eclipse.persistence.annotations.JoinFetchType;
 @Table(name = "sys_db_operation")
 @NamedQueries({
     @NamedQuery(name = "DbOperation.findAll", query = "SELECT d FROM DbOperation d")})
-public class DbOperation implements BaseEntity {
+public class DbOperation implements DbOperationInterface {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -59,23 +61,17 @@ public class DbOperation implements BaseEntity {
     private Time recordTime;
     @Lob
     @Size(max = 2147483647)
-    @Column(name = "data_in")
-    private String dataIn;
-    @Lob
-    @Size(max = 2147483647)
-    @Column(name = "data_out")
-    private String dataOut;
+    @Column(name = "data_new")
+    private String dataNew;
     @Size(max = 255)
     @Column(name = "entity_ref")
     private String entityRef;
     @Size(max = 100)
     @Column(name = "entity_id")
     private String entityId;
-    @Column(name = "duration")
-    private Integer duration;
     @Size(max = 45)
-    @Column(name = "status")
-    private String status;
+    @Column(name = "success")
+    private Boolean success;
     @Size(max = 300)
     @Column(name = "message")
     private String message;
@@ -109,108 +105,114 @@ public class DbOperation implements BaseEntity {
         this.id = (Long) id;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public String getType() {
         return type;
     }
 
+    @Override
     public void setType(String type) {
         this.type = type;
     }
 
+    @Override
     public Date getRegistrationDate() {
         return registrationDate;
     }
 
+    @Override
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate = registrationDate;
     }
 
+    @Override
     public Time getRecordTime() {
         return recordTime;
     }
 
+    @Override
     public void setRecordTime(Time recordTime) {
         this.recordTime = recordTime;
     }
 
-    public String getDataIn() {
-        return dataIn;
+    @Override
+    public String getDataNew() {
+        return dataNew;
     }
 
-    public void setDataIn(String dataIn) {
-        this.dataIn = dataIn;
+    @Override
+    public void setDataNew(String dataNew) {
+        this.dataNew = dataNew;
     }
 
-    public String getDataOut() {
-        return dataOut;
-    }
-
-    public void setDataOut(String dataOut) {
-        this.dataOut = dataOut;
-    }
-
+    @Override
     public String getEntityRef() {
         return entityRef;
     }
 
+    @Override
     public void setEntityRef(String entityRef) {
         this.entityRef = entityRef;
     }
 
+    @Override
     public String getEntityId() {
         return entityId;
     }
 
+    @Override
     public void setEntityId(String entityId) {
         this.entityId = entityId;
     }
 
-    public Integer getDuration() {
-        return duration;
+    @Override
+    public Boolean getSuccess() {
+        return success;
     }
 
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+    @Override
+    public void setSuccess(Boolean success) {
+        this.success = success;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
+    @Override
     public String getMessage() {
         return message;
     }
 
+    @Override
     public void setMessage(String message) {
         this.message = message;
     }
     
+    @Override
     public User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    @Override
+    public void setUser(BaseEntity user) {
+        this.user = (User)user;
     }
 
+    @Override
     public MassiveOperation getMassiveOperation() {
         return massiveOperation;
     }
 
-    public void setMassiveOperation(MassiveOperation massiveOperation) {
-        this.massiveOperation = massiveOperation;
+    @Override
+    public void setMassiveOperation(MassiveOperationInterface massiveOperation) {
+        this.massiveOperation = (MassiveOperation) massiveOperation;
     }
 
     @Override

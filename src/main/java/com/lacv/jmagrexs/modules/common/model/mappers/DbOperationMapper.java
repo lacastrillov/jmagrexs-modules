@@ -8,6 +8,7 @@ import com.lacv.jmagrexs.mapper.EntityMapper;
 import com.lacv.jmagrexs.mapper.EntityMapperImpl;
 import com.lacv.jmagrexs.modules.common.model.dtos.DbOperationDto;
 import com.lacv.jmagrexs.modules.common.model.entities.DbOperation;
+import com.lacv.jmagrexs.modules.common.model.entities.MassiveOperation;
 import com.lacv.jmagrexs.modules.security.model.mappers.UserMapper;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,18 +33,16 @@ public class DbOperationMapper extends EntityMapperImpl<DbOperation, DbOperation
     public DbOperationDto entityToDto(DbOperation entity) {
         DbOperationDto dto= new DbOperationDto();
         if(entity!=null){
-            dto.setDataIn(entity.getDataIn());
-            dto.setDataOut(entity.getDataOut());
-            dto.setDuration(entity.getDuration());
+            dto.setDataNew(entity.getDataNew());
             dto.setEntityId(entity.getEntityId());
             dto.setEntityRef(entity.getEntityRef());
             dto.setId(entity.getId());
-            dto.setMassiveOperation(massiveOperationMapper.entityToDto(entity.getMassiveOperation()));
+            dto.setMassiveOperation(massiveOperationMapper.entityToDto((MassiveOperation) entity.getMassiveOperation()));
             dto.setMessage(entity.getMessage());
             dto.setName(entity.getName());
             dto.setRecordTime(entity.getRecordTime());
             dto.setRegistrationDate(entity.getRegistrationDate());
-            dto.setStatus(entity.getStatus());
+            dto.setSuccess(entity.getSuccess());
             dto.setType(entity.getType());
             dto.setUser(userMapper.entityToDto(entity.getUser()));
         }
@@ -70,9 +69,7 @@ public class DbOperationMapper extends EntityMapperImpl<DbOperation, DbOperation
     public DbOperation dtoToEntity(DbOperationDto dto) {
         DbOperation entity= new DbOperation();
         if(dto!=null){
-            entity.setDataIn(dto.getDataIn());
-            entity.setDataOut(dto.getDataOut());
-            entity.setDuration(dto.getDuration());
+            entity.setDataNew(dto.getDataNew());
             entity.setEntityId(dto.getEntityId());
             entity.setEntityRef(dto.getEntityRef());
             entity.setId(dto.getId());
@@ -81,7 +78,7 @@ public class DbOperationMapper extends EntityMapperImpl<DbOperation, DbOperation
             entity.setName(dto.getName());
             entity.setRecordTime(dto.getRecordTime());
             entity.setRegistrationDate(dto.getRegistrationDate());
-            entity.setStatus(dto.getStatus());
+            entity.setSuccess(dto.getSuccess());
             entity.setType(dto.getType());
             entity.setUser(userMapper.dtoToEntity(dto.getUser()));
         }

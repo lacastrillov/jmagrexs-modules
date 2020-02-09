@@ -7,7 +7,7 @@
 package com.lacv.jmagrexs.modules.common.services;
 
 import com.lacv.jmagrexs.modules.common.model.entities.DbOperation;
-import com.lacv.jmagrexs.service.EntityService;
+import com.lacv.jmagrexs.service.DbOperationLogService;
 
 
 
@@ -15,7 +15,7 @@ import com.lacv.jmagrexs.service.EntityService;
  *
  * @author lacastrillov
  */
-public interface DbOperationService extends EntityService<DbOperation> {
+public interface DbOperationService extends DbOperationLogService<DbOperation> {
     
     
 }

@@ -50,69 +50,62 @@ public class MassiveOperationDto implements BaseDto {
     private String type;
     
     @Order(4)
-    @Size(max=200)
-    @ColumnWidth(200)
-    @TypeFormField(FieldType.FILE_UPLOAD)
-    @TextField("Source File")
-    private String sourceFile;
-    
-    @Order(5)
     @ColumnWidth(100)
     @TextField("Total")
     private Integer total;
     
-    @Order(6)
+    @Order(5)
     @ColumnWidth(300)
     @TypeFormField(value = FieldType.PERCENTAJE)
     @TextField("Percentage")
     private Integer percentage;
     
-    @Order(7)
+    @Order(6)
     @ColumnWidth(100)
     @TextField("Processed")
     private Integer processed;
     
-    @Order(8)
+    @Order(7)
     @ColumnWidth(130)
     @TextField("Total Successful")
     private Integer totalSuccessful;
     
-    @Order(9)
+    @Order(8)
     @ColumnWidth(100)
     @TextField("Total Failed")
     private Integer totalFailed;
     
-    @Order(10)
+    @Order(9)
     @ColumnWidth(200)
     @TypeFormField(value = FieldType.DATETIME)
     @TextField("Registration Date")
     private Date registrationDate;
     
-    @Order(11)
+    @Order(10)
     @ColumnWidth(150)
     @TextField("Record Time")
     private Time recordTime;
     
-    @Order(12)
+    @Order(11)
     @ColumnWidth(100)
     @TextField("Duration")
     @TypeFormField(value = FieldType.DURATION)
     private Integer duration;
     
-    @Order(13)
+    @Order(12)
     @Size(max=45)
     @ColumnWidth(150)
     @TextField("Status")
-    @TypeFormField(value = FieldType.LIST, data = {"Creado", "Procesando", "Detenido", "Terminado"})
+    @TypeFormField(value = FieldType.LIST, data = {"Creado", "Procesando", "Cancelado", "Terminado"})
     private String status;
     
-    @Order(14)
+    @Order(13)
     @Size(max=300)
     @ColumnWidth(300)
     @TextField("Message")
     private String message;
     
-    @Order(15)
+    @Order(14)
     @NotNull
     @TextField("Usuario")
     private UserDto user;
@@ -194,14 +187,6 @@ public class MassiveOperationDto implements BaseDto {
 
     public void setRegistrationDate(Date registrationDate) {
         this.registrationDate =  registrationDate;
-    }
-
-    public String getSourceFile() {
-        return sourceFile;
-    }
-
-    public void setSourceFile(String sourceFile) {
-        this.sourceFile =  sourceFile;
     }
 
     public String getStatus() {
