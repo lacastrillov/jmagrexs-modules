@@ -423,6 +423,8 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
         String contrasena= myInstance.decrypt("SDBxlmqlQJGkhV6lD0rN/A==", SecurityConstants.SECURITY_SEED_PASSW);
         System.out.println(contrasena);
         
+        System.out.println(myInstance.encrypt("1#calsat321", SecurityConstants.SECURITY_SEED_PASSW));
+        
         JwtUtil jwt= new JwtUtil();
         Date currentTime= new Date();
         
