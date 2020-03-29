@@ -138,13 +138,21 @@ public class CustomSecurityFilter extends GenericFilterBean {
             if(!module.equals(serverDomain.getContextPath())){
                 String reconfigureAccessControlUrl= serverDomain.getDomainWithPort()+serverDomain.getApplicationContext()+
                         module+"/account/reconfigureAccessControl";
-                logger.info("replicateAccessControl "+reconfigureAccessControlUrl);
+                logger.info("replicateAccessControl: "+reconfigureAccessControlUrl);
                 RESTServiceDto restService= new RESTServiceDto("ReconfigureAccessControlUrl", reconfigureAccessControlUrl, HttpMethod.GET, null);
                 RESTServiceConnection restServiceConnection= new RESTServiceConnection(restService);
                 try {
-                    restServiceConnection.get(null, null, null);
-                } catch (IOException ex) {
-                    logger.error("replyAccessControl ", ex);
+                    restServiceConnection.restTemplate(null, null, null);
+                } catch (Exception ex) {
+                    logger.error("replyAccessControl "+ ex.getMessage());
+                    try {
+                        String output= restServiceConnection.executeCommand("wget "+reconfigureAccessControlUrl+" --no-check-certificate");
+                        logger.info(output);
+                    } catch (IOException ex1) {
+                        logger.error("replyAccessControl IOException ", ex1);
+                    } catch (InterruptedException ex2) {
+                        logger.error("replyAccessControl InterruptedException ", ex2);
+                    }
                 }
             }
         }

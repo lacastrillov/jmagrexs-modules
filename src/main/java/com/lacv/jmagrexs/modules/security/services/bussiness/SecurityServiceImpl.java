@@ -113,6 +113,9 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
         Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(auth);
         try{
+            user.setFailedAttempts(0);
+            user.setLastLogin(new Date());
+            userService.update(user);
             return RequestContextHolder.currentRequestAttributes().getSessionId();
         }catch(IllegalStateException e){
             return "SESSIONID-NF";
