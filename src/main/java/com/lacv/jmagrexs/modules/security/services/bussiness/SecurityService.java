@@ -19,7 +19,7 @@ public interface SecurityService {
 
     Authentication authenticate(Authentication a) throws AuthenticationException;
     
-    String connect(User user);
+    String connect(User user) throws AuthenticationException;
     
     String connect(String username, String password) throws AuthenticationException;
     

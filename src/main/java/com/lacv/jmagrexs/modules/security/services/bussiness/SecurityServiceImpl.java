@@ -108,11 +108,16 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
     }
 
     @Override
-    public String connect(User user) {
-        UserDetailsDto userDetails = entityToUserDetail(user);
-        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(auth);
+    public String connect(User user) throws AuthenticationException {
         try{
+            UserDetailsDto userDetails = entityToUserDetail(user);
+            if (userDetails.isEnabled() == false) {
+                throw new BadCredentialsException("Error, el usuario esta inactivo");
+            } else if (userDetails.isAccountNonLocked() == false) {
+                throw new BadCredentialsException("Error, la cuenta de usuario esta bloqueada");
+            }
+            Authentication autentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(autentication);
             user.setFailedAttempts(0);
             user.setLastLogin(new Date());
             userService.update(user);
@@ -205,6 +210,9 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
         User user= getCurrentUser();
         if(user!=null){
             String contrasena= myInstance.decrypt(user.getPassword(), SecurityConstants.SECURITY_SEED_PASSW);
+            if(contrasena.startsWith(user.getId()+"#")){
+                contrasena= contrasena.substring((user.getId()+"#").length());
+            }
             String credentials= user.getUsername()+":"+contrasena;
             String authorization= new String(Base64.encodeBase64(credentials.getBytes()), Charset.forName("UTF-8"));
             return "Basic "+authorization;
@@ -217,10 +225,14 @@ public class SecurityServiceImpl implements AuthenticationProvider, SecurityServ
         JwtUtil jwt= new JwtUtil();
         User user= getCurrentUser();
         Date currentTime= new Date();
+        String contrasena= myInstance.decrypt(user.getPassword(), SecurityConstants.SECURITY_SEED_PASSW);
+        if(contrasena.startsWith(user.getId()+"#")){
+            contrasena= contrasena.substring((user.getId()+"#").length());
+        }
         
         UserByToken userByToken= new UserByToken();
         userByToken.setUsername(user.getUsername());
-        userByToken.setPassword(myInstance.decrypt(user.getPassword(), SecurityConstants.SECURITY_SEED_PASSW));
+        userByToken.setPassword(contrasena);
         
         Calendar cal1 = Calendar.getInstance();
         cal1.setTime(currentTime);

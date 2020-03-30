@@ -156,7 +156,6 @@ public class CustomSecurityFilter extends GenericFilterBean {
                 }
             }
         }
-            
     }
 
     private boolean accessDenied(HttpServletRequest req, HttpServletResponse resp) throws IOException {
