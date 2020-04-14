@@ -241,6 +241,12 @@ public class AccountController {
         return "Success";
     }
     
+    @RequestMapping(value = "/resetServerDomain", method = RequestMethod.GET)
+    @ResponseBody
+    public String resetServerDomain() {
+        return "Success";
+    }
+    
     private UserAndRolesDto getUserAndRoles(){
         UserAndRolesDto userAndRoles= new UserAndRolesDto();
         User user= securityService.getCurrentUser();
