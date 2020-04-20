@@ -244,6 +244,7 @@ public class AccountController {
     @RequestMapping(value = "/resetServerDomain", method = RequestMethod.GET)
     @ResponseBody
     public String resetServerDomain() {
+        //El proceso se realiza en las clases: CustomSecurityFilter => ServerDomain
         return "Success";
     }
     
